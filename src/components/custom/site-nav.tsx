@@ -282,9 +282,8 @@ export function SiteNav() {
               <Button
                 key={item.href}
                 asChild
-                variant="secondary"
                 size="sm"
-                className="site-design-action bg-brand-400 text-zinc-950 hover:bg-brand-300"
+                className="border-[#3EE0D8] bg-[#3EE0D8] text-[#0B0F14] shadow-none hover:bg-[#3EE0D8]/brightness-105 hover:text-[#0B0F14]"
               >
                 <Link href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
                   {item.label}
@@ -370,8 +369,7 @@ export function SiteNav() {
                         <Button
                           key={item.href}
                           asChild
-                          variant="secondary"
-                          className="site-design-action w-full justify-start bg-brand-400 text-zinc-950 hover:bg-brand-300"
+                          className="w-full justify-start border-[#3EE0D8] bg-[#3EE0D8] text-[#0B0F14] shadow-none hover:bg-[#3EE0D8]/brightness-105 hover:text-[#0B0F14]"
                         >
                           <Link
                             href={item.href}

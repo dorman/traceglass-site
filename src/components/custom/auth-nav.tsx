@@ -7,24 +7,14 @@ import { signOut, useSession } from '@/lib/auth-client';
 export function AuthNav() {
   const { data: session, isPending } = useSession();
 
-  // Render nothing until the session resolves — avoids a Sign-in→Profile flash.
+  // Render nothing until the session resolves — avoids a flash of auth chrome.
   if (isPending) return null;
 
-  if (!session?.user) {
-    return (
-      <nav className="flex items-center gap-2">
-        <Button asChild variant="ghost">
-          <a href="/login">Sign in</a>
-        </Button>
-        <Button asChild>
-          <a href="/signup">Sign up</a>
-        </Button>
-      </nav>
-    );
-  }
+  // Anonymous marketing nav: no Sign in / Sign up (Notify me is the only CTA).
+  if (!session?.user) return null;
 
   return (
-    <nav className="flex items-center gap-2">
+    <nav className="flex items-center gap-2" aria-label="Account">
       <Button asChild variant="ghost">
         <a href="/profile">Profile</a>
       </Button>
