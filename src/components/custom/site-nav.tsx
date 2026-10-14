@@ -277,7 +277,8 @@ export function SiteNav() {
         {/* Right cluster: ml-auto pushes it right at every breakpoint */}
         <div className="ml-auto flex items-center gap-1">
           {/* Desktop secondary buttons */}
-          <div className="hidden items-center gap-1 md:flex">
+          {/* Always-visible primary waitlist CTA (desktop + mobile). */}
+          <div className="flex items-center gap-1">
             {secondary.map((item) => (
               <Button
                 key={item.href}
@@ -362,25 +363,6 @@ export function SiteNav() {
                         ))}
                       </div>
                     ),
-                  )}
-                  {secondary.length > 0 && (
-                    <div className="mt-2 flex flex-col gap-1 border-t border-border pt-4">
-                      {secondary.map((item) => (
-                        <Button
-                          key={item.href}
-                          asChild
-                          className="w-full justify-start border-[#3EE0D8] bg-[#3EE0D8] text-[#0B0F14] shadow-none hover:bg-[#3EE0D8]/brightness-105 hover:text-[#0B0F14]"
-                        >
-                          <Link
-                            href={item.href}
-                            aria-current={isActive(item.href) ? 'page' : undefined}
-                            onClick={() => setOpen(false)}
-                          >
-                            {item.label}
-                          </Link>
-                        </Button>
-                      ))}
-                    </div>
                   )}
                 </nav>
               </SheetContent>
