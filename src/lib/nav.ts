@@ -37,7 +37,7 @@ export const navItems: NavItem[] = [
   { label: 'Features', href: '/#features', group: 'primary', order: 1 },
   { label: 'How it works', href: '/#workflow', group: 'primary', order: 2 },
   { label: 'Sources', href: '/#sources', group: 'primary', order: 3 },
-  { label: 'Try in browser', href: '/demo/', group: 'primary', order: 4 },
+  { label: 'Try in browser', href: '/demo', group: 'primary', order: 4 },
   { label: 'FAQ', href: '/#faq', group: 'primary', order: 5 },
   { label: 'Notify me', href: '/waitlist', group: 'secondary', order: 2 },
   {

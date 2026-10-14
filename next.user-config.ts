@@ -12,7 +12,12 @@ type RemotePatterns = NonNullable<NonNullable<NextConfig['images']>['remotePatte
 export const userRemotePatterns: RemotePatterns = [];
 
 /** Package-level Next options (transpilePackages, experimental.optimizePackageImports, …). */
-export const userNextConfig: NextConfig = {};
+export const userNextConfig: NextConfig = {
+  // Static WASM demo lives in public/demo/; Next does not auto-index directories.
+  async rewrites() {
+    return [{ source: '/demo', destination: '/demo/index.html' }];
+  },
+};
 
 /** Browser features the app needs (microphone/camera/geolocation). Default off — secure. */
 export const appCapabilities: AppCapabilities = {};
