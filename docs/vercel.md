@@ -28,6 +28,17 @@ minimum):
 
 Optional: `POLSIA_OWNER_EMAIL`, `POLSIA_API_*`, Stripe billing vars if used.
 
+## Database
+
+Run Prisma migrations on the Postgres instance before (or as part of) deploy:
+
+```bash
+npx prisma migrate deploy
+```
+
+This applies waitlist/auth migrations plus `MarketingPage` / `SiteDesign`. The
+app seed (on boot) publishes the default marketing pages.
+
 ## WASM demo on Vercel
 
 The in-browser demo is a prebuilt static tree at `public/demo/` (synced from
