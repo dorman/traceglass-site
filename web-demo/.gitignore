@@ -1,0 +1,9 @@
+node_modules/
+dist/
+# pkg/ is vendored (prebuilt wasm) so Vercel/local demo work without Rust.
+# Rebuild with `npm run build:wasm` when the engine pin changes.
+artifacts/
+test-results/
+playwright-report/
+blob-report/
+.vite/

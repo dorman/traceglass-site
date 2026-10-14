@@ -1,0 +1,8 @@
+# Pin for the TraceGlass Rust engine used to build the browser WASM demo.
+# Until dorman/traceglass#54 merges, this points at that PR tip.
+# After merge, retarget REPO_REF to main (or a release tag) and refresh SHA.
+REPO_URL="https://github.com/dorman/traceglass.git"
+REPO_REF="cursor/wasm-browser-demo-587e"
+REPO_SHA="cb053ea090d1077ce5af60b5eeaf91dc0e4f3a82"
+# Path inside the monorepo that contains the Rust crate + wasm/ bindings.
+SPARSE_PATH="traceglass"
