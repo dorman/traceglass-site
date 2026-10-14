@@ -248,24 +248,26 @@ function Header() {
     <div className="signal-tui__header" aria-hidden="true">
       <span className="signal-tui__brand">◆ TraceGlass</span>
       <span className="signal-tui__divider">│</span>
-      <span className="signal-tui__file">sample.log (1/1)</span>
-      <span className="signal-tui__divider">│</span>
-      <span className="signal-tui__lens">lens general-triage</span>
-      <span className="signal-tui__divider">│</span>
-      <span className="signal-tui__sev">
-        <span className="signal-tui__sev-dot signal-tui__sev--crit">●</span>
-        <span className="signal-tui__sev--crit">0</span>
-        <span> crit</span>
-      </span>
-      <span className="signal-tui__sev">
-        <span className="signal-tui__sev-dot signal-tui__sev--high">●</span>
-        <span className="signal-tui__sev--high">5</span>
-        <span> high</span>
-      </span>
-      <span className="signal-tui__sev">
-        <span className="signal-tui__sev-dot signal-tui__sev--med">●</span>
-        <span className="signal-tui__sev--med">2</span>
-        <span> med</span>
+      <span className="signal-tui__file">sample.log</span>
+      <span className="signal-tui__divider signal-tui__divider--optional">│</span>
+      <span className="signal-tui__lens">general-triage</span>
+      <span className="signal-tui__header-spacer" />
+      <span className="signal-tui__sev-group">
+        <span className="signal-tui__sev">
+          <span className="signal-tui__sev-dot signal-tui__sev--crit">●</span>
+          <span className="signal-tui__sev--crit">0</span>
+          <span className="signal-tui__sev-label"> crit</span>
+        </span>
+        <span className="signal-tui__sev">
+          <span className="signal-tui__sev-dot signal-tui__sev--high">●</span>
+          <span className="signal-tui__sev--high">5</span>
+          <span className="signal-tui__sev-label"> high</span>
+        </span>
+        <span className="signal-tui__sev">
+          <span className="signal-tui__sev-dot signal-tui__sev--med">●</span>
+          <span className="signal-tui__sev--med">2</span>
+          <span className="signal-tui__sev-label"> med</span>
+        </span>
       </span>
     </div>
   );
@@ -277,7 +279,7 @@ function Status({ scene }: { scene: Scene }) {
     <div className="signal-tui__status">
       <span className="signal-tui__mode">{mode}</span>
       <span className="signal-tui__status-mid">
-        7 findings · press F to review
+        7 findings · press s to review
         {scene === 'search' ? (
           <>
             {' · '}

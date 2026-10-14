@@ -1,32 +1,33 @@
-import { defineConfig } from "vite";
-import { resolve } from "node:path";
+import { defineConfig } from 'vite';
+import { resolve } from 'node:path';
 
 // Self-contained static demo. No analytics, no third-party CDN scripts.
 export default defineConfig({
-  root: ".",
-  base: "./",
-  publicDir: "public",
+  root: '.',
+  base: './',
+  publicDir: 'public',
   build: {
-    outDir: "dist",
+    outDir: 'dist',
     emptyOutDir: true,
-    target: "es2022",
+    target: 'es2022',
     assetsInlineLimit: 0,
   },
   server: {
     port: 5173,
     headers: {
-      "Content-Security-Policy": csp(),
+      'Content-Security-Policy': csp(),
     },
   },
   preview: {
     port: 4173,
     headers: {
-      "Content-Security-Policy": csp(),
+      'Content-Security-Policy': csp(),
     },
   },
   resolve: {
     alias: {
-      "@wasm": resolve(__dirname, "pkg"),
+      '@wasm': resolve(__dirname, 'pkg'),
+      '@shared': resolve(__dirname, '../shared'),
     },
   },
 });

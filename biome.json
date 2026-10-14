@@ -14,7 +14,8 @@
       "!engine",
       "!.cache",
       "!fixtures",
-      "!signatures"
+      "!signatures",
+      "!shared"
     ]
   },
   "linter": {

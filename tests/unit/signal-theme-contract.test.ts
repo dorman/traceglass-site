@@ -49,7 +49,7 @@ describe('Signal theme contract', () => {
   });
 
   it('ships Signal chrome CSS with dashed frame and mode-pill ink', () => {
-    const css = readFileSync('src/components/custom/signal-tui.css', 'utf8');
+    const css = readFileSync('shared/signal-tui.css', 'utf8');
     expect(css).toContain('border: 1px dashed var(--signal-accent)');
     expect(css).toContain('--signal-match-fg: #0b0f14');
     expect(css).toContain('prefers-reduced-motion');

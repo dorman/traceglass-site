@@ -117,10 +117,12 @@ function LinkButton({
   href,
   children,
   variant = 'default',
+  className,
 }: {
   href: string;
   children: ReactNode;
   variant?: 'default' | 'outline' | 'ghost';
+  className?: string;
 }) {
   const link = href.startsWith('/') ? (
     <Link href={href}>{children}</Link>
@@ -130,7 +132,7 @@ function LinkButton({
     </a>
   );
   return (
-    <Button asChild variant={variant} size="lg" className="site-design-button">
+    <Button asChild variant={variant} size="lg" className={className}>
       {link}
     </Button>
   );
@@ -183,7 +185,7 @@ function HeroSection({ section, content }: { section: PageContentSection; conten
       : null;
   return (
     <section className="relative overflow-hidden border-b border-border/60 bg-gradient-to-b from-brand-900/30 via-background to-background py-20 sm:py-28">
-      <div className="container-page grid items-start gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
+      <div className="container-page grid items-start gap-10 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:gap-12">
         <div className="flex flex-col gap-6">
           {text(data, 'eyebrow') ? (
             <Badge
@@ -220,7 +222,12 @@ function HeroSection({ section, content }: { section: PageContentSection; conten
                 <LinkButton
                   key={`${text(link, 'label')}-${index}`}
                   href={text(link, 'href', '/')}
-                  variant={index === 0 ? 'default' : 'outline'}
+                  variant={index === 0 ? 'default' : index === 1 ? 'ghost' : 'outline'}
+                  className={
+                    index === 0
+                      ? 'h-11 border-[#3EE0D8] bg-[#3EE0D8] px-6 text-sm font-semibold text-[#0B0F14] shadow-none hover:bg-[#3EE0D8]/brightness-105 hover:text-[#0B0F14]'
+                      : 'h-11 px-5 text-sm font-semibold'
+                  }
                 >
                   {text(link, 'label')}
                 </LinkButton>
@@ -238,10 +245,9 @@ function HeroSection({ section, content }: { section: PageContentSection; conten
             </div>
           ) : null}
         </div>
-        {terminal ? <SampleLogDemo className="min-h-[28rem] shadow-xl shadow-black/40" /> : null}
-      </div>
-      <div className="container-page">
-        <AssetReferences assets={section.assets} />
+        {terminal ? (
+          <SampleLogDemo className="signal-tui--hero min-h-[26rem] w-full min-w-0 shadow-xl shadow-black/40 lg:min-h-[28rem]" />
+        ) : null}
       </div>
     </section>
   );

@@ -30,31 +30,26 @@ const section = (
 });
 
 const homeSections: SnapshotSection[] = [
-  section(
-    'hero',
-    'hero',
-    {
-      eyebrow: 'Rust-native · local-first · beta installer',
-      heading: 'Local-first log triage.',
-      body: 'Open a diagnostic file in the TUI, or pipe logs through a machine mode. TraceGlass keeps source lines visible while it ranks signals across Splunk, Docker, Kubernetes, databases, and endpoint collections.',
-      links: [
-        { label: 'Install TraceGlass', href: '/install' },
-        { label: 'How it works', href: '#workflow' },
-        { label: 'Open on GitHub', href: 'https://github.com/dorman/traceglass' },
-      ],
-      stats: [
-        { value: '100%', label: 'runs locally' },
-        { value: '0', label: 'bytes uploaded' },
-        { value: '1 click', label: 'beta install path' },
-      ],
-      terminal: {
-        title: 'sample.log',
-        prompt: '$ traceglass sample.log',
-        lines: ['Signal TUI · sample.log · general-triage', '7 findings · press F to review'],
-      },
+  section('hero', 'hero', {
+    eyebrow: 'Rust-native · local-first · beta installer',
+    heading: 'Local-first log triage.',
+    body: 'Open a diagnostic file in the TUI, or pipe logs through a machine mode. TraceGlass keeps source lines visible while it ranks signals across Splunk, Docker, Kubernetes, databases, and endpoint collections.',
+    links: [
+      { label: 'Install TraceGlass', href: '/install' },
+      { label: 'How it works', href: '#workflow' },
+      { label: 'Open on GitHub', href: 'https://github.com/dorman/traceglass' },
+    ],
+    stats: [
+      { value: '100%', label: 'runs locally' },
+      { value: '0', label: 'bytes uploaded' },
+      { value: '1 click', label: 'beta install path' },
+    ],
+    terminal: {
+      title: 'sample.log',
+      prompt: '$ traceglass sample.log',
+      lines: ['Signal TUI · sample.log · general-triage', '7 findings · press s to review'],
     },
-    [asset('hero-terminal', 'terminal', 'Highlighted log output')],
-  ),
+  }),
   section('features', 'features', {
     eyebrow: 'Features',
     heading: "Built for the developer who already knows what they're looking for.",

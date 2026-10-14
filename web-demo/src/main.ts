@@ -97,32 +97,144 @@ async function loadSampleSources(): Promise<{ name: string; content: string }[]>
   return sources;
 }
 
+function severityRank(s: string): number {
+  return s === 'critical' ? 4 : s === 'high' ? 3 : s === 'medium' ? 2 : 1;
+}
+
+type FindingGroup = {
+  key: string;
+  title: string;
+  severity: string;
+  signature_id: string;
+  lens_group: string;
+  lens_priority: number;
+  items: Finding[];
+};
+
+function groupFindings(findings: Finding[]): FindingGroup[] {
+  const map = new Map<string, FindingGroup>();
+  for (const f of findings) {
+    const key = `${f.signature_id}::${f.title}`;
+    const existing = map.get(key);
+    if (existing) {
+      existing.items.push(f);
+      if (severityRank(f.severity) > severityRank(existing.severity)) {
+        existing.severity = f.severity;
+      }
+    } else {
+      map.set(key, {
+        key,
+        title: f.title,
+        severity: f.severity,
+        signature_id: f.signature_id,
+        lens_group: f.lens_group,
+        lens_priority: f.lens_priority,
+        items: [f],
+      });
+    }
+  }
+  return [...map.values()].sort((a, b) => {
+    const d = severityRank(b.severity) - severityRank(a.severity);
+    if (d !== 0) return d;
+    if (b.items.length !== a.items.length) return b.items.length - a.items.length;
+    return a.lens_priority - b.lens_priority || a.title.localeCompare(b.title);
+  });
+}
+
 function renderFindings(listEl: HTMLElement, findings: Finding[]): void {
   listEl.replaceChildren();
-  const sorted = [...findings].sort((a, b) => {
-    const rank = (s: string) =>
-      s === "critical" ? 4 : s === "high" ? 3 : s === "medium" ? 2 : 1;
-    const d = rank(b.severity) - rank(a.severity);
-    if (d !== 0) return d;
-    return a.lens_priority - b.lens_priority || a.line - b.line;
-  });
-  for (const f of sorted) {
-    const li = document.createElement("li");
-    li.innerHTML = "";
-    const sev = document.createElement("span");
-    sev.className = `sev ${f.severity}`;
-    sev.textContent = f.severity.toUpperCase();
-    const title = document.createElement("strong");
-    title.textContent = ` ${f.title}`;
-    const where = document.createElement("div");
-    where.className = "where";
-    where.textContent = `${f.source_file}:${f.line} · ${f.signature_id} · ${f.lens_group}`;
-    const evidence = document.createElement("p");
-    evidence.className = "evidence";
-    evidence.textContent = f.evidence;
-    li.append(sev, title, where, evidence);
+  const groups = groupFindings(findings);
+  for (const group of groups) {
+    const li = document.createElement('li');
+    li.className = 'finding-group';
+
+    const head = document.createElement('div');
+    head.className = 'finding-group__head';
+
+    const sev = document.createElement('span');
+    sev.className = `sev-chip ${group.severity}`;
+    sev.textContent = group.severity.toUpperCase();
+
+    const title = document.createElement('span');
+    title.className = 'finding-group__title';
+    title.textContent = group.title;
+
+    head.append(sev, title);
+    if (group.items.length > 1) {
+      const count = document.createElement('span');
+      count.className = 'finding-group__count';
+      count.textContent = `×${group.items.length}`;
+      head.append(count);
+    }
+
+    const meta = document.createElement('div');
+    meta.className = 'finding-group__meta';
+    const locs = group.items
+      .slice()
+      .sort((a, b) => a.source_file.localeCompare(b.source_file) || a.line - b.line)
+      .map((f) => `${f.source_file}:${f.line}`);
+    meta.textContent =
+      group.items.length === 1
+        ? `${locs[0]} · ${group.signature_id} · ${group.lens_group}`
+        : `${group.items.length} matches · ${group.signature_id} · ${group.lens_group}`;
+
+    head.append(meta);
+    li.append(head);
+
+    const lines = document.createElement('ul');
+    lines.className = 'finding-group__lines';
+    const expand = group.items.length > 1;
+    if (expand) lines.hidden = true;
+
+    for (const f of group.items) {
+      const row = document.createElement('li');
+      row.className = 'finding-line';
+      const where = document.createElement('div');
+      where.className = 'where';
+      where.textContent = `${f.source_file}:${f.line}`;
+      const evidence = document.createElement('p');
+      evidence.className = 'evidence';
+      evidence.textContent = f.evidence;
+      row.append(where, evidence);
+      lines.append(row);
+    }
+
+    if (expand) {
+      const toggle = document.createElement('button');
+      toggle.type = 'button';
+      toggle.className = 'finding-group__toggle';
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.textContent = `Show ${group.items.length} matching lines`;
+      toggle.addEventListener('click', () => {
+        const open = lines.hidden;
+        lines.hidden = !open;
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        toggle.textContent = open
+          ? 'Hide matching lines'
+          : `Show ${group.items.length} matching lines`;
+      });
+      li.append(toggle);
+    }
+
+    li.append(lines);
     listEl.append(li);
   }
+}
+
+function setTermSev(findings: Finding[]): void {
+  const crit = findings.filter((f) => f.severity === 'critical').length;
+  const high = findings.filter((f) => f.severity === 'high').length;
+  const med = findings.length - crit - high;
+  $('term-crit').textContent = String(crit);
+  $('term-high').textContent = String(high);
+  $('term-med').textContent = String(med);
+  $('term-sev').hidden = false;
+}
+
+function setTermStatus(mode: string, mid: string, right: string): void {
+  $('term-mode').textContent = mode;
+  $('term-status-mid').textContent = mid;
+  $('term-status').textContent = right;
 }
 
 async function typeLine(body: HTMLElement, text: string, cls: string, delay = 18): Promise<void> {
@@ -138,30 +250,35 @@ async function typeLine(body: HTMLElement, text: string, cls: string, delay = 18
 }
 
 async function runReplay(): Promise<void> {
-  const btn = $("btn-replay") as HTMLButtonElement;
-  const body = $("term-body");
-  const status = $("term-status");
-  const meta = $("replay-meta");
-  const findingsPanel = $("replay-findings");
-  const list = $("replay-list");
+  const btn = $('btn-replay') as HTMLButtonElement;
+  const body = $('term-body');
+  const meta = $('replay-meta');
+  const findingsPanel = $('replay-findings');
+  const list = $('replay-list');
 
   btn.disabled = true;
   body.replaceChildren();
   findingsPanel.hidden = true;
-  status.textContent = "loading wasm";
-  meta.textContent = "";
+  $('term-sev').hidden = true;
+  setTermStatus('NORMAL', 'loading wasm…', 'busy');
+  meta.textContent = '';
 
   try {
     await ensureWasm();
-    status.textContent = "scanning";
-    await typeLine(body, "$ traceglass --lens incident-reliability samples/demo-bundle/case", "line-in", 8);
-    await typeLine(body, "loading built-in signature library…", "line-out", 4);
+    setTermStatus('NORMAL', 'scanning…', 'scan');
+    await typeLine(
+      body,
+      '$ traceglass --lens incident-reliability samples/demo-bundle/case',
+      'line-in',
+      8,
+    );
+    await typeLine(body, 'loading built-in signature library…', 'line-out', 4);
 
     const sources = await loadSampleSources();
     await typeLine(
       body,
       `opened ${sources.length} text sources (${sources.reduce((n, s) => n + s.content.length, 0)} bytes)`,
-      "line-out",
+      'line-out',
       4,
     );
 
@@ -179,21 +296,21 @@ async function runReplay(): Promise<void> {
     await typeLine(
       body,
       `scan complete — ${result.findings.length} findings in ${elapsed.toFixed(1)} ms (wasm meta ${result.meta.elapsed_ms.toFixed(1)} ms)`,
-      "line-out",
+      'line-out',
       4,
     );
 
-    const crit = result.findings.filter((f) => f.severity === "critical");
-    const high = result.findings.filter((f) => f.severity === "high");
+    const crit = result.findings.filter((f) => f.severity === 'critical');
+    const high = result.findings.filter((f) => f.severity === 'high');
     await typeLine(
       body,
       `severity mix: ${crit.length} critical · ${high.length} high · ${result.findings.length - crit.length - high.length} medium`,
-      "line-find",
+      'line-find',
       4,
     );
 
     for (const f of result.findings.slice(0, 8)) {
-      const cls = f.severity === "critical" ? "line-crit" : "line-find";
+      const cls = f.severity === 'critical' ? 'line-crit' : 'line-find';
       await typeLine(
         body,
         `  ${f.severity.toUpperCase().padEnd(8)} ${f.source_file}:${f.line}  ${f.title}`,
@@ -202,20 +319,25 @@ async function runReplay(): Promise<void> {
       );
     }
     if (result.findings.length > 8) {
-      await typeLine(body, `  … ${result.findings.length - 8} more`, "line-out", 2);
+      await typeLine(body, `  … ${result.findings.length - 8} more`, 'line-out', 2);
     }
 
+    setTermSev(result.findings);
     renderFindings(list, result.findings);
     findingsPanel.hidden = false;
-    status.textContent = "done";
+    setTermStatus(
+      'NORMAL',
+      `${result.findings.length} findings · press s to review`,
+      'done',
+    );
     meta.textContent = `${result.findings.length} findings · ${elapsed.toFixed(1)} ms · ${result.meta.total_bytes} bytes`;
 
-    const caps = $("caps");
+    const caps = $('caps');
     caps.hidden = false;
     caps.textContent = capabilities_json();
   } catch (err) {
-    status.textContent = "error";
-    await typeLine(body, `error: ${err instanceof Error ? err.message : String(err)}`, "line-crit", 0);
+    setTermStatus('NORMAL', 'scan failed', 'error');
+    await typeLine(body, `error: ${err instanceof Error ? err.message : String(err)}`, 'line-crit', 0);
   } finally {
     btn.disabled = false;
   }
