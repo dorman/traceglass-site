@@ -27,6 +27,10 @@ npm ci
 npm run dev                  # http://localhost:3000
 ```
 
+Public marketing deploys need only `NEXT_PUBLIC_APP_URL`, `NOTION_TOKEN`, and
+`NOTION_WAITLIST_DB_ID` (see [docs/vercel.md](docs/vercel.md)). Postgres/auth
+env vars are optional.
+
 Useful scripts: `npm run lint`, `npm run typecheck`, `npm test`, `npm run build`.
 
 Set `SKIP_ENV_VALIDATION=1` for lint/typecheck/unit tests without a database.

@@ -9,7 +9,7 @@ import { admin } from 'better-auth/plugins';
 import { authConfig } from '@/lib/auth-config';
 import { prisma } from '@/lib/db';
 import { sendEmail } from '@/lib/email/send';
-import { env } from '@/lib/env';
+import { env, isAuthConfigured } from '@/lib/env';
 
 // Compose the owner-admin grant with the app's hooks — don't overwrite them.
 const appHooks = authConfig.databaseHooks;
@@ -30,13 +30,21 @@ const trustedOrigins = [
     .filter(Boolean) ?? []),
 ];
 
+// Placeholders keep the module importable on marketing-only deploys (no auth
+// env). The /api/auth route returns 503 when isAuthConfigured() is false —
+// these values must never be relied on for a real login session.
+const authSecret = env.BETTER_AUTH_SECRET ?? 'unconfigured-better-auth-secret';
+const authBaseURL = env.BETTER_AUTH_URL ?? env.NEXT_PUBLIC_APP_URL;
+
+export { isAuthConfigured };
+
 export const auth = betterAuth({
   ...authConfig,
   database: prismaAdapter(prisma, {
     provider: 'postgresql',
   }),
-  secret: env.BETTER_AUTH_SECRET,
-  baseURL: env.BETTER_AUTH_URL,
+  secret: authSecret,
+  baseURL: authBaseURL,
   trustedOrigins,
   emailVerification: {
     sendOnSignUp: true,

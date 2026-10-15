@@ -46,13 +46,10 @@ jobs:
 
       - name: Build
         env:
-          # Dummy values satisfy @t3-oss when SKIP_ENV_VALIDATION is unset in build plugins.
-          DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/traceglass_ci
-          BETTER_AUTH_SECRET: ci-only-secret-not-for-production-use
-          BETTER_AUTH_URL: http://localhost:3000
-          POLSIA_EMAIL_PROXY_URL: http://127.0.0.1:43987
+          # Public marketing deploy shape — no Postgres/auth/Polsia required.
           NEXT_PUBLIC_APP_URL: http://localhost:3000
-          SKIP_ENV_VALIDATION: "1"
+          NOTION_TOKEN: ci-notion-token-not-for-production
+          NOTION_WAITLIST_DB_ID: 00000000-0000-0000-0000-000000000000
         run: npm run build
 
   wasm-demo:

@@ -87,6 +87,11 @@ function brandingUpdate(page: {
 }
 
 export async function seed(): Promise<void> {
+  // Marketing-only deploys omit DATABASE_URL; skip Postgres seeding entirely.
+  if (!process.env.DATABASE_URL?.trim()) {
+    return;
+  }
+
   const { Prisma } = await import('@prisma/client');
   const { prisma } = await import('@/lib/db');
   const { existingMarketingPages } = await import('@/lib/marketing-page-registry');

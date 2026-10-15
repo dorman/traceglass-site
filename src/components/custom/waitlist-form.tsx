@@ -16,6 +16,7 @@ import { apiFetch } from '@/lib/api-client';
 export function WaitlistForm() {
   const [email, setEmail] = useState('');
   const [consent, setConsent] = useState(false);
+  const [company, setCompany] = useState('');
   const [pending, setPending] = useState(false);
   const [errors, setErrors] = useState<{ email?: string; consent?: string }>({});
   const [ok, setOk] = useState(false);
@@ -25,11 +26,16 @@ export function WaitlistForm() {
     setPending(true);
     setErrors({});
     // apiFetch resolves on 2xx and throws on non-2xx with the parsed body on
-    // `error.cause` — so the route's { errors: { email } } (400/409) is readable.
+    // `error.cause` — so the route's { errors: { email } } (400/409/503) is readable.
     try {
       await apiFetch('/api/waitlist', {
         method: 'POST',
-        body: JSON.stringify({ email, consent }),
+        body: JSON.stringify({
+          email,
+          consent,
+          company,
+          headlineVariant: 'A',
+        }),
       });
       setOk(true);
       toast.success("You're on the list.");
@@ -65,7 +71,7 @@ export function WaitlistForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4" noValidate>
+    <form onSubmit={handleSubmit} className="relative flex flex-col gap-4" noValidate>
       <div className="grid gap-2">
         <Label htmlFor="waitlist-email">Email address</Label>
         <Input
@@ -77,8 +83,23 @@ export function WaitlistForm() {
           onChange={(e) => setEmail(e.target.value)}
           required
           aria-invalid={errors.email ? true : undefined}
+          autoComplete="email"
         />
         {errors.email ? <p className="text-sm text-destructive">{errors.email}</p> : null}
+      </div>
+
+      {/* Honeypot — hidden from users; bots that fill it get a fake success. */}
+      <div aria-hidden="true" className="absolute -left-[9999px] top-auto h-0 w-0 overflow-hidden">
+        <Label htmlFor="waitlist-company">Company</Label>
+        <Input
+          id="waitlist-company"
+          name="company"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          value={company}
+          onChange={(e) => setCompany(e.target.value)}
+        />
       </div>
 
       <div className="grid gap-2">
