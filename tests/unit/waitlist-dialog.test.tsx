@@ -74,6 +74,17 @@ describe('waitlist dialog helpers', () => {
     expect(document.body.textContent?.toLowerCase()).not.toContain('grammarly');
     expect(document.body.textContent).toContain('Join the waitlist');
 
+    const consent = dialog?.querySelector('button[role="checkbox"]') as HTMLButtonElement | null;
+    expect(consent).not.toBeNull();
+    expect(consent?.getAttribute('aria-checked')).toBe('false');
+    expect(consent?.getAttribute('data-state')).toBe('unchecked');
+
+    // Check consent, close, reopen — consent must reset to unchecked.
+    await act(async () => {
+      consent?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
+    expect(consent?.getAttribute('aria-checked')).toBe('true');
+
     await act(async () => {
       dialog?.dispatchEvent(
         new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }),
@@ -83,6 +94,18 @@ describe('waitlist dialog helpers', () => {
     await vi.waitFor(() => {
       expect(document.querySelector('[role="dialog"]')).toBeNull();
     });
+
+    await act(async () => {
+      trigger?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
+
+    const reopened = document.querySelector('[role="dialog"]');
+    expect(reopened).not.toBeNull();
+    const resetConsent = reopened?.querySelector(
+      'button[role="checkbox"]',
+    ) as HTMLButtonElement | null;
+    expect(resetConsent?.getAttribute('aria-checked')).toBe('false');
+    expect(resetConsent?.getAttribute('data-state')).toBe('unchecked');
 
     await act(async () => {
       root.unmount();

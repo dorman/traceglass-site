@@ -240,9 +240,12 @@ test('Notify Me validates and surfaces waitlist API field errors without Postgre
   const response = await responsePromise;
   // With Notion configured → 201 success UI; without → 503 field error (still no Postgres).
   if (response.status() === 201) {
-    await expect(
-      page.locator('output').getByText("You're on the list.", { exact: true }),
-    ).toBeVisible();
+    const success = page.locator('output');
+    await expect(success.getByText("You're on the list.", { exact: true })).toBeVisible();
+    await expect(success).toContainText(
+      "We'll send one email around mid-November when TraceGlass is publicly available. We only keep your email for that note.",
+    );
+    await expect(page.getByText("You're on the list.", { exact: true })).toHaveCount(1);
   } else {
     expect(response.status()).toBe(503);
     await expect(

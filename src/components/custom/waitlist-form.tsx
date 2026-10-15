@@ -16,6 +16,10 @@ import { WAITLIST_PRIMARY_BUTTON_CLASS } from '@/lib/waitlist/ui';
 const HEADLINE_VARIANT_KEY = 'tg_headline_variant';
 const CONSENT_REQUIRED = 'Please confirm you want launch updates.';
 
+/** Default inline success body (heading is always "You're on the list."). */
+export const WAITLIST_SUCCESS_BODY =
+  "We'll send one email around mid-November when TraceGlass is publicly available. We only keep your email for that note.";
+
 function readHeadlineVariant(): HeadlineVariant {
   if (typeof window === 'undefined') return 'A';
   try {
@@ -46,7 +50,7 @@ export type WaitlistFormProps = {
 export function WaitlistForm({
   idPrefix,
   consentLabel = 'I agree that TraceGlass may email me once when it publicly launches around mid-November. Signing up does not start a subscription. My email is never shared.',
-  successMessage = "You're on the launch list. We'll send one email when TraceGlass is publicly available around mid-November 2026. We only keep your email for that note — no logs, source code, or filenames reach us.",
+  successMessage = WAITLIST_SUCCESS_BODY,
   submitLabel = 'Notify me when available',
   footerNote,
   onSuccess,
@@ -58,6 +62,7 @@ export function WaitlistForm({
   const companyId = `waitlist-company-${prefix}`;
   const consentErrorId = `waitlist-consent-error-${prefix}`;
 
+  // Consent must start (and stay until the user acts) unchecked — never default-checked.
   const [email, setEmail] = useState('');
   const [consent, setConsent] = useState(false);
   const [company, setCompany] = useState('');
@@ -91,7 +96,7 @@ export function WaitlistForm({
         }),
       });
       setOk(true);
-      toast.success("You're on the list.");
+      // Inline success state is enough — no toast that repeats the heading.
       onSuccess?.();
     } catch (err) {
       const cause = (err as { cause?: { errors?: { email?: string; consent?: string } } }).cause;

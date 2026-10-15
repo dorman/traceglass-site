@@ -146,6 +146,14 @@ function WaitlistDialog({
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
+  // Remount the form on every open so consent resets to unchecked after close/reopen.
+  const [formKey, setFormKey] = useState(0);
+
+  useEffect(() => {
+    if (!open) return;
+    setFormKey((key) => key + 1);
+  }, [open]);
+
   // Keep body scroll locked without horizontal overflow on narrow viewports.
   useEffect(() => {
     if (!open) return;
@@ -181,9 +189,9 @@ function WaitlistDialog({
         </DialogHeader>
         <div className="mt-2 rounded-md border border-zinc-800 bg-zinc-950/80 p-4 sm:p-5">
           <WaitlistForm
+            key={formKey}
             idPrefix="dialog"
             consentLabel="I agree that TraceGlass may email me once when it publicly launches. My email is only used for that note and is never shared."
-            successMessage="You're on the launch list. We'll send one email around mid-November when TraceGlass is publicly available. We only keep your email for that note."
             submitLabel="Join the waitlist"
             footerNote="Your logs are never uploaded."
           />
