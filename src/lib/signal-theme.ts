@@ -9,6 +9,17 @@ export const signalTheme = {
   text: '#D7DAE0',
   textDim: '#737A8C',
   accent: '#3EE0D8',
+  /**
+   * Softer secondary shade of `accent` (≈70% accent + 30% Signal text).
+   * For hex-only contexts (site-design defaults, email/PWA companions). Prefer
+   * `var(--signal-accent-dim)` / `var(--signal-accent)` in CSS.
+   */
+  accentDim: '#6CDEDA',
+  /**
+   * Darker teal for text on light surfaces (AA). ≈48% accent + 52% matchFg.
+   * Prefer `var(--signal-accent-strong)` in CSS; use `accent` on dark surfaces.
+   */
+  accentOnLight: '#237372',
   secondary: '#8B7CF6',
   border: '#2B3040',
   gutter: '#5A6172',

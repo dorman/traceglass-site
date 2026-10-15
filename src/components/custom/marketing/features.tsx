@@ -45,7 +45,7 @@ export function Features() {
         <div className="flex max-w-3xl flex-col gap-3">
           <span className="text-eyebrow">Features</span>
           <h2 className="text-h2 font-display text-balance text-foreground">
-            Built for support specialists who already know what they&apos;re looking for.
+            Built for the people who read logs all day.
           </h2>
           <p className="text-body-lg text-muted-foreground">
             No AI, no anomaly detection, no magic. You choose the keyword or regex highlights that
@@ -64,10 +64,10 @@ export function Features() {
               >
                 <span
                   aria-hidden="true"
-                  className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand-500/50 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                  className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[color:var(--signal-accent)]/50 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
                 />
                 <CardHeader className="gap-3">
-                  <div className="flex size-9 items-center justify-center rounded-md border border-border/60 bg-brand-50 text-brand-700 dark:bg-brand-900/40 dark:text-brand-300">
+                  <div className="flex size-9 items-center justify-center rounded-md border border-border/60 bg-[color:var(--signal-accent)]/10 text-[color:var(--signal-accent-strong)] dark:bg-[color:var(--signal-accent)]/15 dark:text-[color:var(--signal-accent)]">
                     <Icon aria-hidden="true" className="size-4" />
                   </div>
                   <div className="flex items-center gap-2">

@@ -3,7 +3,9 @@ import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { installCatalog } from '@/lib/install-catalog';
 import {
+  FEATURES_HEADING,
   getDefaultMarketingPageContent,
+  normalizeMarketingPageContent,
   scrubDeveloperAudienceCopy,
   scrubPublicGitHubLinks,
 } from '@/lib/marketing-page-content';
@@ -70,14 +72,45 @@ describe('public site has no dorman/traceglass GitHub links', () => {
     });
 
     expect(scrubbed.changed).toBe(true);
-    expect(JSON.stringify(scrubbed.content)).toContain(
-      "Built for support specialists who already know what they're looking for.",
-    );
+    // FAQ audience copy is scrubbed here; Features headline is rewritten later.
     expect(JSON.stringify(scrubbed.content)).toContain(
       'Questions support specialists ask before installing a CLI.',
     );
-    expect(JSON.stringify(scrubbed.content)).not.toContain('the developer who');
     expect(JSON.stringify(scrubbed.content)).not.toContain('Questions a developer');
+
+    const normalized = normalizeMarketingPageContent({
+      title: 'TraceGlass',
+      body: '',
+      sourceKey: 'home',
+      content: {
+        version: 1,
+        sections: [
+          {
+            id: 'features',
+            kind: 'features',
+            data: {
+              heading: "Built for the developer who already knows what they're looking for.",
+            },
+            assets: [],
+          },
+          {
+            id: 'faq',
+            kind: 'faq',
+            data: {
+              heading: 'Questions a developer asks before installing a CLI.',
+            },
+            assets: [],
+          },
+        ],
+        assets: [],
+      },
+    });
+    expect(JSON.stringify(normalized)).toContain(FEATURES_HEADING);
+    expect(JSON.stringify(normalized)).toContain(
+      'Questions support specialists ask before installing a CLI.',
+    );
+    expect(JSON.stringify(normalized)).not.toContain('the developer who');
+    expect(JSON.stringify(normalized)).not.toContain('Questions a developer');
   });
 
   it('scrubs legacy GitHub CTAs into the shared waitlist action', () => {

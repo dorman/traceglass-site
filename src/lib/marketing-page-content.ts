@@ -10,6 +10,15 @@ type SnapshotSection = {
   [key: string]: unknown;
 };
 
+/** Retired Features headlines — rewrite when CMS/DB still stores an older string. */
+export const PREVIOUS_FEATURES_HEADINGS = [
+  "Built for the developer who already knows what they're looking for.",
+  "Built for support specialists who already know what they're looking for.",
+] as const;
+/** @deprecated Prefer PREVIOUS_FEATURES_HEADINGS — kept for existing imports/tests. */
+export const PREVIOUS_FEATURES_HEADING = PREVIOUS_FEATURES_HEADINGS[0];
+export const FEATURES_HEADING = 'Built for the people who read logs all day.';
+
 const asset = (id: string, ref: string, alt?: string) => ({
   id,
   kind: 'visual',
@@ -47,12 +56,12 @@ const homeSections: SnapshotSection[] = [
     terminal: {
       title: 'sample.log',
       prompt: '$ traceglass sample.log',
-      lines: ['Signal TUI · sample.log · general-triage', '7 findings · press s to review'],
+      lines: ['TraceGlass · sample.log · general-triage', '7 findings · press s to review'],
     },
   }),
   section('features', 'features', {
     eyebrow: 'Features',
-    heading: "Built for support specialists who already know what they're looking for.",
+    heading: FEATURES_HEADING,
     body: 'No upload and no remote processing. The TUI keeps your user-controlled local keyword watchlist separate from curated built-in signatures: add a keyword or regex highlight when you choose, while built-ins produce findings without changing your saved entries.',
     items: [
       {
@@ -341,6 +350,58 @@ export function legacyMarketingPageContent(input: {
   });
 }
 
+/** Replace the retired Features headline in managed home content (seed + runtime). */
+export function rewriteFeaturesHeadline(content: unknown): {
+  content: unknown;
+  changed: boolean;
+} {
+  if (!isJsonRecord(content) || !Array.isArray(content.sections)) {
+    return { content, changed: false };
+  }
+
+  let changed = false;
+  const sections = content.sections.map((section) => {
+    if (!isJsonRecord(section) || !isJsonRecord(section.data)) return section;
+    if (section.id !== 'features' && section.kind !== 'features') return section;
+    if (
+      typeof section.data.heading !== 'string' ||
+      !(PREVIOUS_FEATURES_HEADINGS as readonly string[]).includes(section.data.heading)
+    ) {
+      return section;
+    }
+    changed = true;
+    return { ...section, data: { ...section.data, heading: FEATURES_HEADING } };
+  });
+
+  if (!changed || !isJsonRecord(content.richText)) {
+    return {
+      content: changed ? { ...content, sections } : content,
+      changed,
+    };
+  }
+
+  // Rich-text overrides keyed like `features:data.heading` may still hold an old string.
+  const richText = { ...content.richText };
+  for (const [key, document] of Object.entries(richText)) {
+    if (!key.includes('features') || !key.includes('heading')) continue;
+    let serialized = JSON.stringify(document);
+    let keyChanged = false;
+    for (const previous of PREVIOUS_FEATURES_HEADINGS) {
+      if (!serialized.includes(previous)) continue;
+      serialized = serialized.replaceAll(previous, FEATURES_HEADING);
+      keyChanged = true;
+    }
+    if (!keyChanged) continue;
+    richText[key] = JSON.parse(serialized);
+    changed = true;
+  }
+
+  return {
+    content: { ...content, sections, richText },
+    changed,
+  };
+}
+
 export function normalizeMarketingPageContent(input: {
   title: string;
   body: string;
@@ -352,15 +413,12 @@ export function normalizeMarketingPageContent(input: {
   const baseline = legacyMarketingPageContent(input);
   const scrubbedGithub = scrubPublicGitHubLinks(baseline);
   const scrubbedAudience = scrubDeveloperAudienceCopy(scrubbedGithub.content);
-  return PageContent.parse(scrubbedAudience.content);
+  const rewritten = rewriteFeaturesHeadline(scrubbedAudience.content);
+  return PageContent.parse(rewritten.content);
 }
 
-/** Exact developer-audience strings retired in favor of support specialists. */
+/** Exact developer-audience strings retired in favor of support specialists (non-Features). */
 const DEVELOPER_AUDIENCE_REPLACEMENTS: ReadonlyArray<{ from: string; to: string }> = [
-  {
-    from: "Built for the developer who already knows what they're looking for.",
-    to: "Built for support specialists who already know what they're looking for.",
-  },
   {
     from: 'Questions a developer asks before installing a CLI.',
     to: 'Questions support specialists ask before installing a CLI.',

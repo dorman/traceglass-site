@@ -71,19 +71,21 @@ export function SignaturesPreview() {
 
   return (
     <main className="flex flex-col">
-      <section className="relative overflow-hidden border-b border-border/60 bg-gradient-to-b from-brand-50/70 via-background to-background dark:from-brand-900/20">
+      <section className="relative overflow-hidden border-b border-border/60 bg-gradient-to-b from-[color:var(--signal-accent)]/10 via-background to-background dark:from-[color:var(--signal-accent)]/15">
         <div aria-hidden="true" className="absolute inset-0 -z-10">
-          <div className="absolute -right-24 -top-32 size-[28rem] rounded-full bg-brand-200/40 blur-3xl dark:bg-brand-700/20" />
-          <div className="absolute -bottom-40 left-1/3 size-96 rounded-full bg-brand-100/50 blur-3xl dark:bg-brand-900/20" />
+          <div className="absolute -right-24 -top-32 size-[28rem] rounded-full bg-[color:var(--signal-accent)]/20 blur-3xl dark:bg-[color:var(--signal-accent)]/15" />
+          <div className="absolute -bottom-40 left-1/3 size-96 rounded-full bg-[color:var(--signal-accent)]/10 blur-3xl dark:bg-[color:var(--signal-accent)]/10" />
         </div>
 
         <div className="container-page py-16 sm:py-24">
           <div className="flex max-w-3xl flex-col gap-5">
             <div className="flex flex-wrap items-center gap-3">
-              <p className="text-eyebrow text-brand-700 dark:text-brand-300">{catalog.eyebrow}</p>
+              <p className="text-eyebrow text-[color:var(--signal-accent-strong)] dark:text-[color:var(--signal-accent)]">
+                {catalog.eyebrow}
+              </p>
               <Badge
                 variant="outline"
-                className="border-brand-400/60 bg-background/60 px-2.5 py-1 font-mono text-xs text-brand-700 dark:border-brand-700 dark:text-brand-300"
+                className="border-[color:var(--signal-accent)]/60 bg-background/60 px-2.5 py-1 font-mono text-xs text-[color:var(--signal-accent-strong)] dark:border-[color:var(--signal-accent)]/50 dark:text-[color:var(--signal-accent)]"
               >
                 {catalog.version}
               </Badge>
@@ -109,7 +111,7 @@ export function SignaturesPreview() {
                     <code className="font-mono text-xs text-muted-foreground">{signature.set}</code>
                     <Badge
                       variant="outline"
-                      className="border-brand-400/60 bg-brand-50/60 px-2.5 py-1 text-eyebrow text-brand-700 dark:border-brand-700 dark:bg-brand-900/30 dark:text-brand-300"
+                      className="border-[color:var(--signal-accent)]/60 bg-[color:var(--signal-accent)]/10 px-2.5 py-1 text-eyebrow text-[color:var(--signal-accent-strong)] dark:border-[color:var(--signal-accent)]/50 dark:bg-[color:var(--signal-accent)]/15 dark:text-[color:var(--signal-accent)]"
                     >
                       {signature.severity}
                     </Badge>
@@ -124,7 +126,7 @@ export function SignaturesPreview() {
                 <CardContent className="flex flex-1 flex-col gap-5">
                   <div className="rounded-lg border border-border/60 bg-muted/40 p-4 dark:bg-muted/15">
                     <div className="mb-3 flex items-center justify-between gap-3">
-                      <span className="text-eyebrow text-brand-700 dark:text-brand-300">
+                      <span className="text-eyebrow text-[color:var(--signal-accent-strong)] dark:text-[color:var(--signal-accent)]">
                         Sample
                       </span>
                       <span className="font-mono text-caption text-muted-foreground">

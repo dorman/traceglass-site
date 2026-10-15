@@ -108,7 +108,7 @@ export function HowItWorks() {
             >
               <CardHeader className="gap-2 border-b border-border/60 p-5">
                 <div className="flex items-center gap-3">
-                  <span className="flex size-9 items-center justify-center rounded-md border border-brand-300/60 bg-brand-50 font-mono text-sm font-semibold text-brand-700 dark:border-brand-700/60 dark:bg-brand-900/40 dark:text-brand-300">
+                  <span className="flex size-9 items-center justify-center rounded-md border border-[color:var(--signal-accent)]/40 bg-[color:var(--signal-accent)]/10 font-mono text-sm font-semibold text-[color:var(--signal-accent-strong)] dark:border-[color:var(--signal-accent)]/40 dark:bg-[color:var(--signal-accent)]/15 dark:text-[color:var(--signal-accent)]">
                     {step.n}
                   </span>
                   <CardTitle className="text-h4 font-display">{step.title}</CardTitle>

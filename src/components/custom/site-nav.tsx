@@ -32,6 +32,20 @@ function useIsAuthenticated(): boolean {
   return Boolean(data?.user);
 }
 
+/** Paths that need session/owner probes. Marketing pages must not call /api/auth/* (503 when auth is unset). */
+function isSessionAwarePath(pathname: string): boolean {
+  return (
+    pathname.startsWith('/login') ||
+    pathname.startsWith('/signup') ||
+    pathname.startsWith('/profile') ||
+    pathname.startsWith('/forgot-password') ||
+    pathname.startsWith('/reset-password') ||
+    pathname.startsWith('/admin') ||
+    pathname.startsWith('/dashboard') ||
+    pathname.startsWith('/billing')
+  );
+}
+
 function visibleItems(
   group: NavGroup,
   isAuthenticated: boolean,
@@ -101,9 +115,49 @@ function splitPrimarySlots(slots: NavSlot[]): { inline: NavSlot[]; overflow: Nav
 }
 
 export function SiteNav() {
+  const pathname = usePathname();
+  if (
+    pathname === '/dashboard' ||
+    pathname.startsWith('/dashboard/') ||
+    pathname === '/admin' ||
+    pathname.startsWith('/admin/')
+  ) {
+    return null;
+  }
+  // Marketing surfaces: no session/owner fetches (auth returns 503 when unset).
+  if (!isSessionAwarePath(pathname)) {
+    return (
+      <SiteNavChrome isAuthenticated={false} isAdmin={false} isOwner={false} showAuthNav={false} />
+    );
+  }
+  return <SiteNavWithSession />;
+}
+
+function SiteNavWithSession() {
   const isAuthenticated = useIsAuthenticated();
   const isAdmin = useIsAdmin();
   const { isOwner } = usePageOwner();
+  return (
+    <SiteNavChrome
+      isAuthenticated={isAuthenticated}
+      isAdmin={isAdmin}
+      isOwner={isOwner}
+      showAuthNav
+    />
+  );
+}
+
+function SiteNavChrome({
+  isAuthenticated,
+  isAdmin,
+  isOwner,
+  showAuthNav,
+}: {
+  isAuthenticated: boolean;
+  isAdmin: boolean;
+  isOwner: boolean;
+  showAuthNav: boolean;
+}) {
   const waitlistDialog = useOptionalWaitlistDialog();
   // The brand links home, so drop a redundant '/' item from the rendered links.
   const primary = visibleItems('primary', isAuthenticated, isAdmin, isOwner).filter(
@@ -127,14 +181,6 @@ export function SiteNav() {
     href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`);
   const isSlotActive = (slot: NavSlot) =>
     slot.type === 'link' ? isActive(slot.item.href) : slot.items.some((i) => isActive(i.href));
-  if (
-    pathname === '/dashboard' ||
-    pathname.startsWith('/dashboard/') ||
-    pathname === '/admin' ||
-    pathname.startsWith('/admin/')
-  ) {
-    return null;
-  }
 
   return (
     <header className="site-design-nav dark sticky top-0 z-40 w-full border-b border-zinc-800 bg-zinc-950/95 text-zinc-100 backdrop-blur supports-[backdrop-filter]:bg-zinc-950/80">
@@ -144,7 +190,7 @@ export function SiteNav() {
       >
         <Link
           href="/"
-          className="mr-2 shrink-0 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
+          className="mr-2 shrink-0 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--signal-accent)]"
         >
           {/* Icon mark + text: the stacked PNG wordmark is illegible at h-14. */}
           <BrandMark variant="mark" showWordmark priority sizes="120px" />
@@ -160,8 +206,8 @@ export function SiteNav() {
                 variant="ghost"
                 size="sm"
                 className={cn(
-                  'site-design-nav-link text-zinc-300 hover:bg-zinc-900 hover:text-brand-300',
-                  isActive(slot.item.href) && 'bg-zinc-900 text-brand-300',
+                  'site-design-nav-link text-zinc-300 hover:bg-zinc-900 hover:text-[color:var(--signal-accent)]',
+                  isActive(slot.item.href) && 'bg-zinc-900 text-[color:var(--signal-accent)]',
                 )}
               >
                 <Link
@@ -178,8 +224,8 @@ export function SiteNav() {
                     variant="ghost"
                     size="sm"
                     className={cn(
-                      'site-design-nav-link text-zinc-300 hover:bg-zinc-900 hover:text-brand-300',
-                      isSlotActive(slot) && 'bg-zinc-900 text-brand-300',
+                      'site-design-nav-link text-zinc-300 hover:bg-zinc-900 hover:text-[color:var(--signal-accent)]',
+                      isSlotActive(slot) && 'bg-zinc-900 text-[color:var(--signal-accent)]',
                     )}
                   >
                     {slot.label}
@@ -194,7 +240,7 @@ export function SiteNav() {
                     <DropdownMenuItem
                       key={item.href}
                       asChild
-                      className="focus:bg-zinc-800 focus:text-brand-300"
+                      className="focus:bg-zinc-800 focus:text-[color:var(--signal-accent)]"
                     >
                       <Link
                         href={item.href}
@@ -217,8 +263,8 @@ export function SiteNav() {
                   variant="ghost"
                   size="sm"
                   className={cn(
-                    'site-design-nav-link text-zinc-300 hover:bg-zinc-900 hover:text-brand-300',
-                    overflow.some(isSlotActive) && 'bg-zinc-900 text-brand-300',
+                    'site-design-nav-link text-zinc-300 hover:bg-zinc-900 hover:text-[color:var(--signal-accent)]',
+                    overflow.some(isSlotActive) && 'bg-zinc-900 text-[color:var(--signal-accent)]',
                   )}
                 >
                   More
@@ -241,7 +287,7 @@ export function SiteNav() {
                       {slot.type === 'link' ? (
                         <DropdownMenuItem
                           asChild
-                          className="focus:bg-zinc-800 focus:text-brand-300"
+                          className="focus:bg-zinc-800 focus:text-[color:var(--signal-accent)]"
                         >
                           <Link
                             href={slot.item.href}
@@ -257,7 +303,7 @@ export function SiteNav() {
                             <DropdownMenuItem
                               key={item.href}
                               asChild
-                              className="focus:bg-zinc-800 focus:text-brand-300"
+                              className="focus:bg-zinc-800 focus:text-[color:var(--signal-accent)]"
                             >
                               <Link
                                 href={item.href}
@@ -309,7 +355,7 @@ export function SiteNav() {
 
           {/* Always visible */}
           <ThemeToggle />
-          <AuthNav />
+          {showAuthNav ? <AuthNav /> : null}
 
           {/* Mobile (below md): burger + drawer — only when there's something to collapse */}
           {collapsedCount > 0 && (
@@ -340,7 +386,8 @@ export function SiteNav() {
                         variant="ghost"
                         className={cn(
                           'site-design-nav-link w-full justify-start',
-                          isActive(slot.item.href) && 'bg-zinc-900 text-brand-300',
+                          isActive(slot.item.href) &&
+                            'bg-zinc-900 text-[color:var(--signal-accent)]',
                         )}
                       >
                         <Link
@@ -363,7 +410,8 @@ export function SiteNav() {
                             variant="ghost"
                             className={cn(
                               'site-design-nav-link w-full justify-start pl-6',
-                              isActive(item.href) && 'bg-zinc-900 text-brand-300',
+                              isActive(item.href) &&
+                                'bg-zinc-900 text-[color:var(--signal-accent)]',
                             )}
                           >
                             <Link
@@ -389,11 +437,7 @@ export function SiteNav() {
 }
 
 export function SiteFooter() {
-  const isAuthenticated = useIsAuthenticated();
-  const isAdmin = useIsAdmin();
-  const { isOwner } = usePageOwner();
   const pathname = usePathname();
-  const footer = visibleItems('footer', isAuthenticated, isAdmin, isOwner);
   if (
     pathname === '/dashboard' ||
     pathname.startsWith('/dashboard/') ||
@@ -402,6 +446,29 @@ export function SiteFooter() {
   ) {
     return null;
   }
+  if (!isSessionAwarePath(pathname)) {
+    return <SiteFooterChrome isAuthenticated={false} isAdmin={false} isOwner={false} />;
+  }
+  return <SiteFooterWithSession />;
+}
+
+function SiteFooterWithSession() {
+  const isAuthenticated = useIsAuthenticated();
+  const isAdmin = useIsAdmin();
+  const { isOwner } = usePageOwner();
+  return <SiteFooterChrome isAuthenticated={isAuthenticated} isAdmin={isAdmin} isOwner={isOwner} />;
+}
+
+function SiteFooterChrome({
+  isAuthenticated,
+  isAdmin,
+  isOwner,
+}: {
+  isAuthenticated: boolean;
+  isAdmin: boolean;
+  isOwner: boolean;
+}) {
+  const footer = visibleItems('footer', isAuthenticated, isAdmin, isOwner);
   if (footer.length === 0) return null;
 
   return (
@@ -410,7 +477,7 @@ export function SiteFooter() {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
           <Link
             href="/"
-            className="w-fit shrink-0 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
+            className="w-fit shrink-0 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--signal-accent)]"
           >
             <BrandMark variant="mark" showWordmark sizes="120px" />
           </Link>
@@ -424,7 +491,7 @@ export function SiteFooter() {
                 asChild
                 variant="link"
                 size="sm"
-                className="h-auto justify-start px-0 text-zinc-400 hover:text-brand-300"
+                className="h-auto justify-start px-0 text-zinc-400 hover:text-[color:var(--signal-accent)]"
               >
                 <Link href={item.href}>{item.label}</Link>
               </Button>

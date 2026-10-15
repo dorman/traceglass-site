@@ -7,6 +7,8 @@
 // renderEmail() auto-escapes its heading/body/cta/footer, so pass RAW values (don't escapeHtml() them
 // first — that double-escapes). escapeHtml() is only for when you hand-build an html string yourself.
 
+import { signalTheme } from '@/lib/signal-theme';
+
 /** Subject + rendered bodies — spread into sendEmail({ to, ... }). */
 export interface EmailContent {
   subject: string;
@@ -41,8 +43,18 @@ export function renderEmail(options: RenderEmailOptions): { html: string; text: 
   const accentColor = options.brand?.accentColor;
   const safeAccentColor =
     accentColor && /^#[\da-f]{6}$/i.test(accentColor) ? accentColor : '#111111';
+  // Email shells are light paper — bright Signal teal fails AA as text; use the
+  // dark-on-light companion for the wordmark, and dark ink on the CTA fill.
+  const brandTextColor =
+    safeAccentColor.toUpperCase() === signalTheme.accent.toUpperCase()
+      ? signalTheme.accentOnLight
+      : safeAccentColor;
+  const brandButtonInk =
+    safeAccentColor.toUpperCase() === signalTheme.accent.toUpperCase()
+      ? signalTheme.matchFg
+      : '#ffffff';
   const brand = options.brand
-    ? `<p style="margin:0 0 24px;color:${safeAccentColor};font-size:16px;font-weight:700;letter-spacing:0.04em;">${escapeHtml(options.brand.name)}</p>`
+    ? `<p style="margin:0 0 24px;color:${brandTextColor};font-size:16px;font-weight:700;letter-spacing:0.04em;">${escapeHtml(options.brand.name)}</p>`
     : '';
   const paragraphs = options.body
     .map(
@@ -51,7 +63,7 @@ export function renderEmail(options: RenderEmailOptions): { html: string; text: 
     )
     .join('');
   const buttonStyle = options.brand
-    ? `display:inline-block;padding:12px 22px;border-radius:4px;background:${safeAccentColor};color:#ffffff;text-decoration:none;font-size:15px;font-weight:700;`
+    ? `display:inline-block;padding:12px 22px;border-radius:4px;background:${safeAccentColor};color:${brandButtonInk};text-decoration:none;font-size:15px;font-weight:700;`
     : 'display:inline-block;padding:10px 20px;background:#111111;color:#ffffff;text-decoration:none;font-size:15px;';
   const button = options.cta
     ? `<p style="margin:24px 0 0;"><a href="${escapeHtml(options.cta.url)}" style="${buttonStyle}">${escapeHtml(options.cta.label)}</a></p>`
@@ -123,7 +135,7 @@ export function verificationEmail(input: {
 }): EmailContent {
   const name = input.name?.trim();
   const { html, text } = renderEmail({
-    brand: { name: 'TraceGlass', accentColor: '#158353' },
+    brand: { name: 'TraceGlass', accentColor: signalTheme.accent },
     heading: 'Verify your TraceGlass account',
     body: [
       name ? `Hi ${name},` : 'Hello,',
