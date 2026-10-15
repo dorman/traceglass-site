@@ -12,6 +12,8 @@
   --site-text: #e7eee9;
   --site-muted-text: #9aa79e;
   --site-border: #2b3930;
+  /* Signal teal — same value as waitlist primary CTA / signalTheme.accent. */
+  --signal-accent: #3ee0d8;
 }
 
 html[data-site-design="active"] .dark {

@@ -102,6 +102,22 @@ body {
   font-weight: 700;
   letter-spacing: -0.03em;
   line-height: 1.1;
+  /* Option A (default): entire wordmark in Signal teal (`--accent` = primary CTA).
+   * Mirror of BrandMark WORDMARK_COLOR_VARIANT — flip data-wordmark-variant to "split"
+   * for Option B (Trace = light ink, Glass = teal). */
+  color: var(--accent);
+}
+
+.brand-name .brand-name-trace,
+.brand-name .brand-name-glass {
+  color: inherit;
+}
+
+.brand-name[data-wordmark-variant='split'] .brand-name-trace {
+  color: var(--ink);
+}
+.brand-name[data-wordmark-variant='split'] .brand-name-glass {
+  color: var(--accent);
 }
 
 .brand-sub {
