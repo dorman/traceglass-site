@@ -44,7 +44,8 @@ Not identical to CLI path (CLI uses on-disk temp extract via `ingest::extract_zi
 ## CTA / privacy line
 
 Demo page now uses:
-- Primary: **Watch the replay**
+- Primary (hero): **Scan a log in your browser** (links to `#try`)
+- Replay panel: **Watch the replay** (single instance; not duplicated in the hero)
 - Secondary: **Scan a log in your browser**
 - Privacy: **Your file stays in this browser tab. It's never uploaded, so there's nothing for us to store or delete.**
 

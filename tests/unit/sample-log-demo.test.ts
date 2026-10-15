@@ -66,7 +66,7 @@ describe('SampleLogDemo data', () => {
     const hero = home.sections.find((section) => section.id === 'hero');
     const terminal = hero?.data.terminal as { lines?: string[] } | undefined;
     expect(terminal?.lines).toEqual([
-      'Signal TUI · sample.log · general-triage',
+      'TraceGlass · sample.log · general-triage',
       '7 findings · press s to review',
     ]);
     expect(hero?.assets ?? []).toEqual([]);

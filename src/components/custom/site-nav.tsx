@@ -32,6 +32,20 @@ function useIsAuthenticated(): boolean {
   return Boolean(data?.user);
 }
 
+/** Paths that need session/owner probes. Marketing pages must not call /api/auth/* (503 when auth is unset). */
+function isSessionAwarePath(pathname: string): boolean {
+  return (
+    pathname.startsWith('/login') ||
+    pathname.startsWith('/signup') ||
+    pathname.startsWith('/profile') ||
+    pathname.startsWith('/forgot-password') ||
+    pathname.startsWith('/reset-password') ||
+    pathname.startsWith('/admin') ||
+    pathname.startsWith('/dashboard') ||
+    pathname.startsWith('/billing')
+  );
+}
+
 function visibleItems(
   group: NavGroup,
   isAuthenticated: boolean,
@@ -101,9 +115,49 @@ function splitPrimarySlots(slots: NavSlot[]): { inline: NavSlot[]; overflow: Nav
 }
 
 export function SiteNav() {
+  const pathname = usePathname();
+  if (
+    pathname === '/dashboard' ||
+    pathname.startsWith('/dashboard/') ||
+    pathname === '/admin' ||
+    pathname.startsWith('/admin/')
+  ) {
+    return null;
+  }
+  // Marketing surfaces: no session/owner fetches (auth returns 503 when unset).
+  if (!isSessionAwarePath(pathname)) {
+    return (
+      <SiteNavChrome isAuthenticated={false} isAdmin={false} isOwner={false} showAuthNav={false} />
+    );
+  }
+  return <SiteNavWithSession />;
+}
+
+function SiteNavWithSession() {
   const isAuthenticated = useIsAuthenticated();
   const isAdmin = useIsAdmin();
   const { isOwner } = usePageOwner();
+  return (
+    <SiteNavChrome
+      isAuthenticated={isAuthenticated}
+      isAdmin={isAdmin}
+      isOwner={isOwner}
+      showAuthNav
+    />
+  );
+}
+
+function SiteNavChrome({
+  isAuthenticated,
+  isAdmin,
+  isOwner,
+  showAuthNav,
+}: {
+  isAuthenticated: boolean;
+  isAdmin: boolean;
+  isOwner: boolean;
+  showAuthNav: boolean;
+}) {
   const waitlistDialog = useOptionalWaitlistDialog();
   // The brand links home, so drop a redundant '/' item from the rendered links.
   const primary = visibleItems('primary', isAuthenticated, isAdmin, isOwner).filter(
@@ -127,14 +181,6 @@ export function SiteNav() {
     href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`);
   const isSlotActive = (slot: NavSlot) =>
     slot.type === 'link' ? isActive(slot.item.href) : slot.items.some((i) => isActive(i.href));
-  if (
-    pathname === '/dashboard' ||
-    pathname.startsWith('/dashboard/') ||
-    pathname === '/admin' ||
-    pathname.startsWith('/admin/')
-  ) {
-    return null;
-  }
 
   return (
     <header className="site-design-nav dark sticky top-0 z-40 w-full border-b border-zinc-800 bg-zinc-950/95 text-zinc-100 backdrop-blur supports-[backdrop-filter]:bg-zinc-950/80">
@@ -309,7 +355,7 @@ export function SiteNav() {
 
           {/* Always visible */}
           <ThemeToggle />
-          <AuthNav />
+          {showAuthNav ? <AuthNav /> : null}
 
           {/* Mobile (below md): burger + drawer — only when there's something to collapse */}
           {collapsedCount > 0 && (
@@ -391,11 +437,7 @@ export function SiteNav() {
 }
 
 export function SiteFooter() {
-  const isAuthenticated = useIsAuthenticated();
-  const isAdmin = useIsAdmin();
-  const { isOwner } = usePageOwner();
   const pathname = usePathname();
-  const footer = visibleItems('footer', isAuthenticated, isAdmin, isOwner);
   if (
     pathname === '/dashboard' ||
     pathname.startsWith('/dashboard/') ||
@@ -404,6 +446,29 @@ export function SiteFooter() {
   ) {
     return null;
   }
+  if (!isSessionAwarePath(pathname)) {
+    return <SiteFooterChrome isAuthenticated={false} isAdmin={false} isOwner={false} />;
+  }
+  return <SiteFooterWithSession />;
+}
+
+function SiteFooterWithSession() {
+  const isAuthenticated = useIsAuthenticated();
+  const isAdmin = useIsAdmin();
+  const { isOwner } = usePageOwner();
+  return <SiteFooterChrome isAuthenticated={isAuthenticated} isAdmin={isAdmin} isOwner={isOwner} />;
+}
+
+function SiteFooterChrome({
+  isAuthenticated,
+  isAdmin,
+  isOwner,
+}: {
+  isAuthenticated: boolean;
+  isAdmin: boolean;
+  isOwner: boolean;
+}) {
+  const footer = visibleItems('footer', isAuthenticated, isAdmin, isOwner);
   if (footer.length === 0) return null;
 
   return (

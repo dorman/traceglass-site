@@ -15,7 +15,9 @@
       "!.cache",
       "!fixtures",
       "!signatures",
-      "!shared"
+      "!shared",
+      "!test-results",
+      "!playwright-report"
     ]
   },
   "linter": {

@@ -1,6 +1,8 @@
 // @polsia:user-owned — shared renderer for public pages and owner previews.
 'use client';
 
+import type { LucideIcon } from 'lucide-react';
+import { ListChecks, Lock, Package, Palette, ShieldAlert, Terminal } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
@@ -24,6 +26,16 @@ import {
 } from '@/lib/contracts/pages';
 import { signalTheme } from '@/lib/signal-theme';
 import { WAITLIST_PRIMARY_BUTTON_CLASS } from '@/lib/waitlist/ui';
+
+/** Map CMS icon ids to Lucide glyphs — never render the id string as visitor copy. */
+const FEATURE_ICONS: Record<string, LucideIcon> = {
+  terminal: Terminal,
+  'list-checks': ListChecks,
+  palette: Palette,
+  'shield-alert': ShieldAlert,
+  package: Package,
+  lock: Lock,
+};
 
 const layoutClassNames: Record<SectionLayoutPreset, string> = {
   'one-column': 'grid-cols-1',
@@ -276,7 +288,7 @@ function FeaturesSection({
 }) {
   const items = records(section.data, 'items');
   return (
-    <section className="section">
+    <section id={section.id} className="section">
       <div className="container-page flex flex-col gap-10">
         <SectionHeading section={section} content={content} />
         <div className={`grid gap-4 ${sectionColumns(section, 'sm:grid-cols-2 lg:grid-cols-3')}`}>
@@ -286,9 +298,19 @@ function FeaturesSection({
               className="site-design-card lift border-border/60 bg-card/70"
             >
               <CardHeader className="gap-3">
-                <Badge variant="outline" className="w-fit">
-                  {text(item, 'icon', 'feature')}
-                </Badge>
+                {(() => {
+                  const iconId = text(item, 'icon');
+                  const Icon = iconId ? FEATURE_ICONS[iconId] : undefined;
+                  if (!Icon) return null;
+                  return (
+                    <div
+                      className="flex size-9 items-center justify-center rounded-md border border-border/60 bg-[color:var(--signal-accent)]/10 text-[color:var(--signal-accent)]"
+                      aria-hidden="true"
+                    >
+                      <Icon className="size-4" />
+                    </div>
+                  );
+                })()}
                 <CardTitle className="text-h4">
                   <Copy
                     content={content}
@@ -324,7 +346,7 @@ function TerminalCardsSection({
 }) {
   const items = records(section.data, 'items');
   return (
-    <section className="section border-y border-border/50 bg-muted/20">
+    <section id={section.id} className="section border-y border-border/50 bg-muted/20">
       <div className="container-page flex flex-col gap-10">
         <SectionHeading section={section} content={content} />
         <div className={`grid gap-5 ${sectionColumns(section, 'md:grid-cols-2 lg:grid-cols-3')}`}>
@@ -384,7 +406,7 @@ function PrivacySection({
   content: PageContent;
 }) {
   return (
-    <section className="section">
+    <section id={section.id} className="section">
       <div className="container-page">
         <Card className="site-design-card mx-auto max-w-3xl border-[color:var(--signal-accent)]/40 bg-gradient-to-br from-[color:var(--signal-accent)]/20 via-background to-background">
           <CardHeader className="gap-4 p-8">
@@ -427,7 +449,7 @@ function PrivacySection({
 
 function FaqSection({ section, content }: { section: PageContentSection; content: PageContent }) {
   return (
-    <section className="section">
+    <section id={section.id} className="section">
       <div className="container-page grid gap-10 lg:grid-cols-[0.4fr_0.6fr] lg:gap-16">
         <SectionHeading section={section} content={content} />
         <div>

@@ -164,16 +164,23 @@ test("zip support-bundle scans in WASM without network", async ({ page }) => {
 
 test("page CTAs and privacy copy are present", async ({ page }) => {
   await page.goto("/");
-  await expect(page.getByRole("link", { name: "Watch the replay" })).toBeVisible();
   await expect(
     page.getByRole("link", { name: "Scan a log in your browser" }),
   ).toBeVisible();
+  // One replay CTA in the sample panel — not duplicated in the hero.
+  await expect(page.getByRole("link", { name: "Watch the replay" })).toHaveCount(0);
   await expect(page.getByRole("button", { name: "Watch the replay" })).toBeVisible();
+  await expect(page.getByText("Runs entirely in your browser")).toBeVisible();
+  await expect(page.getByText(/Signal chrome|Client-side WASM demo/i)).toHaveCount(0);
+  // Privacy note once — only under Try your own log (not duplicated in the hero).
   await expect(
     page.getByText(
       "Your file stays in this browser tab. It's never uploaded, so there's nothing for us to store or delete.",
-    ).first(),
-  ).toBeVisible();
+    ),
+  ).toHaveCount(1);
+  await expect(page.locator('#term-body .line-placeholder')).toHaveText(
+    'Press Watch the replay to begin',
+  );
 
   const waitlist = page.getByRole("link", { name: "Join the waitlist" });
   const home = page.getByRole("link", { name: "Back to TraceGlass" });
