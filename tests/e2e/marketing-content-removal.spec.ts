@@ -64,6 +64,30 @@ test('public pages no longer publish the retired paid offer', async ({ page }) =
     expect(
       await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),
     ).toBe(true);
+
+    if (width < 768) {
+      // Mobile: hero copy + Install CTA must appear above the terminal.
+      const heroOrder = await page.evaluate(() => {
+        const copy = document.querySelector('[data-hero-copy]');
+        const terminal =
+          document.querySelector('[data-hero-terminal]') || document.querySelector('.signal-tui');
+        const heading = document.querySelector('h1');
+        if (!copy || !terminal || !heading) return { ok: false, reason: 'missing nodes' };
+        const copyTop = copy.getBoundingClientRect().top;
+        const termTop = terminal.getBoundingClientRect().top;
+        const headingTop = heading.getBoundingClientRect().top;
+        return {
+          ok: headingTop < termTop && copyTop < termTop,
+          copyTop,
+          termTop,
+          headingTop,
+        };
+      });
+      expect(
+        heroOrder.ok,
+        `hero must precede terminal on mobile: ${JSON.stringify(heroOrder)}`,
+      ).toBe(true);
+    }
   }
 
   await page.setViewportSize({ width: 1280, height: 850 });

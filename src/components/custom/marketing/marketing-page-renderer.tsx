@@ -184,9 +184,10 @@ function HeroSection({ section, content }: { section: PageContentSection; conten
       ? (data.terminal as Record<string, unknown>)
       : null;
   return (
-    <section className="relative overflow-hidden border-b border-border/60 bg-gradient-to-b from-brand-900/30 via-background to-background py-20 sm:py-28">
-      <div className="container-page grid items-start gap-10 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:gap-12">
-        <div className="flex flex-col gap-6">
+    <section className="relative overflow-hidden border-b border-border/60 bg-gradient-to-b from-brand-900/30 via-background to-background py-12 sm:py-20 lg:py-28">
+      <div className="container-page grid items-start gap-8 sm:gap-10 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:gap-12">
+        {/* Mobile: copy + primary CTA first; terminal stacks below (order-1 / order-2). */}
+        <div className="order-1 flex flex-col gap-5 sm:gap-6" data-hero-copy>
           {text(data, 'eyebrow') ? (
             <Badge
               variant="outline"
@@ -246,7 +247,10 @@ function HeroSection({ section, content }: { section: PageContentSection; conten
           ) : null}
         </div>
         {terminal ? (
-          <SampleLogDemo className="signal-tui--hero min-h-[26rem] w-full min-w-0 shadow-xl shadow-black/40 lg:min-h-[28rem]" />
+          <SampleLogDemo
+            className="order-2 signal-tui--hero min-h-[22rem] w-full min-w-0 shadow-xl shadow-black/40 sm:min-h-[26rem] lg:min-h-[28rem]"
+            data-hero-terminal
+          />
         ) : null}
       </div>
     </section>

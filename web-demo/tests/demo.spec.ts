@@ -174,7 +174,48 @@ test("page CTAs and privacy copy are present", async ({ page }) => {
       "Your file stays in this browser tab. It's never uploaded, so there's nothing for us to store or delete.",
     ).first(),
   ).toBeVisible();
+
+  const github = page.getByRole("link", { name: "View on GitHub" });
+  const install = page.getByRole("link", { name: "Install the CLI" });
+  await expect(github).toHaveClass(/primary/);
+  await expect(install).toHaveClass(/ghost/);
+  await expect(page.getByText("Technical details")).toBeVisible();
+  await expect(page.locator("#caps")).toBeHidden();
+  await page.getByText("Technical details").click();
+  await expect(page.locator("details.tech-details")).toHaveAttribute("open", "");
 });
+
+for (const width of [390, 1280] as const) {
+  test(`no horizontal overflow after sample replay at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/");
+    await page.waitForFunction(() => Boolean(window.__tgDemo));
+    await page.locator("#btn-replay").click();
+    await page.waitForSelector(".finding-group, .sev-chip", { timeout: 30_000 });
+    await page.waitForTimeout(400);
+
+    const metrics = await page.evaluate(() => {
+      const doc = document.documentElement;
+      const wide = [...document.querySelectorAll("body *")].filter(
+        (el) => (el as HTMLElement).getBoundingClientRect().right > window.innerWidth + 1,
+      );
+      return {
+        scrollWidth: doc.scrollWidth,
+        clientWidth: doc.clientWidth,
+        innerWidth: window.innerWidth,
+        overflow: doc.scrollWidth > window.innerWidth + 1,
+        wideCount: wide.length,
+        wideSample: wide.slice(0, 5).map((el) => ({
+          tag: el.tagName,
+          cls: String((el as HTMLElement).className).slice(0, 60),
+          right: Math.round((el as HTMLElement).getBoundingClientRect().right),
+        })),
+      };
+    });
+
+    expect(metrics.overflow, JSON.stringify(metrics)).toBe(false);
+  });
+}
 
 test("50MB synthetic log scan timing in Chromium", async ({ page }) => {
   test.setTimeout(180_000);

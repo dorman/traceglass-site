@@ -55,4 +55,16 @@ describe('Signal theme contract', () => {
     expect(css).toContain('prefers-reduced-motion');
     expect(css).toContain('.signal-tui__mode');
   });
+
+  it('keeps the sample.log frame label as a fieldset-style legend (solid bg, not clipped)', () => {
+    const css = readFileSync('shared/signal-tui.css', 'utf8');
+    expect(css).toContain('.signal-tui__frame-label');
+    expect(css).toMatch(/\.signal-tui__frame-label\s*\{[^}]*background:\s*var\(--signal-bg\)/s);
+    expect(css).toMatch(/\.signal-tui__frame-label\s*\{[^}]*padding:\s*0\.2rem 0\.55rem/s);
+    expect(css).toMatch(/\.signal-tui__frame-label\s*\{[^}]*transform:\s*translateY\(-50%\)/s);
+    // Frame itself must stay overflow:visible so the legend is not clipped;
+    // findings popup still clips via .signal-tui__frame--findings.
+    expect(css).toMatch(/\.signal-tui__frame\s*\{[^}]*overflow:\s*visible/s);
+    expect(css).toMatch(/\.signal-tui__frame--findings\s*\{[^}]*overflow:\s*hidden/s);
+  });
 });

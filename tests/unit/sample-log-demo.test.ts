@@ -72,3 +72,18 @@ describe('SampleLogDemo data', () => {
     expect(hero?.assets ?? []).toEqual([]);
   });
 });
+
+describe('Hero mobile stacking contract', () => {
+  it('marks hero copy before the terminal so mobile order stays copy → CTA → terminal', () => {
+    const renderer = readFileSync(
+      'src/components/custom/marketing/marketing-page-renderer.tsx',
+      'utf8',
+    );
+    const copyIdx = renderer.indexOf('data-hero-copy');
+    const termIdx = renderer.indexOf('data-hero-terminal');
+    expect(copyIdx).toBeGreaterThan(0);
+    expect(termIdx).toBeGreaterThan(copyIdx);
+    expect(renderer).toContain('order-1');
+    expect(renderer).toContain('order-2');
+  });
+});

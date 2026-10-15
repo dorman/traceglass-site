@@ -333,7 +333,6 @@ async function runReplay(): Promise<void> {
     meta.textContent = `${result.findings.length} findings · ${elapsed.toFixed(1)} ms · ${result.meta.total_bytes} bytes`;
 
     const caps = $('caps');
-    caps.hidden = false;
     caps.textContent = capabilities_json();
   } catch (err) {
     setTermStatus('NORMAL', 'scan failed', 'error');

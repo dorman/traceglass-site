@@ -417,7 +417,13 @@ function SceneView({ scene }: { scene: Scene }) {
   );
 }
 
-export function SampleLogDemo({ className }: { className?: string }) {
+export function SampleLogDemo({
+  className,
+  'data-hero-terminal': dataHeroTerminal,
+}: {
+  className?: string;
+  'data-hero-terminal'?: boolean | string;
+}) {
   const [sceneIndex, setSceneIndex] = useState(0);
   const [reduceMotion, setReduceMotion] = useState(false);
 
@@ -449,6 +455,7 @@ export function SampleLogDemo({ className }: { className?: string }) {
         } as CSSProperties
       }
       data-scene={scene}
+      data-hero-terminal={dataHeroTerminal === undefined ? undefined : ''}
       aria-label="TraceGlass sample.log demo"
     >
       <SceneView scene={reduceMotion ? 'main' : scene} />
