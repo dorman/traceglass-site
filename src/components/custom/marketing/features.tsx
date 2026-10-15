@@ -45,7 +45,7 @@ export function Features() {
         <div className="flex max-w-3xl flex-col gap-3">
           <span className="text-eyebrow">Features</span>
           <h2 className="text-h2 font-display text-balance text-foreground">
-            Built for support specialists who already know what they&apos;re looking for.
+            Built for the people who read logs all day.
           </h2>
           <p className="text-body-lg text-muted-foreground">
             No AI, no anomaly detection, no magic. You choose the keyword or regex highlights that

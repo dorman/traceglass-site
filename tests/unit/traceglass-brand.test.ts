@@ -57,6 +57,10 @@ describe('TraceGlass branding', () => {
 
     expect(sections).toEqual(['hero', 'features', 'use-cases', 'workflow', 'privacy', 'faq']);
     expect(home.sections[0]?.data.heading).toBe('Local-first log triage.');
+    expect(home.sections.find((section) => section.id === 'features')?.data.heading).toBe(
+      'Built for the people who read logs all day.',
+    );
+    expect(homeCopy).not.toContain('already knows what they');
     expect(homeCopy).not.toContain('pricing');
     expect(homeCopy).not.toContain('$12');
     expect(homeCopy).not.toContain('read the signal. ignore the noise.');
@@ -72,9 +76,10 @@ describe('TraceGlass branding', () => {
     expect(homeCopy).toContain('no network');
     expect(homeCopy).toContain('user-controlled');
     expect(homeCopy).toContain('l2 (second-line) support specialists');
-    expect(homeCopy).toContain('support specialists who already know');
+    expect(homeCopy).toContain('read logs all day');
     expect(homeCopy).toContain('questions support specialists ask');
     expect(homeCopy).not.toContain('built for the developer');
+    expect(homeCopy).not.toContain('support specialists who already know');
     expect(homeCopy).not.toContain('questions a developer asks');
     expect(siteDescription.toLowerCase()).toContain('support specialists');
     expect(brandVisual.og.tagline.toLowerCase()).toContain('support specialists');
