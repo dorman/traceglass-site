@@ -50,5 +50,7 @@ describe('Features cards do not leak icon ids as visitor copy', () => {
     expect(html).toMatch(/lucide-terminal/);
     expect(html).toMatch(/lucide-list-checks/);
     expect(html).toMatch(/lucide-palette/);
+    // Nav anchors (#features) require the section id on the CMS-rendered section.
+    expect(html).toMatch(/id="features"/);
   });
 });

@@ -288,7 +288,7 @@ function FeaturesSection({
 }) {
   const items = records(section.data, 'items');
   return (
-    <section className="section">
+    <section id={section.id} className="section">
       <div className="container-page flex flex-col gap-10">
         <SectionHeading section={section} content={content} />
         <div className={`grid gap-4 ${sectionColumns(section, 'sm:grid-cols-2 lg:grid-cols-3')}`}>
@@ -346,7 +346,7 @@ function TerminalCardsSection({
 }) {
   const items = records(section.data, 'items');
   return (
-    <section className="section border-y border-border/50 bg-muted/20">
+    <section id={section.id} className="section border-y border-border/50 bg-muted/20">
       <div className="container-page flex flex-col gap-10">
         <SectionHeading section={section} content={content} />
         <div className={`grid gap-5 ${sectionColumns(section, 'md:grid-cols-2 lg:grid-cols-3')}`}>
@@ -406,7 +406,7 @@ function PrivacySection({
   content: PageContent;
 }) {
   return (
-    <section className="section">
+    <section id={section.id} className="section">
       <div className="container-page">
         <Card className="site-design-card mx-auto max-w-3xl border-[color:var(--signal-accent)]/40 bg-gradient-to-br from-[color:var(--signal-accent)]/20 via-background to-background">
           <CardHeader className="gap-4 p-8">
@@ -449,7 +449,7 @@ function PrivacySection({
 
 function FaqSection({ section, content }: { section: PageContentSection; content: PageContent }) {
   return (
-    <section className="section">
+    <section id={section.id} className="section">
       <div className="container-page grid gap-10 lg:grid-cols-[0.4fr_0.6fr] lg:gap-16">
         <SectionHeading section={section} content={content} />
         <div>
