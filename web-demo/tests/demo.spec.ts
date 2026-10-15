@@ -164,11 +164,14 @@ test("zip support-bundle scans in WASM without network", async ({ page }) => {
 
 test("page CTAs and privacy copy are present", async ({ page }) => {
   await page.goto("/");
-  await expect(page.getByRole("link", { name: "Watch the replay" })).toBeVisible();
   await expect(
     page.getByRole("link", { name: "Scan a log in your browser" }),
   ).toBeVisible();
+  // One replay CTA in the sample panel — not duplicated in the hero.
+  await expect(page.getByRole("link", { name: "Watch the replay" })).toHaveCount(0);
   await expect(page.getByRole("button", { name: "Watch the replay" })).toBeVisible();
+  await expect(page.getByText("Runs entirely in your browser")).toBeVisible();
+  await expect(page.getByText(/Signal chrome|Client-side WASM demo/i)).toHaveCount(0);
   await expect(
     page.getByText(
       "Your file stays in this browser tab. It's never uploaded, so there's nothing for us to store or delete.",
