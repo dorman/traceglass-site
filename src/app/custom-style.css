@@ -20,6 +20,7 @@
   --site-border: #2b3930;
 }
 
+html.dark[data-site-design="active"],
 html[data-site-design="active"] .dark {
   --background: var(--site-background);
   --foreground: var(--site-text);
@@ -53,7 +54,8 @@ html[data-site-design="active"] .dark {
 .site-design-nav .site-design-nav-link:hover,
 .site-design-nav .site-design-nav-link[aria-current="page"] {
   background-color: var(--site-surface);
-  color: var(--site-primary);
+  /* Nav chrome is dark; bright accent stays readable. */
+  color: var(--signal-accent);
 }
 
 .site-design-menu {
@@ -93,7 +95,8 @@ html[data-site-design="active"] .dark {
 }
 
 .site-design-footer a:hover {
-  color: var(--site-primary);
+  /* Footer chrome is dark; bright accent stays readable. */
+  color: var(--signal-accent);
 }
 
 .site-design-card {
@@ -103,7 +106,14 @@ html[data-site-design="active"] .dark {
 
 html[data-site-design="active"] .site-design-page .text-eyebrow,
 html[data-site-design="active"] .site-design-page [class*="text-brand-"] {
-  /* Eyebrows use full Signal teal (not the dim secondary) so marketing chrome matches CTAs. */
+  /* Darker teal on light surfaces (AA); bright Signal teal in dark mode. */
+  color: var(--signal-accent-strong);
+}
+
+html.dark[data-site-design="active"] .site-design-page .text-eyebrow,
+html.dark[data-site-design="active"] .site-design-page [class*="text-brand-"],
+html[data-site-design="active"] .dark .text-eyebrow,
+html[data-site-design="active"] .dark [class*="text-brand-"] {
   color: var(--signal-accent);
 }
 

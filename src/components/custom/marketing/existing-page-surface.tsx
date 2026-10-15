@@ -29,7 +29,7 @@ export function ExistingPageSurface({ sourceKey }: { sourceKey: string }) {
 
   if (state === 'loading') {
     return (
-      <main className="dark container-page section bg-zinc-950 text-zinc-100">
+      <main className="container-page section bg-background text-foreground">
         <p className="text-body text-muted-foreground">Loading page…</p>
       </main>
     );
@@ -37,7 +37,7 @@ export function ExistingPageSurface({ sourceKey }: { sourceKey: string }) {
 
   if (state === 'missing' || !page) {
     return (
-      <main className="dark container-page section bg-zinc-950 text-zinc-100">
+      <main className="container-page section bg-background text-foreground">
         <Card className="mx-auto max-w-xl">
           <CardHeader>
             <CardTitle className="font-display text-h3">Page unavailable</CardTitle>

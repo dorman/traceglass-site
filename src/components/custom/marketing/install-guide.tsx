@@ -16,7 +16,7 @@ export function InstallGuide() {
         <CardHeader className="gap-4">
           <Badge
             variant="outline"
-            className="w-fit border-[color:var(--signal-accent)]/50 px-3 py-1 text-eyebrow text-[color:var(--signal-accent)]"
+            className="w-fit border-[color:var(--signal-accent)]/50 px-3 py-1 text-eyebrow text-[color:var(--signal-accent-strong)] dark:border-[color:var(--signal-accent)]/50 dark:text-[color:var(--signal-accent)]"
           >
             Coming soon · mid-November 2026
           </Badge>

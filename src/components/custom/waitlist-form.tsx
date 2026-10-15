@@ -120,7 +120,10 @@ export function WaitlistForm({
         aria-live="polite"
       >
         <div className="flex items-center gap-2">
-          <CheckCircle2 aria-hidden="true" className="size-5 text-[color:var(--signal-accent)]" />
+          <CheckCircle2
+            aria-hidden="true"
+            className="size-5 text-[color:var(--signal-accent-strong)] dark:text-[color:var(--signal-accent)]"
+          />
           <p className="text-base font-semibold text-foreground">You&apos;re on the list.</p>
         </div>
         <p className="text-sm text-muted-foreground">{successMessage}</p>
@@ -215,7 +218,9 @@ export function WaitlistForm({
       </Button>
 
       {footerNote ? (
-        <p className="text-sm font-medium text-[color:var(--signal-accent)]">{footerNote}</p>
+        <p className="text-sm font-medium text-[color:var(--signal-accent-strong)] dark:text-[color:var(--signal-accent)]">
+          {footerNote}
+        </p>
       ) : null}
     </form>
   );

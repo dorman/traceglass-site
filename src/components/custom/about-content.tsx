@@ -2,7 +2,6 @@
 import Link from 'next/link';
 import { JoinWaitlistButton } from '@/components/custom/waitlist-dialog';
 import { Button } from '@/components/ui/button';
-import { signalTheme } from '@/lib/signal-theme';
 import { cn } from '@/lib/utils';
 import { WAITLIST_PRIMARY_BUTTON_CLASS } from '@/lib/waitlist/ui';
 
@@ -33,7 +32,7 @@ export function AboutContent() {
     <article className="site-design-page dark min-h-full bg-zinc-950 text-zinc-100">
       <header className="border-b border-zinc-800 bg-zinc-950 py-12 sm:py-16">
         <div className="container-page max-w-3xl">
-          <p className="text-eyebrow font-mono" style={{ color: signalTheme.accent }}>
+          <p className="text-eyebrow font-mono text-[color:var(--signal-accent-strong)] dark:text-[color:var(--signal-accent)]">
             ABOUT · TRACEGLASS
           </p>
           <h1 className="mt-3 font-display text-display text-balance break-words text-zinc-50">
@@ -88,7 +87,7 @@ export function AboutContent() {
       <section className="section">
         <div className="container-page max-w-3xl flex flex-col gap-6">
           <div className="flex flex-col gap-3">
-            <p className="text-eyebrow font-mono" style={{ color: signalTheme.accent }}>
+            <p className="text-eyebrow font-mono text-[color:var(--signal-accent-strong)] dark:text-[color:var(--signal-accent)]">
               PUBLIC LAUNCH · MID-NOVEMBER 2026
             </p>
             <h2 className="font-display text-h2 text-balance text-zinc-50">When it launches</h2>

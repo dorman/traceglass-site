@@ -304,7 +304,7 @@ function FeaturesSection({
                   if (!Icon) return null;
                   return (
                     <div
-                      className="flex size-9 items-center justify-center rounded-md border border-border/60 bg-[color:var(--signal-accent)]/10 text-[color:var(--signal-accent)]"
+                      className="flex size-9 items-center justify-center rounded-md border border-border/60 bg-[color:var(--signal-accent)]/10 text-[color:var(--signal-accent-strong)] dark:bg-[color:var(--signal-accent)]/15 dark:text-[color:var(--signal-accent)]"
                       aria-hidden="true"
                     >
                       <Icon className="size-4" />
@@ -653,21 +653,16 @@ export function MarketingPageRenderer({
     <article
       data-template={page.sourceKey ?? undefined}
       data-preview={preview || undefined}
-      className="site-design-page dark min-h-full bg-zinc-950 text-zinc-100"
+      className="site-design-page min-h-full bg-background text-foreground"
       style={{
-        backgroundColor: 'var(--site-background)',
-        color: 'var(--site-text)',
         fontFamily: 'var(--font-body)',
       }}
     >
       {page.sourceKey === 'home' ? null : (
-        <header
-          className="border-b border-zinc-800 bg-zinc-950 py-8 sm:py-12"
-          style={{ backgroundColor: 'var(--site-background)', borderColor: 'var(--site-border)' }}
-        >
+        <header className="border-b border-border bg-background py-8 sm:py-12">
           <div className="container-page max-w-4xl">
             <BrandMark className="mb-8 h-16 w-auto" priority sizes="220px" />
-            <p className="text-eyebrow font-mono text-[color:var(--signal-accent)]">
+            <p className="text-eyebrow font-mono text-[color:var(--signal-accent-strong)] dark:text-[color:var(--signal-accent)]">
               {preview ? 'owner / preview' : (page.sourceKey ?? 'published')} / editable content
             </p>
             <h1 className="mt-3 font-display text-display text-balance text-foreground">

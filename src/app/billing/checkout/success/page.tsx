@@ -52,7 +52,10 @@ export default async function CheckoutSuccessPage({
   return (
     <main className="dark section-lg min-h-[calc(100vh-7rem)] bg-zinc-950 text-zinc-100">
       <div className="container-page flex flex-col items-start gap-6">
-        <CheckCircle2 aria-hidden="true" className="size-12 text-[color:var(--signal-accent)]" />
+        <CheckCircle2
+          aria-hidden="true"
+          className="size-12 text-[color:var(--signal-accent-strong)] dark:text-[color:var(--signal-accent)]"
+        />
         <h1 className="text-h1 font-display">You&apos;re in.</h1>
         {result?.verified ? (
           <p className="text-body-lg text-muted-foreground">
