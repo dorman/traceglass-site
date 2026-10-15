@@ -3,7 +3,7 @@
 
 export const siteName = 'TraceGlass';
 export const siteDescription =
-  'Rust-native local log review — add keyword or regex highlights to a local watchlist, while curated built-in signatures scan Splunk, Docker, and Windows event logs. No AI or network access required.';
+  'Rust-native local log triage for support specialists — add keyword or regex highlights to a local watchlist, while curated built-in signatures scan Splunk, Docker, and Windows event logs. No AI or network access required.';
 
 // PWA + social-share colors. HEX only (the oklch() tokens in globals.css aren't
 // readable here) — set to match your brand seed.
@@ -17,6 +17,6 @@ export const brandVisual = {
     background: '#050706',
     foreground: '#f3fff9',
     /** Second line under the site name; '' hides it. */
-    tagline: 'Local-first log review',
+    tagline: 'Local-first log triage for support specialists',
   },
 } as const;

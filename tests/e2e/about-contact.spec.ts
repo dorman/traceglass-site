@@ -13,7 +13,7 @@ test('about and contact pages render, validate, and stay accessible', async ({ p
     await page.setViewportSize({ width, height: 900 });
     await page.goto(route('/about'));
     await expect(page.getByRole('heading', { name: 'Local-first log triage.' })).toBeVisible();
-    await expect(page.getByText('L2 (second-line) support specialists')).toBeVisible();
+    await expect(page.getByText('support specialists').first()).toBeVisible();
     await expect(
       page.getByText('Your logs are processed on your machine and never uploaded.').first(),
     ).toBeVisible();

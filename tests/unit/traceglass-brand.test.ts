@@ -70,6 +70,13 @@ describe('TraceGlass branding', () => {
     expect(homeCopy).toContain('curated built-in signatures');
     expect(homeCopy).toContain('no network');
     expect(homeCopy).toContain('user-controlled');
+    expect(homeCopy).toContain('l2 (second-line) support specialists');
+    expect(homeCopy).toContain('support specialists who already know');
+    expect(homeCopy).toContain('questions support specialists ask');
+    expect(homeCopy).not.toContain('built for the developer');
+    expect(homeCopy).not.toContain('questions a developer asks');
+    expect(siteDescription.toLowerCase()).toContain('support specialists');
+    expect(brandVisual.og.tagline.toLowerCase()).toContain('support specialists');
   });
 
   it('states the target launch date without claiming the installer is published', () => {

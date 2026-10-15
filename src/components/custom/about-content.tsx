@@ -38,8 +38,8 @@ export function AboutContent() {
             Local-first log triage.
           </h1>
           <p className="mt-4 max-w-2xl text-body-lg text-zinc-400">
-            TraceGlass ranks signals in diagnostic logs so L2 (second-line) support specialists can
-            find what matters without sending files off-machine.
+            TraceGlass ranks signals in diagnostic logs so support specialists can find what matters
+            without sending files off-machine.
           </p>
         </div>
       </header>

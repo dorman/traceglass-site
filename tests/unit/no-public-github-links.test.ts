@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest';
 import { installCatalog } from '@/lib/install-catalog';
 import {
   getDefaultMarketingPageContent,
+  scrubDeveloperAudienceCopy,
   scrubPublicGitHubLinks,
 } from '@/lib/marketing-page-content';
 import { existingMarketingPages } from '@/lib/marketing-page-registry';
@@ -42,6 +43,41 @@ describe('public site has no dorman/traceglass GitHub links', () => {
       expect(source).not.toMatch(GITHUB_DORMAN);
       expect(source).not.toMatch(/github\.com\/dorman/i);
     }
+  });
+
+  it('scrubs legacy developer-audience headings to support specialists', () => {
+    const scrubbed = scrubDeveloperAudienceCopy({
+      version: 1,
+      sections: [
+        {
+          id: 'features',
+          kind: 'features',
+          data: {
+            heading: "Built for the developer who already knows what they're looking for.",
+          },
+          assets: [],
+        },
+        {
+          id: 'faq',
+          kind: 'faq',
+          data: {
+            heading: 'Questions a developer asks before installing a CLI.',
+          },
+          assets: [],
+        },
+      ],
+      assets: [],
+    });
+
+    expect(scrubbed.changed).toBe(true);
+    expect(JSON.stringify(scrubbed.content)).toContain(
+      "Built for support specialists who already know what they're looking for.",
+    );
+    expect(JSON.stringify(scrubbed.content)).toContain(
+      'Questions support specialists ask before installing a CLI.',
+    );
+    expect(JSON.stringify(scrubbed.content)).not.toContain('the developer who');
+    expect(JSON.stringify(scrubbed.content)).not.toContain('Questions a developer');
   });
 
   it('scrubs legacy GitHub CTAs into the shared waitlist action', () => {
