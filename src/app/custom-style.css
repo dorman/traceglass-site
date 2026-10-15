@@ -166,7 +166,14 @@ html[data-site-design="active"] .site-design-page ::selection {
   color: var(--site-background);
 }
 
-html[data-site-card-treatment="terminal"] .site-design-card,
+/* Light mode: card treatments use semantic surfaces (not forced dark site tokens). */
+html[data-site-card-treatment="terminal"] .site-design-card {
+  background-color: var(--card);
+  box-shadow: 0 12px 28px color-mix(in srgb, var(--foreground) 8%, transparent);
+}
+
+html.dark[data-site-card-treatment="terminal"] .site-design-card,
+html[data-site-card-treatment="terminal"] .dark .site-design-card,
 .site-design-preview[data-site-card-treatment="terminal"] .site-design-card {
   background-color: color-mix(in srgb, var(--site-surface) 92%, var(--site-background));
   box-shadow: 0 16px 36px color-mix(in srgb, var(--site-background) 55%, transparent);
@@ -179,7 +186,13 @@ html[data-site-card-treatment="outlined"] .site-design-card,
   box-shadow: none;
 }
 
-html[data-site-card-treatment="soft"] .site-design-card,
+html[data-site-card-treatment="soft"] .site-design-card {
+  background-color: color-mix(in srgb, var(--card) 88%, var(--signal-accent));
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--foreground) 6%, transparent);
+}
+
+html.dark[data-site-card-treatment="soft"] .site-design-card,
+html[data-site-card-treatment="soft"] .dark .site-design-card,
 .site-design-preview[data-site-card-treatment="soft"] .site-design-card {
   background-color: color-mix(in srgb, var(--site-surface) 78%, var(--site-accent));
   box-shadow: 0 8px 24px color-mix(in srgb, var(--site-background) 28%, transparent);
