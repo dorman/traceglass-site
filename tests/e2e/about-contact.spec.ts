@@ -15,7 +15,7 @@ test('about and contact pages render, validate, and stay accessible', async ({ p
     await expect(
       page.getByRole('heading', { name: 'Local-first log triage for L2 support.' }),
     ).toBeVisible();
-    await expect(page.getByText('0 log bytes uploaded')).toBeVisible();
+    await expect(page.getByText('0 log bytes uploaded', { exact: true })).toBeVisible();
     await expect(page.getByText('Copyright (c) 2026 TraceGlass')).toBeVisible();
     await expect(page.locator('a[href*="github.com/dorman"]')).toHaveCount(0);
     await expect(page.locator('body')).not.toContainText(/grammarly|early access/i);
@@ -28,7 +28,7 @@ test('about and contact pages render, validate, and stay accessible', async ({ p
     await expect(
       page.getByText("Please don't paste logs or sensitive data into this form."),
     ).toBeVisible();
-    await expect(page.getByText(/Security report/i).first()).toBeVisible();
+    await expect(page.getByText(/Security reports: please use this form/i)).toBeVisible();
     await expect(page.locator('a[href*="github.com/dorman"]')).toHaveCount(0);
     expect(
       await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1),
@@ -61,9 +61,9 @@ test('about and contact pages render, validate, and stay accessible', async ({ p
   await expect(page.getByText('Please confirm you want us to receive this message.')).toBeVisible();
 
   // Labels / a11y basics.
-  await expect(page.getByLabel('Email')).toBeVisible();
-  await expect(page.getByLabel('Message')).toBeVisible();
-  await expect(page.getByLabel(/Name/)).toBeVisible();
+  await expect(page.getByRole('textbox', { name: 'Email' })).toBeVisible();
+  await expect(page.getByRole('textbox', { name: 'Message' })).toBeVisible();
+  await expect(page.getByRole('textbox', { name: /Name/ })).toBeVisible();
 
   // Success path with mocked API.
   await page.route('**/api/contact', async (routeHandle) => {
@@ -74,15 +74,14 @@ test('about and contact pages render, validate, and stay accessible', async ({ p
     });
   });
 
-  await page.getByLabel('Email').fill('friend@example.test');
-  await page.getByLabel('Topic').click();
+  await page.getByRole('textbox', { name: 'Email' }).fill('friend@example.test');
+  await page.getByRole('combobox', { name: 'Topic' }).click();
   await page.getByRole('option', { name: 'Support' }).click();
-  await page.getByLabel('Message').fill('Need a hand with the waitlist dialog.');
+  await page.getByRole('textbox', { name: 'Message' }).fill('Need a hand with the waitlist dialog.');
   await page.getByRole('checkbox').check();
   await page.getByRole('button', { name: 'Send message' }).click();
 
-  const success = page.getByRole('status').or(page.locator('output'));
-  await expect(success).toContainText('Message sent.');
+  await expect(page.locator('output')).toContainText('Message sent.');
   await expect(page.getByText(/Thanks — we received your note/i)).toBeVisible();
   // Inline confirmation only — no toast stack.
   await expect(page.locator('[data-sonner-toast]')).toHaveCount(0);
