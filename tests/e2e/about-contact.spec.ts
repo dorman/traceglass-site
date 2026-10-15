@@ -21,7 +21,7 @@ test('about and contact pages render, validate, and stay accessible', async ({ p
     await expect(page.getByText('No accounts, no telemetry, nothing phoning home.')).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Verified installs' })).toBeVisible();
     await expect(
-      page.getByText("Installers will be signed and verified before they run."),
+      page.getByText('Installers will be signed and verified before they run.'),
     ).toBeVisible();
     await expect(page.getByRole('heading', { name: 'When it launches' })).toBeVisible();
     await expect(page.getByText('Copyright (c) 2026 TraceGlass')).toBeVisible();
