@@ -31,6 +31,19 @@ describe('public site has no dorman/traceglass GitHub links', () => {
     ).toBe(false);
   });
 
+  it('keeps about and contact page sources free of engine-repo GitHub URLs', () => {
+    for (const relative of [
+      'src/app/(custom)/about/page.tsx',
+      'src/app/(custom)/contact/page.tsx',
+      'src/components/custom/about-content.tsx',
+      'src/components/custom/contact-form.tsx',
+    ] as const) {
+      const source = readFileSync(join(process.cwd(), relative), 'utf8');
+      expect(source).not.toMatch(GITHUB_DORMAN);
+      expect(source).not.toMatch(/github\.com\/dorman/i);
+    }
+  });
+
   it('scrubs legacy GitHub CTAs into the shared waitlist action', () => {
     const scrubbed = scrubPublicGitHubLinks({
       version: 1,

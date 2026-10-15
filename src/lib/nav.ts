@@ -54,9 +54,11 @@ export const navItems: NavItem[] = [
     requiresOwner: true,
     order: 4,
   },
-  { label: 'Contact', href: 'mailto:traceglass@polsia.app', group: 'footer', order: 1 },
-  { label: 'Waitlist', href: '/waitlist', group: 'footer', order: 2 },
-  { label: 'Release notes', href: '/release', group: 'footer', order: 3 },
-  { label: 'Signatures', href: '/signatures', group: 'footer', order: 4 },
-  { label: 'Install', href: '/install', group: 'footer' },
+  // About + Contact stay in the footer so the primary bar (and Notify me CTA) stay uncrowded.
+  { label: 'About', href: '/about', group: 'footer', order: 1 },
+  { label: 'Contact', href: '/contact', group: 'footer', order: 2 },
+  { label: 'Waitlist', href: '/waitlist', group: 'footer', order: 3 },
+  { label: 'Release notes', href: '/release', group: 'footer', order: 4 },
+  { label: 'Signatures', href: '/signatures', group: 'footer', order: 5 },
+  { label: 'Install', href: '/install', group: 'footer', order: 6 },
 ];

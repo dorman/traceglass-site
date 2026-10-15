@@ -23,14 +23,15 @@ Set **only** these for the redesigned site + Notion waitlist:
 | -------- | ------- |
 | `NOTION_TOKEN` | Notion integration token (server-only) |
 | `NOTION_WAITLIST_DB_ID` | Notion database ID for waitlist rows |
+| `NOTION_CONTACT_DB_ID` | Notion database ID for contact form rows |
 | `NEXT_PUBLIC_APP_URL` | Canonical public site URL (e.g. `https://traceglass.dev`) |
 
-With these three set, the marketing pages (`/`, `/install`, `/release`,
-`/signatures`, `/waitlist`), static `/demo`, and `POST /api/waitlist` work.
-Sign-ups are written to Notion (not Postgres).
+With these set, the marketing pages (`/`, `/about`, `/contact`, `/install`,
+`/release`, `/signatures`, `/waitlist`), static `/demo`, `POST /api/waitlist`,
+and `POST /api/contact` work. Submissions are written to Notion (not Postgres).
 
-If Notion vars are missing at runtime, the waitlist API returns **503** with a
-friendly message; the rest of the site still builds and renders.
+If Notion vars are missing at runtime, the waitlist or contact API returns
+**503** with a friendly message; the rest of the site still builds and renders.
 
 ### Notion waitlist database columns
 
@@ -43,6 +44,20 @@ The waitlist route expects these properties (names are case-sensitive):
 | `Source` | Select | Written as `website` |
 | `Headline variant` | Select | `A` or `B` |
 | `Notes` | Rich text | Left empty on create |
+
+### Notion contact database columns
+
+The contact route (`POST /api/contact`) expects these properties (names are
+case-sensitive). Share the same `NOTION_TOKEN` integration with this database.
+
+| Property | Notion type | Notes |
+| -------- | ----------- | ----- |
+| `Name` | Title | Visitor name, or email when name is blank |
+| `Email` | Email | Stored lowercased |
+| `Topic` | Select | `General question`, `Support`, `Security report`, `Press`, `Partnerships` |
+| `Message` | Rich text | Truncated to Notion’s 2 000-char rich_text limit |
+| `Received` | Date | ISO timestamp of submission |
+| `Status` | Select | Written as `New` on create |
 
 ## Optional env vars (not required for the public site)
 
