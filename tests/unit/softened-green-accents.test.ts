@@ -19,6 +19,8 @@ describe('Signal teal visitor accents', () => {
     expect(css.toLowerCase()).not.toContain('#00f5b8');
     expect(icon.toLowerCase()).not.toContain('#00f5b8');
     expect(icon).not.toContain('fill="#158353"');
-    expect(icon).toContain(`fill="${signalTheme.accent}"`);
+    // Simplified chevron + magnifier uses teal strokes on the dark tile.
+    expect(icon).toContain(`stroke="${signalTheme.accent}"`);
+    expect(icon).toMatch(/stroke-width="3/);
   });
 });

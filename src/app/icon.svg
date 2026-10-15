@@ -1,5 +1,10 @@
 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="TraceGlass app icon">
-  <rect width="32" height="32" rx="5" fill="#050706"/>
-  <path d="M7 8h18v4h-7v12h-4V12H7V8Z" fill="#F3FFF9"/>
-  <path d="M22.7 12.2a8.2 8.2 0 1 0 1.1 9.4l-3.4-1.8a4.4 4.4 0 1 1-.6-5.1l2.9 2.9h-5.1v3.7H28v-9.1h-3.7v2.2l-1.6-2.2Z" fill="#3EE0D8"/>
+  <!-- Simplified mark: single chevron + magnifier. Thick strokes for 16px legibility. -->
+  <rect width="32" height="32" rx="6" fill="#050706"/>
+  <!-- Chevron (prompt cue) -->
+  <path d="M7 9.5 L13.5 16 L7 22.5" stroke="#3EE0D8" stroke-width="3.25" stroke-linecap="square" stroke-linejoin="miter" fill="none"/>
+  <!-- Magnifier glass -->
+  <circle cx="20.5" cy="14.5" r="6.25" stroke="#3EE0D8" stroke-width="3.25" fill="none"/>
+  <!-- Magnifier handle -->
+  <path d="M24.8 19.2 L29 25" stroke="#3EE0D8" stroke-width="3.25" stroke-linecap="square" fill="none"/>
 </svg>
