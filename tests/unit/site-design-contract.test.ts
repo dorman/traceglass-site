@@ -6,12 +6,17 @@ import {
   SiteDesignResponse,
   SiteDesignSchema,
 } from '@/lib/contracts/site-design';
+import { signalTheme } from '@/lib/signal-theme';
 
 describe('site design contract', () => {
   it('provides the current TraceGlass palette and supported typography presets', () => {
     expect(SiteDesignSchema.parse(DEFAULT_SITE_DESIGN)).toEqual(DEFAULT_SITE_DESIGN);
     expect(DEFAULT_SITE_DESIGN).toMatchObject({
-      colors: { background: '#090D0B', primary: '#55A77C' },
+      colors: {
+        background: '#090D0B',
+        primary: signalTheme.accent,
+        accent: signalTheme.accentDim,
+      },
       typography: { displayFont: 'space-mono', bodyFont: 'ibm-plex-sans' },
       radius: 'sharp',
       cardTreatment: 'terminal',

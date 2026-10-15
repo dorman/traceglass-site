@@ -5,15 +5,19 @@
 @import "../../shared/signal-tui.css";
 
 :root {
-  --site-primary: #55a77c;
-  --site-accent: #86a58f;
+  /* Signal teal — same value as waitlist primary CTA / signalTheme.accent. */
+  --signal-accent: #3ee0d8;
+  /* Dim secondary shade of Signal teal (eyebrows, soft accents). */
+  --signal-accent-dim: color-mix(in srgb, var(--signal-accent) 70%, #d7dae0);
+  /* Darker teal for text on light surfaces (AA); use --signal-accent on dark. */
+  --signal-accent-strong: color-mix(in srgb, var(--signal-accent) 48%, #0b0f14);
+  --site-primary: var(--signal-accent);
+  --site-accent: var(--signal-accent-dim);
   --site-background: #090d0b;
   --site-surface: #141b17;
   --site-text: #e7eee9;
   --site-muted-text: #9aa79e;
   --site-border: #2b3930;
-  /* Signal teal — same value as waitlist primary CTA / signalTheme.accent. */
-  --signal-accent: #3ee0d8;
 }
 
 html[data-site-design="active"] .dark {

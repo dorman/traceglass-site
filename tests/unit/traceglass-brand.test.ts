@@ -4,6 +4,7 @@ import { installCatalog } from '@/lib/install-catalog';
 import { getDefaultMarketingPageContent } from '@/lib/marketing-page-content';
 import { existingMarketingPages } from '@/lib/marketing-page-registry';
 import { navItems } from '@/lib/nav';
+import { signalTheme } from '@/lib/signal-theme';
 
 const technicalKeys = new Set([
   'command',
@@ -26,8 +27,8 @@ function collectPublicText(value: unknown, key = ''): string[] {
 }
 
 describe('TraceGlass branding', () => {
-  it('keeps the canonical muted green for browser and PWA chrome', () => {
-    expect(brandVisual.themeColor).toBe('#158353');
+  it('keeps Signal teal for browser and PWA chrome', () => {
+    expect(brandVisual.themeColor).toBe(signalTheme.accent);
   });
 
   it('uses the exact product name in brand and public labels', () => {

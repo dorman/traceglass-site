@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { verificationEmail } from '@/lib/email/templates';
+import { signalTheme } from '@/lib/signal-theme';
 
 describe('verification email template', () => {
   it('explains verification and escapes the CTA URL while preserving it in plain text', () => {
@@ -15,7 +16,9 @@ describe('verification email template', () => {
     expect(email.html).toContain(
       'href="https://traceglass.example/verify?token=abc&amp;callbackURL=%2Fprofile"',
     );
-    expect(email.html).toContain('background:#158353');
+    expect(email.html).toContain(`background:${signalTheme.accent}`);
+    expect(email.html).toContain(`color:${signalTheme.matchFg}`);
+    expect(email.html).toContain(`color:${signalTheme.accentOnLight}`);
     expect(email.html).toContain('>Verify your email</a>');
     expect(email.text).toContain(
       'Verify your email address to finish setting up your TraceGlass account.',

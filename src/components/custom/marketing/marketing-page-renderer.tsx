@@ -159,7 +159,7 @@ function SectionHeading({
   return (
     <div className="flex max-w-3xl flex-col gap-3">
       {text(data, 'eyebrow') ? (
-        <span className="text-eyebrow text-brand-700 dark:text-brand-300">
+        <span className="text-eyebrow text-[color:var(--signal-accent-strong)] dark:text-[color:var(--signal-accent)]">
           <Copy
             content={content}
             section={section}
@@ -194,14 +194,14 @@ function HeroSection({ section, content }: { section: PageContentSection; conten
       ? (data.terminal as Record<string, unknown>)
       : null;
   return (
-    <section className="relative overflow-hidden border-b border-border/60 bg-gradient-to-b from-brand-900/30 via-background to-background py-12 sm:py-20 lg:py-28">
+    <section className="relative overflow-hidden border-b border-border/60 bg-gradient-to-b from-[color:var(--signal-accent)]/15 via-background to-background py-12 sm:py-20 lg:py-28">
       <div className="container-page grid items-start gap-8 sm:gap-10 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:gap-12">
         {/* Mobile: copy + primary CTA first; terminal stacks below (order-1 / order-2). */}
         <div className="order-1 flex flex-col gap-5 sm:gap-6" data-hero-copy>
           {text(data, 'eyebrow') ? (
             <Badge
               variant="outline"
-              className="w-fit border-brand-400/60 px-3 py-1 text-eyebrow text-brand-700 dark:border-brand-700 dark:text-brand-300"
+              className="w-fit border-[color:var(--signal-accent)]/60 px-3 py-1 text-eyebrow text-[color:var(--signal-accent-strong)] dark:border-[color:var(--signal-accent)]/50 dark:text-[color:var(--signal-accent)]"
             >
               <Copy
                 content={content}
@@ -386,7 +386,7 @@ function PrivacySection({
   return (
     <section className="section">
       <div className="container-page">
-        <Card className="site-design-card mx-auto max-w-3xl border-brand-400/40 bg-gradient-to-br from-brand-900/35 via-background to-background">
+        <Card className="site-design-card mx-auto max-w-3xl border-[color:var(--signal-accent)]/40 bg-gradient-to-br from-[color:var(--signal-accent)]/20 via-background to-background">
           <CardHeader className="gap-4 p-8">
             <Badge variant="outline" className="w-fit">
               Local-only
@@ -497,7 +497,7 @@ function Section({ section, content }: { section: PageContentSection; content: P
         <section className="section">
           <div className="container-page mx-auto max-w-2xl">
             <SectionHeading section={section} content={content} />
-            <div className="site-design-card mt-8 rounded-md border border-brand-400/30 bg-card p-6 shadow-lg shadow-black/20">
+            <div className="site-design-card mt-8 rounded-md border border-[color:var(--signal-accent)]/30 bg-card p-6 shadow-lg shadow-black/20">
               <WaitlistForm />
             </div>
           </div>
@@ -615,7 +615,7 @@ export function MarketingPageRenderer({
         >
           <div className="container-page max-w-4xl">
             <BrandMark className="mb-8 h-16 w-auto" priority sizes="220px" />
-            <p className="text-eyebrow font-mono text-brand-300">
+            <p className="text-eyebrow font-mono text-[color:var(--signal-accent)]">
               {preview ? 'owner / preview' : (page.sourceKey ?? 'published')} / editable content
             </p>
             <h1 className="mt-3 font-display text-display text-balance text-foreground">

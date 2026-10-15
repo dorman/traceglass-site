@@ -177,7 +177,9 @@ function WaitlistDialog({
         }}
       >
         <DialogHeader className="gap-3 text-left">
-          <p className="text-eyebrow font-mono text-[#3EE0D8]">PUBLIC LAUNCH · MID-NOVEMBER 2026</p>
+          <p className="text-eyebrow font-mono text-[color:var(--signal-accent)]">
+            PUBLIC LAUNCH · MID-NOVEMBER 2026
+          </p>
           <DialogTitle className="font-display text-h3 text-balance text-zinc-50">
             Get one email when TraceGlass launches
           </DialogTitle>
