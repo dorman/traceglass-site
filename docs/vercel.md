@@ -15,29 +15,55 @@ this agent run.
 | Install Command | `npm ci` |
 | Node.js Version | `22.x` (or ≥20.18.1 per `package.json` engines) |
 
-## Environment variables
+## Environment variables (public marketing site)
 
-Mirror production secrets from the previous TraceGlass / Polsia deploy (at
-minimum):
+Set **only** these for the redesigned site + Notion waitlist:
 
-- `DATABASE_URL`
-- `BETTER_AUTH_SECRET`
-- `BETTER_AUTH_URL` (canonical site URL)
-- `POLSIA_EMAIL_PROXY_URL`
-- `NEXT_PUBLIC_APP_URL`
+| Variable | Purpose |
+| -------- | ------- |
+| `NOTION_TOKEN` | Notion integration token (server-only) |
+| `NOTION_WAITLIST_DB_ID` | Notion database ID for waitlist rows |
+| `NEXT_PUBLIC_APP_URL` | Canonical public site URL (e.g. `https://traceglass.dev`) |
 
-Optional: `POLSIA_OWNER_EMAIL`, `POLSIA_API_*`, Stripe billing vars if used.
+With these three set, the marketing pages (`/`, `/install`, `/release`,
+`/signatures`, `/waitlist`), static `/demo`, and `POST /api/waitlist` work.
+Sign-ups are written to Notion (not Postgres).
+
+If Notion vars are missing at runtime, the waitlist API returns **503** with a
+friendly message; the rest of the site still builds and renders.
+
+### Notion waitlist database columns
+
+The waitlist route expects these properties (names are case-sensitive):
+
+| Property | Notion type | Notes |
+| -------- | ----------- | ----- |
+| `Email` | Title | Stored lowercased |
+| `Signed up` | Date | ISO timestamp of signup |
+| `Source` | Select | Written as `website` |
+| `Headline variant` | Select | `A` or `B` |
+| `Notes` | Rich text | Left empty on create |
+
+## Optional env vars (not required for the public site)
+
+These enable Polsia-era features that remain in the repo but are **gated** when
+unset (auth/admin/Stripe/CMS edits against Postgres):
+
+- `DATABASE_URL` — Prisma / Postgres
+- `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL` — login / session
+- `POLSIA_EMAIL_PROXY_URL`, `POLSIA_OWNER_EMAIL`, `POLSIA_API_*` — email + billing
+
+Without `DATABASE_URL`, marketing page bodies come from the in-repo registry
+defaults (not the `MarketingPage` table), site design uses built-in defaults,
+startup seed is skipped, and `/api/auth/*` returns 503.
 
 ## Database
 
-Run Prisma migrations on the Postgres instance before (or as part of) deploy:
+Only needed if you re-enable Postgres-backed CMS/auth:
 
 ```bash
 npx prisma migrate deploy
 ```
-
-This applies waitlist/auth migrations plus `MarketingPage` / `SiteDesign`. The
-app seed (on boot) publishes the default marketing pages.
 
 ## WASM demo on Vercel
 

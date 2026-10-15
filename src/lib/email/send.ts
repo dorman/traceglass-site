@@ -29,7 +29,11 @@ export interface SendEmailResult {
  * instead of re-deriving it and drifting.
  */
 export function proxyBaseUrl(): string {
-  return env.POLSIA_EMAIL_PROXY_URL.replace(/\/+$/, '').replace(/\/send$/, '');
+  const proxyUrl = env.POLSIA_EMAIL_PROXY_URL;
+  if (!proxyUrl) {
+    throw new Error('POLSIA_EMAIL_PROXY_URL is not configured');
+  }
+  return proxyUrl.replace(/\/+$/, '').replace(/\/send$/, '');
 }
 
 export async function sendEmail(
