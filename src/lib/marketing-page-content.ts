@@ -10,6 +10,11 @@ type SnapshotSection = {
   [key: string]: unknown;
 };
 
+/** Previous Features headline — rewrite when CMS/DB still stores the retired string. */
+export const PREVIOUS_FEATURES_HEADING =
+  "Built for the developer who already knows what they're looking for.";
+export const FEATURES_HEADING = 'Built for the people who read logs all day.';
+
 const asset = (id: string, ref: string, alt?: string) => ({
   id,
   kind: 'visual',
@@ -52,7 +57,7 @@ const homeSections: SnapshotSection[] = [
   }),
   section('features', 'features', {
     eyebrow: 'Features',
-    heading: "Built for the developer who already knows what they're looking for.",
+    heading: FEATURES_HEADING,
     body: 'No upload and no remote processing. The TUI keeps your user-controlled local keyword watchlist separate from curated built-in signatures: add a keyword or regex highlight when you choose, while built-ins produce findings without changing your saved entries.',
     items: [
       {
@@ -341,6 +346,47 @@ export function legacyMarketingPageContent(input: {
   });
 }
 
+/** Replace the retired Features headline in managed home content (seed + runtime). */
+export function rewriteFeaturesHeadline(content: unknown): {
+  content: unknown;
+  changed: boolean;
+} {
+  if (!isJsonRecord(content) || !Array.isArray(content.sections)) {
+    return { content, changed: false };
+  }
+
+  let changed = false;
+  const sections = content.sections.map((section) => {
+    if (!isJsonRecord(section) || !isJsonRecord(section.data)) return section;
+    if (section.id !== 'features' && section.kind !== 'features') return section;
+    if (section.data.heading !== PREVIOUS_FEATURES_HEADING) return section;
+    changed = true;
+    return { ...section, data: { ...section.data, heading: FEATURES_HEADING } };
+  });
+
+  if (!changed || !isJsonRecord(content.richText)) {
+    return {
+      content: changed ? { ...content, sections } : content,
+      changed,
+    };
+  }
+
+  // Rich-text overrides keyed like `features:data.heading` may still hold the old string.
+  const richText = { ...content.richText };
+  for (const [key, document] of Object.entries(richText)) {
+    if (!key.includes('features') || !key.includes('heading')) continue;
+    const serialized = JSON.stringify(document);
+    if (!serialized.includes(PREVIOUS_FEATURES_HEADING)) continue;
+    richText[key] = JSON.parse(serialized.replaceAll(PREVIOUS_FEATURES_HEADING, FEATURES_HEADING));
+    changed = true;
+  }
+
+  return {
+    content: { ...content, sections, richText },
+    changed,
+  };
+}
+
 export function normalizeMarketingPageContent(input: {
   title: string;
   body: string;
@@ -351,7 +397,8 @@ export function normalizeMarketingPageContent(input: {
 }): PageContentValue {
   const baseline = legacyMarketingPageContent(input);
   const scrubbed = scrubPublicGitHubLinks(baseline);
-  return PageContent.parse(scrubbed.content);
+  const rewritten = rewriteFeaturesHeadline(scrubbed.content);
+  return PageContent.parse(rewritten.content);
 }
 
 type JsonRecord = Record<string, unknown>;

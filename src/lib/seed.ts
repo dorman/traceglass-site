@@ -99,6 +99,7 @@ export async function seed(): Promise<void> {
     cleanupRetiredPricingContent,
     normalizeMarketingPageContent,
     reconcileGeneratedWaitlistCopy,
+    rewriteFeaturesHeadline,
     scrubPublicGitHubLinks,
   } = await import('@/lib/marketing-page-content');
 
@@ -242,14 +243,22 @@ export async function seed(): Promise<void> {
             contentChanged: false,
           };
     const scrubbed = scrubPublicGitHubLinks(cleanup.content);
-    if (!cleanup.titleChanged && !cleanup.contentChanged && !scrubbed.changed) continue;
+    const headline = rewriteFeaturesHeadline(scrubbed.content);
+    if (
+      !cleanup.titleChanged &&
+      !cleanup.contentChanged &&
+      !scrubbed.changed &&
+      !headline.changed
+    ) {
+      continue;
+    }
 
     await prisma.marketingPage.update({
       where: { id: page.id },
       data: {
         ...(cleanup.titleChanged ? { title: cleanup.title } : {}),
-        ...(cleanup.contentChanged || scrubbed.changed
-          ? { content: scrubbed.content as Prisma.InputJsonValue }
+        ...(cleanup.contentChanged || scrubbed.changed || headline.changed
+          ? { content: headline.content as Prisma.InputJsonValue }
           : {}),
       },
     });

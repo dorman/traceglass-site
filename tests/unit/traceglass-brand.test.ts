@@ -57,6 +57,10 @@ describe('TraceGlass branding', () => {
 
     expect(sections).toEqual(['hero', 'features', 'use-cases', 'workflow', 'privacy', 'faq']);
     expect(home.sections[0]?.data.heading).toBe('Local-first log triage.');
+    expect(home.sections.find((section) => section.id === 'features')?.data.heading).toBe(
+      'Built for the people who read logs all day.',
+    );
+    expect(homeCopy).not.toContain('already knows what they');
     expect(homeCopy).not.toContain('pricing');
     expect(homeCopy).not.toContain('$12');
     expect(homeCopy).not.toContain('read the signal. ignore the noise.');
