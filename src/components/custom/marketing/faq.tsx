@@ -30,7 +30,7 @@ const items = [
         installing for the current user; downloads remain disabled until those artifacts exist.{' '}
         <Link
           href="/install"
-          className="font-medium text-brand-700 underline-offset-4 hover:underline dark:text-brand-300"
+          className="font-medium text-[color:var(--signal-accent-strong)] underline-offset-4 hover:underline dark:text-[color:var(--signal-accent)]"
         >
           See the full install guide.
         </Link>{' '}
@@ -62,7 +62,7 @@ export function FAQ() {
             If yours isn&apos;t here,{' '}
             <a
               href="mailto:traceglass@polsia.app"
-              className="font-medium text-brand-700 underline-offset-4 hover:underline dark:text-brand-300"
+              className="font-medium text-[color:var(--signal-accent-strong)] underline-offset-4 hover:underline dark:text-[color:var(--signal-accent)]"
             >
               write to us
             </a>
@@ -77,7 +77,7 @@ export function FAQ() {
               value={item.q}
               className="border-b border-border/60 last:border-b-0"
             >
-              <AccordionTrigger className="py-5 text-base font-semibold text-foreground hover:no-underline hover:text-brand-700 dark:hover:text-brand-300">
+              <AccordionTrigger className="py-5 text-base font-semibold text-foreground hover:no-underline hover:text-[color:var(--signal-accent-strong)] dark:hover:text-[color:var(--signal-accent)]">
                 {item.q}
               </AccordionTrigger>
               <AccordionContent className="pb-5 text-sm leading-relaxed text-muted-foreground">

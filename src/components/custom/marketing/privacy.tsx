@@ -8,13 +8,13 @@ export function Privacy() {
   return (
     <section id="privacy" className="section">
       <div className="container-page flex justify-center">
-        <Card className="relative w-full max-w-3xl overflow-hidden border-brand-200/60 bg-gradient-to-br from-brand-50 via-background to-background dark:border-brand-800/40 dark:from-brand-900/20">
+        <Card className="relative w-full max-w-3xl overflow-hidden border-[color:var(--signal-accent)]/30 bg-gradient-to-br from-[color:var(--signal-accent)]/10 via-background to-background dark:border-[color:var(--signal-accent)]/25 dark:from-[color:var(--signal-accent)]/15">
           <span
             aria-hidden="true"
-            className="absolute -right-24 -top-24 size-64 rounded-full bg-brand-300/30 blur-3xl dark:bg-brand-500/20"
+            className="absolute -right-24 -top-24 size-64 rounded-full bg-[color:var(--signal-accent)]/20 blur-3xl dark:bg-[color:var(--signal-accent)]/15"
           />
           <CardHeader className="relative gap-4 p-8 sm:p-10">
-            <div className="flex size-12 items-center justify-center rounded-xl border border-brand-400/40 bg-background/80 text-brand-700 dark:text-brand-300">
+            <div className="flex size-12 items-center justify-center rounded-xl border border-[color:var(--signal-accent)]/40 bg-background/80 text-[color:var(--signal-accent-strong)] dark:text-[color:var(--signal-accent)]">
               <Lock aria-hidden="true" className="size-6" />
             </div>
             <CardTitle className="text-h2 font-display text-balance">
@@ -36,7 +36,10 @@ export function Privacy() {
                   key={label}
                   className="flex items-center gap-2 rounded-md border border-border/60 bg-background/60 px-3 py-2 text-sm font-medium text-foreground/80"
                 >
-                  <Icon aria-hidden="true" className="size-4 text-brand-600 dark:text-brand-400" />
+                  <Icon
+                    aria-hidden="true"
+                    className="size-4 text-[color:var(--signal-accent-strong)] dark:text-[color:var(--signal-accent)]"
+                  />
                   {label}
                 </div>
               ))}

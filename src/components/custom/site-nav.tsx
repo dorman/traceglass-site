@@ -144,7 +144,7 @@ export function SiteNav() {
       >
         <Link
           href="/"
-          className="mr-2 shrink-0 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
+          className="mr-2 shrink-0 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--signal-accent)]"
         >
           {/* Icon mark + text: the stacked PNG wordmark is illegible at h-14. */}
           <BrandMark variant="mark" showWordmark priority sizes="120px" />
@@ -160,8 +160,8 @@ export function SiteNav() {
                 variant="ghost"
                 size="sm"
                 className={cn(
-                  'site-design-nav-link text-zinc-300 hover:bg-zinc-900 hover:text-brand-300',
-                  isActive(slot.item.href) && 'bg-zinc-900 text-brand-300',
+                  'site-design-nav-link text-zinc-300 hover:bg-zinc-900 hover:text-[color:var(--signal-accent)]',
+                  isActive(slot.item.href) && 'bg-zinc-900 text-[color:var(--signal-accent)]',
                 )}
               >
                 <Link
@@ -178,8 +178,8 @@ export function SiteNav() {
                     variant="ghost"
                     size="sm"
                     className={cn(
-                      'site-design-nav-link text-zinc-300 hover:bg-zinc-900 hover:text-brand-300',
-                      isSlotActive(slot) && 'bg-zinc-900 text-brand-300',
+                      'site-design-nav-link text-zinc-300 hover:bg-zinc-900 hover:text-[color:var(--signal-accent)]',
+                      isSlotActive(slot) && 'bg-zinc-900 text-[color:var(--signal-accent)]',
                     )}
                   >
                     {slot.label}
@@ -194,7 +194,7 @@ export function SiteNav() {
                     <DropdownMenuItem
                       key={item.href}
                       asChild
-                      className="focus:bg-zinc-800 focus:text-brand-300"
+                      className="focus:bg-zinc-800 focus:text-[color:var(--signal-accent)]"
                     >
                       <Link
                         href={item.href}
@@ -217,8 +217,8 @@ export function SiteNav() {
                   variant="ghost"
                   size="sm"
                   className={cn(
-                    'site-design-nav-link text-zinc-300 hover:bg-zinc-900 hover:text-brand-300',
-                    overflow.some(isSlotActive) && 'bg-zinc-900 text-brand-300',
+                    'site-design-nav-link text-zinc-300 hover:bg-zinc-900 hover:text-[color:var(--signal-accent)]',
+                    overflow.some(isSlotActive) && 'bg-zinc-900 text-[color:var(--signal-accent)]',
                   )}
                 >
                   More
@@ -241,7 +241,7 @@ export function SiteNav() {
                       {slot.type === 'link' ? (
                         <DropdownMenuItem
                           asChild
-                          className="focus:bg-zinc-800 focus:text-brand-300"
+                          className="focus:bg-zinc-800 focus:text-[color:var(--signal-accent)]"
                         >
                           <Link
                             href={slot.item.href}
@@ -257,7 +257,7 @@ export function SiteNav() {
                             <DropdownMenuItem
                               key={item.href}
                               asChild
-                              className="focus:bg-zinc-800 focus:text-brand-300"
+                              className="focus:bg-zinc-800 focus:text-[color:var(--signal-accent)]"
                             >
                               <Link
                                 href={item.href}
@@ -340,7 +340,8 @@ export function SiteNav() {
                         variant="ghost"
                         className={cn(
                           'site-design-nav-link w-full justify-start',
-                          isActive(slot.item.href) && 'bg-zinc-900 text-brand-300',
+                          isActive(slot.item.href) &&
+                            'bg-zinc-900 text-[color:var(--signal-accent)]',
                         )}
                       >
                         <Link
@@ -363,7 +364,8 @@ export function SiteNav() {
                             variant="ghost"
                             className={cn(
                               'site-design-nav-link w-full justify-start pl-6',
-                              isActive(item.href) && 'bg-zinc-900 text-brand-300',
+                              isActive(item.href) &&
+                                'bg-zinc-900 text-[color:var(--signal-accent)]',
                             )}
                           >
                             <Link
@@ -412,7 +414,7 @@ export function SiteFooter() {
       >
         <Link
           href="/"
-          className="mr-3 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
+          className="mr-3 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--signal-accent)]"
         >
           <BrandMark variant="mark" showWordmark sizes="120px" />
         </Link>
@@ -422,7 +424,7 @@ export function SiteFooter() {
             asChild
             variant="link"
             size="sm"
-            className="text-zinc-400 hover:text-brand-300"
+            className="text-zinc-400 hover:text-[color:var(--signal-accent)]"
           >
             <Link href={item.href}>{item.label}</Link>
           </Button>
