@@ -96,7 +96,7 @@ test('public pages no longer publish the retired paid offer', async ({ page }) =
   await expect(page.locator('body')).not.toContainText('Subscribe via Stripe');
   for (const width of [1280, 375]) {
     await page.setViewportSize({ width, height: 850 });
-    if (width < 768) await page.getByRole('button', { name: 'Open menu' }).click();
+    // Notify me stays in the top bar at every breakpoint (not only the mobile sheet).
     await expect(page.getByRole('button', { name: 'Notify me' })).toBeVisible();
     await expect(page.locator('a[href*="github.com/dorman"]')).toHaveCount(0);
     await expect(page.locator('body')).not.toContainText(/\$\s*\d/);
