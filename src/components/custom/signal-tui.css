@@ -1,0 +1,2 @@
+/* Re-export shared Signal TUI chrome (kept for any direct imports). */
+@import "../../../shared/signal-tui.css";

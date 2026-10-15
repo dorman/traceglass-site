@@ -1,0 +1,120 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+permissions: {}
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  site:
+    name: Site (lint, typecheck, test, build)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      SKIP_ENV_VALIDATION: "1"
+      NEXT_TELEMETRY_DISABLED: "1"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Build
+        env:
+          # Dummy values satisfy @t3-oss when SKIP_ENV_VALIDATION is unset in build plugins.
+          DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/traceglass_ci
+          BETTER_AUTH_SECRET: ci-only-secret-not-for-production-use
+          BETTER_AUTH_URL: http://localhost:3000
+          POLSIA_EMAIL_PROXY_URL: http://127.0.0.1:43987
+          NEXT_PUBLIC_APP_URL: http://localhost:3000
+          SKIP_ENV_VALIDATION: "1"
+        run: npm run build
+
+  wasm-demo:
+    name: WASM demo (build + Playwright)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      CARGO_TERM_COLOR: always
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@4cda84d5c5c54efe2404f9d843567869ab1699d4 # stable
+        with:
+          toolchain: stable
+          targets: wasm32-unknown-unknown
+
+      - name: Install wasm-pack
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+
+      - name: Fetch pinned engine
+        run: bash scripts/fetch-engine.sh
+
+      - name: Cache cargo
+        uses: Swatinem/rust-cache@c19371144df3bb44fab255c43d04cbc2ab54d1c4 # v2.9.1
+        with:
+          workspaces: |
+            engine
+            engine/wasm
+          shared-key: wasm-demo
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: web-demo/package-lock.json
+
+      - name: Install web-demo deps
+        working-directory: web-demo
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        working-directory: web-demo
+        run: npx playwright install --with-deps chromium
+
+      - name: Build wasm + static demo
+        working-directory: web-demo
+        run: npm run build
+
+      - name: Headless demo tests
+        working-directory: web-demo
+        run: npx playwright test
+
+      - name: Upload demo artifacts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: wasm-demo-artifacts
+          path: |
+            web-demo/artifacts/
+            web-demo/pkg/wasm-size-*.txt
+          if-no-files-found: warn
