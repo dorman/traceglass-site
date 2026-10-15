@@ -222,13 +222,12 @@ test('Notify Me validates and surfaces waitlist API field errors without Postgre
   const guestEmail = `notify-${randomUUID()}@example.test`;
   await page.getByLabel('Email address').fill(guestEmail);
   await page.getByRole('checkbox').uncheck();
-  responsePromise = page.waitForResponse(
-    (response) =>
-      response.request().method() === 'POST' &&
-      new URL(response.url()).pathname === '/api/waitlist',
+  // Unchecked consent keeps the submit control aria-disabled and validates inline (no API call).
+  await expect(page.getByRole('button', { name: 'Notify me when available' })).toHaveAttribute(
+    'aria-disabled',
+    'true',
   );
-  await page.getByRole('button', { name: 'Notify me when available' }).click();
-  expect((await responsePromise).status()).toBe(400);
+  await page.locator('form').evaluate((form) => (form as HTMLFormElement).requestSubmit());
   await expect(page.getByText('Please confirm you want launch updates.')).toBeVisible();
 
   await page.getByRole('checkbox').check();

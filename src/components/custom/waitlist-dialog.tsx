@@ -8,6 +8,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from 'react';
 import { WaitlistForm } from '@/components/custom/waitlist-form';
@@ -20,13 +21,14 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
+import { WAITLIST_PRIMARY_BUTTON_CLASS } from '@/lib/waitlist/ui';
 
 /** Marketing href that opens the shared waitlist dialog instead of navigating. */
 export const JOIN_WAITLIST_HREF = '#join-waitlist';
 
 type WaitlistDialogContextValue = {
   open: boolean;
-  openWaitlist: () => void;
+  openWaitlist: (trigger?: HTMLElement | null) => void;
   closeWaitlist: () => void;
 };
 
@@ -48,10 +50,55 @@ export function isJoinWaitlistHref(href: string): boolean {
   return href === JOIN_WAITLIST_HREF || href === 'waitlist:' || href === '#waitlist';
 }
 
+function clearJoinWaitlistHash() {
+  if (typeof window === 'undefined') return;
+  if (!isJoinWaitlistHref(window.location.hash)) return;
+  const url = `${window.location.pathname}${window.location.search}`;
+  window.history.replaceState(null, '', url);
+}
+
 export function WaitlistDialogProvider({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
-  const openWaitlist = useCallback(() => setOpen(true), []);
-  const closeWaitlist = useCallback(() => setOpen(false), []);
+  const triggerRef = useRef<HTMLElement | null>(null);
+
+  const openWaitlist = useCallback((trigger?: HTMLElement | null) => {
+    const active =
+      trigger ?? (document.activeElement instanceof HTMLElement ? document.activeElement : null);
+    triggerRef.current = active;
+    setOpen(true);
+  }, []);
+
+  const closeWaitlist = useCallback(() => {
+    setOpen(false);
+  }, []);
+
+  const handleOpenChange = useCallback((next: boolean) => {
+    setOpen(next);
+    if (!next) {
+      clearJoinWaitlistHash();
+      const trigger = triggerRef.current;
+      triggerRef.current = null;
+      if (trigger) {
+        requestAnimationFrame(() => {
+          trigger.focus();
+        });
+      }
+    }
+  }, []);
+
+  // Deep-link from static /demo (and other pages): /#join-waitlist opens this dialog.
+  useEffect(() => {
+    const syncFromHash = () => {
+      if (isJoinWaitlistHref(window.location.hash)) {
+        openWaitlist();
+        clearJoinWaitlistHash();
+      }
+    };
+    syncFromHash();
+    window.addEventListener('hashchange', syncFromHash);
+    return () => window.removeEventListener('hashchange', syncFromHash);
+  }, [openWaitlist]);
+
   const value = useMemo(
     () => ({ open, openWaitlist, closeWaitlist }),
     [open, openWaitlist, closeWaitlist],
@@ -60,7 +107,7 @@ export function WaitlistDialogProvider({ children }: { children: ReactNode }) {
   return (
     <WaitlistDialogContext.Provider value={value}>
       {children}
-      <WaitlistDialog open={open} onOpenChange={setOpen} />
+      <WaitlistDialog open={open} onOpenChange={handleOpenChange} />
     </WaitlistDialogContext.Provider>
   );
 }
@@ -70,6 +117,7 @@ export function JoinWaitlistButton({
   className,
   variant = 'default',
   size = 'lg',
+  onClick,
   ...props
 }: React.ComponentProps<typeof Button>) {
   const dialog = useOptionalWaitlistDialog();
@@ -78,8 +126,12 @@ export function JoinWaitlistButton({
       type="button"
       variant={variant}
       size={size}
-      className={className}
-      onClick={() => dialog?.openWaitlist()}
+      className={cn(WAITLIST_PRIMARY_BUTTON_CLASS, className)}
+      onClick={(event) => {
+        onClick?.(event);
+        if (event.defaultPrevented) return;
+        dialog?.openWaitlist(event.currentTarget);
+      }}
       {...props}
     >
       {children}
@@ -117,16 +169,14 @@ function WaitlistDialog({
         }}
       >
         <DialogHeader className="gap-3 text-left">
-          <p className="text-eyebrow font-mono text-[#3EE0D8]">Public launch · mid-November 2026</p>
+          <p className="text-eyebrow font-mono text-[#3EE0D8]">PUBLIC LAUNCH · MID-NOVEMBER 2026</p>
           <DialogTitle className="font-display text-h3 text-balance text-zinc-50">
             Get one email when TraceGlass launches
           </DialogTitle>
           <DialogDescription className="text-sm leading-relaxed text-zinc-400 sm:text-[0.95rem]">
-            TraceGlass is a local-first log triage tool for support specialists who dig through
-            noisy diagnostic files. We are getting ready for a public launch and collecting a
-            waitlist to understand demand. This is not early access — we will email you once when
-            TraceGlass officially releases, around mid-November. We only use your email for that
-            launch note and will not share it.
+            TraceGlass is a local-first log triage tool. We&apos;re gauging interest ahead of a
+            public launch around mid-November, and we&apos;ll email you once when it ships. No early
+            access, no newsletter, and your email is never shared.
           </DialogDescription>
         </DialogHeader>
         <div className="mt-2 rounded-md border border-zinc-800 bg-zinc-950/80 p-4 sm:p-5">
@@ -135,9 +185,7 @@ function WaitlistDialog({
             consentLabel="I agree that TraceGlass may email me once when it publicly launches. My email is only used for that note and is never shared."
             successMessage="You're on the launch list. We'll send one email around mid-November when TraceGlass is publicly available. We only keep your email for that note."
             submitLabel="Join the waitlist"
-            onSuccess={() => {
-              // Keep the dialog open so the success state is visible.
-            }}
+            footerNote="Your logs are never uploaded."
           />
         </div>
         <p className="text-xs leading-relaxed text-zinc-500">

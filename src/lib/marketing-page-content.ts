@@ -41,7 +41,7 @@ const homeSections: SnapshotSection[] = [
     ],
     stats: [
       { value: '100%', label: 'runs locally' },
-      { value: '0', label: 'bytes uploaded' },
+      { value: '0', label: 'log bytes uploaded' },
       { value: '1 click', label: 'beta install path' },
     ],
     terminal: {

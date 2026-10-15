@@ -178,9 +178,10 @@ test("page CTAs and privacy copy are present", async ({ page }) => {
   const waitlist = page.getByRole("link", { name: "Join the waitlist" });
   const home = page.getByRole("link", { name: "Back to TraceGlass" });
   await expect(waitlist).toHaveClass(/primary/);
-  await expect(waitlist).toHaveAttribute("href", "/waitlist");
+  await expect(waitlist).toHaveAttribute("href", "/#join-waitlist");
   await expect(home).toHaveClass(/ghost/);
   await expect(page.locator("a[href*='github.com/dorman']")).toHaveCount(0);
+  await expect(page.getByRole("link", { name: /github/i })).toHaveCount(0);
   await expect(page.getByText("Technical details")).toBeVisible();
   await expect(page.locator("#caps")).toBeHidden();
   await page.getByText("Technical details").click();

@@ -6,6 +6,8 @@ import { JoinWaitlistButton } from '@/components/custom/waitlist-dialog';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
+import { WAITLIST_PRIMARY_BUTTON_CLASS } from '@/lib/waitlist/ui';
 
 export function InstallGuide() {
   return (
@@ -29,7 +31,9 @@ export function InstallGuide() {
           </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-wrap gap-3">
-          <JoinWaitlistButton className="h-11 border-[#3EE0D8] bg-[#3EE0D8] px-6 text-sm font-semibold text-[#0B0F14] shadow-none hover:bg-[#3EE0D8]/brightness-105 hover:text-[#0B0F14]">
+          <JoinWaitlistButton
+            className={cn('h-11 px-6 text-sm font-semibold', WAITLIST_PRIMARY_BUTTON_CLASS)}
+          >
             Join the waitlist
           </JoinWaitlistButton>
           <Button asChild variant="outline" size="lg" className="h-11 px-5 text-sm font-semibold">

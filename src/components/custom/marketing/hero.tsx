@@ -9,6 +9,8 @@ import { Terminal } from '@/components/custom/terminal';
 import { JoinWaitlistButton } from '@/components/custom/waitlist-dialog';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+import { WAITLIST_PRIMARY_BUTTON_CLASS } from '@/lib/waitlist/ui';
 
 export function Hero() {
   return (
@@ -52,7 +54,7 @@ export function Hero() {
           <div className="flex flex-wrap items-center gap-3">
             <JoinWaitlistButton
               size="lg"
-              className="h-11 border-[#3EE0D8] bg-[#3EE0D8] px-6 text-sm font-semibold text-[#0B0F14] shadow-none hover:bg-[#3EE0D8]/brightness-105 hover:text-[#0B0F14]"
+              className={cn('h-11 px-6 text-sm font-semibold', WAITLIST_PRIMARY_BUTTON_CLASS)}
             >
               Join the waitlist
             </JoinWaitlistButton>
@@ -89,7 +91,7 @@ export function Hero() {
             </div>
             <div className="flex flex-col gap-0.5">
               <span className="text-h4 font-semibold text-foreground">0</span>
-              <span className="text-caption">bytes uploaded</span>
+              <span className="text-caption">log bytes uploaded</span>
             </div>
             <div className="flex flex-col gap-0.5">
               <span className="text-h4 font-semibold text-foreground">1 email</span>

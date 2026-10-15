@@ -9,9 +9,12 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { apiFetch } from '@/lib/api-client';
+import { cn } from '@/lib/utils';
 import type { HeadlineVariant } from '@/lib/waitlist/schema';
+import { WAITLIST_PRIMARY_BUTTON_CLASS } from '@/lib/waitlist/ui';
 
 const HEADLINE_VARIANT_KEY = 'tg_headline_variant';
+const CONSENT_REQUIRED = 'Please confirm you want launch updates.';
 
 function readHeadlineVariant(): HeadlineVariant {
   if (typeof window === 'undefined') return 'A';
@@ -32,6 +35,8 @@ export type WaitlistFormProps = {
   consentLabel?: string;
   successMessage?: string;
   submitLabel?: string;
+  /** Extra note rendered under the submit button (dialog trust line). */
+  footerNote?: string;
   onSuccess?: () => void;
 };
 
@@ -43,6 +48,7 @@ export function WaitlistForm({
   consentLabel = 'I agree that TraceGlass may email me once when it publicly launches around mid-November. Signing up does not start a subscription. My email is never shared.',
   successMessage = "You're on the launch list. We'll send one email when TraceGlass is publicly available around mid-November 2026. We only keep your email for that note — no logs, source code, or filenames reach us.",
   submitLabel = 'Notify me when available',
+  footerNote,
   onSuccess,
 }: WaitlistFormProps = {}) {
   const reactId = useId();
@@ -50,6 +56,7 @@ export function WaitlistForm({
   const emailId = `waitlist-email-${prefix}`;
   const consentId = `waitlist-consent-${prefix}`;
   const companyId = `waitlist-company-${prefix}`;
+  const consentErrorId = `waitlist-consent-error-${prefix}`;
 
   const [email, setEmail] = useState('');
   const [consent, setConsent] = useState(false);
@@ -65,6 +72,10 @@ export function WaitlistForm({
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (!consent) {
+      setErrors({ consent: CONSENT_REQUIRED });
+      return;
+    }
     setPending(true);
     setErrors({});
     // apiFetch resolves on 2xx and throws on non-2xx with the parsed body on
@@ -99,9 +110,12 @@ export function WaitlistForm({
 
   if (ok) {
     return (
-      <output className="flex flex-col items-start gap-3 rounded-lg border border-brand-300/60 bg-brand-50/40 p-5 dark:border-brand-700/60 dark:bg-brand-900/30">
+      <output
+        className="flex flex-col items-start gap-3 rounded-lg border border-[#3EE0D8]/40 bg-[#3EE0D8]/10 p-5"
+        aria-live="polite"
+      >
         <div className="flex items-center gap-2">
-          <CheckCircle2 aria-hidden="true" className="size-5 text-brand-600 dark:text-brand-400" />
+          <CheckCircle2 aria-hidden="true" className="size-5 text-[#3EE0D8]" />
           <p className="text-base font-semibold text-foreground">You&apos;re on the list.</p>
         </div>
         <p className="text-sm text-muted-foreground">{successMessage}</p>
@@ -124,7 +138,11 @@ export function WaitlistForm({
           aria-invalid={errors.email ? true : undefined}
           autoComplete="email"
         />
-        {errors.email ? <p className="text-sm text-destructive">{errors.email}</p> : null}
+        {errors.email ? (
+          <p className="text-sm text-destructive" role="alert">
+            {errors.email}
+          </p>
+        ) : null}
       </div>
 
       {/* Honeypot — hidden from users; bots that fill it get a fake success. */}
@@ -147,8 +165,15 @@ export function WaitlistForm({
             id={consentId}
             name="consent"
             checked={consent}
-            onCheckedChange={(state) => setConsent(state === true)}
+            onCheckedChange={(state) => {
+              const next = state === true;
+              setConsent(next);
+              if (next) {
+                setErrors((prev) => ({ ...prev, consent: undefined }));
+              }
+            }}
             aria-invalid={errors.consent ? true : undefined}
+            aria-describedby={errors.consent ? consentErrorId : undefined}
             className="mt-0.5"
           />
           <Label
@@ -158,12 +183,33 @@ export function WaitlistForm({
             {consentLabel}
           </Label>
         </div>
-        {errors.consent ? <p className="text-sm text-destructive">{errors.consent}</p> : null}
+        {errors.consent ? (
+          <p id={consentErrorId} className="text-sm text-destructive" role="alert">
+            {errors.consent}
+          </p>
+        ) : null}
       </div>
 
-      <Button type="submit" disabled={pending} className="w-full">
+      <Button
+        type="submit"
+        disabled={pending}
+        aria-disabled={!consent || pending}
+        className={cn(
+          'w-full font-semibold',
+          WAITLIST_PRIMARY_BUTTON_CLASS,
+          !consent && !pending && 'opacity-50',
+        )}
+        onClick={(event) => {
+          if (!consent) {
+            event.preventDefault();
+            setErrors((prev) => ({ ...prev, consent: CONSENT_REQUIRED }));
+          }
+        }}
+      >
         {pending ? 'Sending request…' : submitLabel}
       </Button>
+
+      {footerNote ? <p className="text-sm font-medium text-[#3EE0D8]">{footerNote}</p> : null}
     </form>
   );
 }

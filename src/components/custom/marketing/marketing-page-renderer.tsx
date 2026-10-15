@@ -23,6 +23,7 @@ import {
   type SectionLayoutPreset,
 } from '@/lib/contracts/pages';
 import { signalTheme } from '@/lib/signal-theme';
+import { WAITLIST_PRIMARY_BUTTON_CLASS } from '@/lib/waitlist/ui';
 
 const layoutClassNames: Record<SectionLayoutPreset, string> = {
   'one-column': 'grid-cols-1',
@@ -235,7 +236,7 @@ function HeroSection({ section, content }: { section: PageContentSection; conten
                   variant={index === 0 ? 'default' : index === 1 ? 'ghost' : 'outline'}
                   className={
                     index === 0
-                      ? 'h-11 border-[#3EE0D8] bg-[#3EE0D8] px-6 text-sm font-semibold text-[#0B0F14] shadow-none hover:bg-[#3EE0D8]/brightness-105 hover:text-[#0B0F14]'
+                      ? `h-11 px-6 text-sm font-semibold ${WAITLIST_PRIMARY_BUTTON_CLASS}`
                       : 'h-11 px-5 text-sm font-semibold'
                   }
                 >

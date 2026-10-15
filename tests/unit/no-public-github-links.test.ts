@@ -63,7 +63,8 @@ describe('public site has no dorman/traceglass GitHub links', () => {
       const html = readFileSync(join(process.cwd(), relative), 'utf8');
       expect(html).not.toMatch(GITHUB_DORMAN);
       expect(html).toContain('Join the waitlist');
-      expect(html).toContain('href="/waitlist"');
+      expect(html).toContain('href="/#join-waitlist"');
+      expect(html).not.toMatch(/View on GitHub|Open on GitHub|Star on GitHub/i);
     }
   });
 });

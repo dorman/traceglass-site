@@ -25,6 +25,7 @@ import { usePageOwner } from '@/hooks/use-page-owner';
 import { useIsAdmin, useSession } from '@/lib/auth-client';
 import { type NavGroup, type NavItem, navItems } from '@/lib/nav';
 import { cn } from '@/lib/utils';
+import { WAITLIST_PRIMARY_BUTTON_CLASS } from '@/lib/waitlist/ui';
 
 function useIsAuthenticated(): boolean {
   const { data } = useSession();
@@ -286,8 +287,8 @@ export function SiteNav() {
                   key={item.href}
                   type="button"
                   size="sm"
-                  className="border-[#3EE0D8] bg-[#3EE0D8] text-[#0B0F14] shadow-none hover:bg-[#3EE0D8]/brightness-105 hover:text-[#0B0F14]"
-                  onClick={() => waitlistDialog.openWaitlist()}
+                  className={cn(WAITLIST_PRIMARY_BUTTON_CLASS, 'font-semibold')}
+                  onClick={(event) => waitlistDialog.openWaitlist(event.currentTarget)}
                 >
                   {item.label}
                 </Button>
@@ -296,7 +297,7 @@ export function SiteNav() {
                   key={item.href}
                   asChild
                   size="sm"
-                  className="border-[#3EE0D8] bg-[#3EE0D8] text-[#0B0F14] shadow-none hover:bg-[#3EE0D8]/brightness-105 hover:text-[#0B0F14]"
+                  className={cn(WAITLIST_PRIMARY_BUTTON_CLASS, 'font-semibold')}
                 >
                   <Link href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
                     {item.label}
