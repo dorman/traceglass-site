@@ -103,7 +103,8 @@ html[data-site-design="active"] .dark {
 
 html[data-site-design="active"] .site-design-page .text-eyebrow,
 html[data-site-design="active"] .site-design-page [class*="text-brand-"] {
-  color: var(--site-accent);
+  /* Eyebrows use full Signal teal (not the dim secondary) so marketing chrome matches CTAs. */
+  color: var(--signal-accent);
 }
 
 html[data-site-design="active"] .site-design-page ::selection {
