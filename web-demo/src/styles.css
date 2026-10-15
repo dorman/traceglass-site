@@ -282,6 +282,11 @@ main.shell > * {
   color: var(--signal-text-dim);
 }
 
+/* Idle placeholder — dim but AA (≥4.5:1) on Signal bg #0F1117. */
+.signal-tui__body .line-placeholder {
+  color: #7b8294;
+}
+
 .signal-tui__body .line-find {
   color: var(--signal-sev-high);
 }
