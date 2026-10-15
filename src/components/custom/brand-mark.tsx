@@ -20,6 +20,30 @@ const iconMark = {
   height: 128,
 } as const;
 
+/**
+ * Wordmark color treatment. Flip to `'split'` for Option B
+ * (Trace = site light text, Glass = Signal teal). Default `'unified'` = Option A
+ * (entire "TraceGlass" in Signal teal).
+ */
+export const WORDMARK_COLOR_VARIANT: 'unified' | 'split' = 'unified';
+
+/** Signal teal — CSS token shared with waitlist primary CTA (`--signal-accent`). */
+const WORDMARK_TEAL_CLASS = 'text-[color:var(--signal-accent)]';
+/** Site light text token used by marketing chrome. */
+const WORDMARK_LIGHT_CLASS = 'text-[color:var(--site-text)]';
+
+function WordmarkText() {
+  if (WORDMARK_COLOR_VARIANT === 'split') {
+    return (
+      <>
+        <span className={WORDMARK_LIGHT_CLASS}>Trace</span>
+        <span className={WORDMARK_TEAL_CLASS}>Glass</span>
+      </>
+    );
+  }
+  return <span className={WORDMARK_TEAL_CLASS}>TraceGlass</span>;
+}
+
 export function BrandMark({
   className,
   priority = false,
@@ -56,8 +80,7 @@ export function BrandMark({
 
   if (!showWordmark) return image;
 
-  // Visible wordmark mirrors the logo palette; aria-hidden so screen readers
-  // only hear the image alt ("TraceGlass") once.
+  // Visible wordmark; aria-hidden so screen readers only hear the image alt once.
   return (
     <span className="inline-flex items-center gap-2">
       {image}
@@ -65,8 +88,7 @@ export function BrandMark({
         aria-hidden="true"
         className="select-none text-base font-semibold tracking-tight sm:text-lg"
       >
-        <span className="text-zinc-50">Trace</span>
-        <span className="text-brand-400">Glass</span>
+        <WordmarkText />
       </span>
     </span>
   );

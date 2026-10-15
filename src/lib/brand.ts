@@ -1,6 +1,8 @@
 // @polsia:user-owned — brand identity. Edit freely. `site.ts` re-exports
 // siteName/siteDescription; `manifest.ts` + `opengraph-image.tsx` read `brandVisual`.
 
+import { signalTheme } from '@/lib/signal-theme';
+
 export const siteName = 'TraceGlass';
 export const siteDescription =
   'Rust-native local log triage for support specialists — add keyword or regex highlights to a local watchlist, while curated built-in signatures scan Splunk, Docker, and Windows event logs. No AI or network access required.';
@@ -15,7 +17,8 @@ export const brandVisual = {
   /** Social-share (OG/Twitter) image. */
   og: {
     background: '#050706',
-    foreground: '#f3fff9',
+    /** Wordmark text on the OG card — Signal teal (same as waitlist primary CTA). */
+    foreground: signalTheme.accent,
     /** Second line under the site name; '' hides it. */
     tagline: 'Local-first log triage for support specialists',
   },
