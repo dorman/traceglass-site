@@ -9,6 +9,7 @@ import { InstallGuide } from '@/components/custom/marketing/install-guide';
 import { RichTextContent } from '@/components/custom/marketing/rich-text-content';
 import { SampleLogDemo } from '@/components/custom/marketing/sample-log-demo';
 import { SignaturesPreview } from '@/components/custom/marketing/signatures-preview';
+import { isJoinWaitlistHref, JoinWaitlistButton } from '@/components/custom/waitlist-dialog';
 import { WaitlistForm } from '@/components/custom/waitlist-form';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -124,13 +125,21 @@ function LinkButton({
   variant?: 'default' | 'outline' | 'ghost';
   className?: string;
 }) {
-  const link = href.startsWith('/') ? (
-    <Link href={href}>{children}</Link>
-  ) : (
-    <a href={href} target="_blank" rel="noreferrer">
-      {children}
-    </a>
-  );
+  if (isJoinWaitlistHref(href)) {
+    return (
+      <JoinWaitlistButton variant={variant} size="lg" className={className}>
+        {children}
+      </JoinWaitlistButton>
+    );
+  }
+  const link =
+    href.startsWith('/') || href.startsWith('#') ? (
+      <Link href={href}>{children}</Link>
+    ) : (
+      <a href={href} target="_blank" rel="noreferrer">
+        {children}
+      </a>
+    );
   return (
     <Button asChild variant={variant} size="lg" className={className}>
       {link}

@@ -2,8 +2,6 @@
 // the sitemap. Edit it as pages are added or removed.
 // This list is a convenience, not module registration.
 
-import { canonicalRepositoryUrl } from '@/lib/repository';
-
 export type NavGroup = 'primary' | 'secondary' | 'footer';
 
 export interface NavItem {
@@ -39,6 +37,8 @@ export const navItems: NavItem[] = [
   { label: 'Sources', href: '/#sources', group: 'primary', order: 3 },
   { label: 'Try in browser', href: '/demo', group: 'primary', order: 4 },
   { label: 'FAQ', href: '/#faq', group: 'primary', order: 5 },
+  // Secondary waitlist CTA opens the shared dialog (see SiteNav); href kept for
+  // sitemap/llms consumers and as a progressive-enhancement fallback.
   { label: 'Notify me', href: '/waitlist', group: 'secondary', order: 2 },
   {
     label: 'Manage pages',
@@ -55,7 +55,7 @@ export const navItems: NavItem[] = [
     order: 4,
   },
   { label: 'Contact', href: 'mailto:traceglass@polsia.app', group: 'footer', order: 1 },
-  { label: 'Open source', href: canonicalRepositoryUrl, group: 'footer', order: 2 },
+  { label: 'Waitlist', href: '/waitlist', group: 'footer', order: 2 },
   { label: 'Release notes', href: '/release', group: 'footer', order: 3 },
   { label: 'Signatures', href: '/signatures', group: 'footer', order: 4 },
   { label: 'Install', href: '/install', group: 'footer' },

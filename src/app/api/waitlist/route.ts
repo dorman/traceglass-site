@@ -12,10 +12,9 @@ import {
   createWaitlistEntry,
   findWaitlistEmail,
   getNotionWaitlistConfig,
-  type HeadlineVariant,
 } from '@/lib/waitlist/notion';
 import { allowWaitlistRequest, clientIpFromRequest } from '@/lib/waitlist/rate-limit';
-import { waitlistSchema } from '@/lib/waitlist/schema';
+import { type HeadlineVariant, waitlistSchema } from '@/lib/waitlist/schema';
 
 export const dynamic = 'force-dynamic';
 

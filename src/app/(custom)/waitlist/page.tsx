@@ -1,16 +1,16 @@
-// @polsia:user-owned — metadata shell for the public TraceGlass paid-plan updates page.
+// @polsia:user-owned — metadata shell for the public TraceGlass launch waitlist page.
 import type { Metadata } from 'next';
 import { ExistingPageSurface } from '@/components/custom/marketing/existing-page-surface';
 
 export const metadata: Metadata = {
-  title: 'TraceGlass paid plan updates',
+  title: 'TraceGlass launch waitlist',
   description:
-    'A paid TraceGlass plan is planned, but it isn’t available yet. Request one email update; signup does not start a subscription. Target launch date: November 15, 2026.',
+    'Join the TraceGlass launch waitlist. Local-first log triage for support specialists — one email at public launch around mid-November 2026. Not early access.',
   alternates: { canonical: '/waitlist' },
   openGraph: {
-    title: 'TraceGlass paid plan updates',
+    title: 'TraceGlass launch waitlist',
     description:
-      'A paid TraceGlass plan is planned, but it isn’t available yet. Request one email update; signup does not start a subscription. Target launch date: November 15, 2026.',
+      'Join the TraceGlass launch waitlist. Local-first log triage for support specialists — one email at public launch around mid-November 2026. Not early access.',
     url: '/waitlist',
   },
 };

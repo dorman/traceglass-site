@@ -35,9 +35,9 @@ const homeSections: SnapshotSection[] = [
     heading: 'Local-first log triage.',
     body: 'Open a diagnostic file in the TUI, or pipe logs through a machine mode. TraceGlass keeps source lines visible while it ranks signals across Splunk, Docker, Kubernetes, databases, and endpoint collections.',
     links: [
-      { label: 'Install TraceGlass', href: '/install' },
+      { label: 'Join the waitlist', href: '#join-waitlist' },
       { label: 'How it works', href: '#workflow' },
-      { label: 'Open on GitHub', href: 'https://github.com/dorman/traceglass' },
+      { label: 'Try in browser', href: '/demo' },
     ],
     stats: [
       { value: '100%', label: 'runs locally' },
@@ -183,7 +183,7 @@ const homeSections: SnapshotSection[] = [
       {
         question: 'What is the beta install method?',
         answer:
-          'The TraceGlass one-click installer is the planned beta path for supported Linux glibc x86_64, macOS Apple silicon, macOS Intel, and Windows x86_64 targets. It will verify a signed manifest and payload before installing for the current user. Downloads remain disabled until a real release is published; contributors can build from a clone in the meantime.',
+          'The TraceGlass one-click installer is the planned path for supported Linux glibc x86_64, macOS Apple silicon, macOS Intel, and Windows x86_64 targets. It will verify a signed manifest and payload before installing for the current user. Installers stay unpublished until the public launch around mid-November 2026 — join the waitlist to get one email when they are available.',
       },
       {
         question: 'What about regex highlights and watchlists?',
@@ -208,44 +208,40 @@ const snapshots: Record<string, PageContentValue> = {
   install: PageContent.parse({
     version: 1,
     sections: [
-      section('install-guide', 'install-guide', {
-        eyebrow: 'Install guide',
-        heading: 'From source checkout to diagnostic review.',
-        body: 'The TraceGlass one-click beta installer will verify the signed release, install for the current user, and open the same interactive TUI. It is not enabled until real artifacts are published; Cargo/source remains the technical fallback.',
+      section('install-hero', 'hero', {
+        eyebrow: 'Coming soon · mid-November 2026',
+        heading: 'Installers arrive at launch.',
+        body: 'TraceGlass is a local-first log triage tool getting ready for its public launch. We are collecting a waitlist to understand demand — not early access. Join and we will email you once when installers are officially available.',
         links: [
-          { label: 'Check release status', href: 'https://github.com/dorman/traceglass/releases' },
+          { label: 'Join the waitlist', href: '#join-waitlist' },
+          { label: 'Try the browser demo', href: '/demo' },
           { label: 'Read release notes', href: '/release' },
         ],
       }),
+      section('install-coming-soon', 'cta', {
+        eyebrow: 'Coming soon',
+        heading: 'No downloads yet — we will email you at launch.',
+        body: 'Signed one-click installers for Linux, macOS, and Windows stay unpublished until the public launch around mid-November 2026. We only use your email for that one launch note and will not share it.',
+        links: [{ label: 'Join the waitlist', href: '#join-waitlist' }],
+      }),
     ],
-    assets: [asset('install-terminal', 'terminal', 'Recommended install command')],
+    assets: [asset('install-terminal', 'terminal', 'Coming soon installers')],
   }),
   release: PageContent.parse({
     version: 1,
     sections: [
       section('release-hero', 'hero', {
-        eyebrow: 'Release status · beta installer',
-        heading: 'A signed path from download to TUI',
-        body: 'The one-click beta installer is being prepared for supported Linux glibc x86_64, macOS Apple silicon, macOS Intel, and Windows x86_64 targets. No artifact is advertised until its signed manifest, payload, and release entry exist.',
-      }),
-      section('release-install', 'release-install', {
-        heading: 'Install the beta artifact when it is published.',
-        items: [
-          {
-            title: 'One-click installer',
-            body: 'A local installer will verify the Ed25519 manifest, payload signature, and SHA-256 before asking for PATH and TUI-launch consent.',
-            command: 'status: unavailable until signed release publication',
-          },
-          {
-            title: 'Technical source fallback',
-            body: 'Rust users can build the open-source binary directly while the beta installer remains unpublished.',
-            command: 'cargo install --path . --locked',
-          },
+        eyebrow: 'Release status · coming soon',
+        heading: 'Public launch around mid-November',
+        body: 'TraceGlass is a local-first log triage tool preparing for its public launch. Installers and signed releases are not available yet. Join the waitlist and we will email you once when they ship.',
+        links: [
+          { label: 'Join the waitlist', href: '#join-waitlist' },
+          { label: 'Try the browser demo', href: '/demo' },
         ],
       }),
       section('release-features', 'features', {
-        eyebrow: 'Current behavior',
-        heading: 'The verified CLI journey.',
+        eyebrow: 'What launches with TraceGlass',
+        heading: 'Local triage for the logs that matter.',
         items: [
           {
             title: 'Interactive TUI scan-on-open',
@@ -273,6 +269,12 @@ const snapshots: Record<string, PageContentValue> = {
         heading: 'Your logs never leave the pipe.',
         body: 'TraceGlass is a local-only binary. Your logs never leave the pipe between the log source and your terminal — no cloud backend, no telemetry, no service, and no silent auto-update.',
       }),
+      section('release-waitlist', 'cta', {
+        eyebrow: 'Launch list',
+        heading: 'Get one email when TraceGlass is available.',
+        body: 'We are gauging demand ahead of the public launch. This is a notification list — not early access. We only use your email for the launch note.',
+        links: [{ label: 'Join the waitlist', href: '#join-waitlist' }],
+      }),
     ],
     assets: [asset('release-lock', 'lock', 'Local-only release')],
   }),
@@ -294,13 +296,13 @@ const snapshots: Record<string, PageContentValue> = {
     version: 1,
     sections: [
       section('waitlist-hero', 'hero', {
-        eyebrow: 'Paid plan · not available yet',
-        heading: 'A paid TraceGlass plan is planned, but it isn’t available yet.',
-        body: 'Request one email update about availability. Signing up does not start a subscription. Target launch date: November 15, 2026.',
+        eyebrow: 'Public launch · mid-November 2026',
+        heading: 'Get one email when TraceGlass launches.',
+        body: 'TraceGlass is a local-first log triage tool for support specialists. We are collecting a waitlist to understand demand ahead of the public launch — not early access. We will email you once around mid-November when it is officially available.',
       }),
       section('waitlist-form', 'waitlist-form', {
-        heading: 'Request one email update.',
-        body: 'A paid TraceGlass plan is planned, but it isn’t available yet. We’ll use your email only to send one update. Signing up does not start a subscription. Target launch date: November 15, 2026.',
+        heading: 'Join the launch list.',
+        body: 'We only use your email for one launch note and will not share it. Signing up does not start a subscription. Target launch: around mid-November 2026.',
       }),
     ],
     assets: [asset('waitlist-shield', 'shield-check', 'Email-only waitlist')],
@@ -347,7 +349,9 @@ export function normalizeMarketingPageContent(input: {
   sourceKey?: string | null;
   content?: unknown;
 }): PageContentValue {
-  return legacyMarketingPageContent(input);
+  const baseline = legacyMarketingPageContent(input);
+  const scrubbed = scrubPublicGitHubLinks(baseline);
+  return PageContent.parse(scrubbed.content);
 }
 
 type JsonRecord = Record<string, unknown>;
@@ -391,42 +395,50 @@ export function cleanupRetiredPricingContent(input: {
 }
 
 const generatedWaitlistCopy = {
-  title: 'TraceGlass paid plan updates',
-  body: 'A paid TraceGlass plan is planned, but it isn’t available yet. Request one email update; signup does not start a subscription.',
+  title: 'TraceGlass launch waitlist',
+  body: 'Join the TraceGlass launch waitlist for one email when the local-first log triage tool is publicly available around mid-November 2026.',
   seoDescription:
-    'A paid TraceGlass plan is planned, but it isn’t available yet. Request one email update; signup does not start a subscription. Target date: November 15, 2026.',
-  heroEyebrow: 'Paid plan · not available yet',
-  heroHeading: 'A paid TraceGlass plan is planned, but it isn’t available yet.',
+    'Join the TraceGlass launch waitlist. Local-first log triage for support specialists — one email at public launch around mid-November 2026. Not early access.',
+  heroEyebrow: 'Public launch · mid-November 2026',
+  heroHeading: 'Get one email when TraceGlass launches.',
   heroBody:
-    'Request one email update about availability. Signing up does not start a subscription. Target launch date: November 15, 2026.',
-  formHeading: 'Request one email update.',
+    'TraceGlass is a local-first log triage tool for support specialists. We are collecting a waitlist to understand demand ahead of the public launch — not early access. We will email you once around mid-November when it is officially available.',
+  formHeading: 'Join the launch list.',
   formBody:
-    'A paid TraceGlass plan is planned, but it isn’t available yet. We’ll use your email only to send one update. Signing up does not start a subscription. Target launch date: November 15, 2026.',
+    'We only use your email for one launch note and will not share it. Signing up does not start a subscription. Target launch: around mid-November 2026.',
 } as const;
 
 const previousGeneratedWaitlistCopy = {
-  title: 'Get the email when Pro ships.',
+  title: ['Get the email when Pro ships.', 'TraceGlass paid plan updates'],
   body: [
     'Join the email-only waitlist for curated packs that stay separate from your local watchlist.',
     'Join the email-only waitlist for curated local watchlists.',
+    'A paid TraceGlass plan is planned, but it isn’t available yet. Request one email update; signup does not start a subscription.',
   ],
   seoDescription: [
     'Join the TraceGlass Pro waitlist for weekly curated packs. No log content or diagnostic data is collected. Target launch: November 15, 2026.',
     'Join the TraceGlass Pro waitlist for weekly curated watchlists. No log content or diagnostic data is collected.',
+    'A paid TraceGlass plan is planned, but it isn’t available yet. Request one email update; signup does not start a subscription. Target date: November 15, 2026.',
   ],
-  heroEyebrow: 'Pro · launching soon',
-  heroHeading: 'Get the email when Pro ships.',
+  heroEyebrow: ['Pro · launching soon', 'Paid plan · not available yet'],
+  heroHeading: [
+    'Get the email when Pro ships.',
+    'A paid TraceGlass plan is planned, but it isn’t available yet.',
+  ],
   heroBody: [
     "Pro brings weekly curated, domain-tuned packs for Splunk, Docker, Kubernetes, Endpoint Detection, and CI runners — delivered to your local TraceGlass CLI without changing your editable local watchlist. We'll send exactly one message on the target launch date, November 15, 2026.",
     "Pro brings weekly curated, domain-tuned watchlists for Splunk, Docker, Kubernetes, Endpoint Detection, and CI runners — delivered to your local TraceGlass CLI. We'll send exactly one message on launch day.",
+    'Request one email update about availability. Signing up does not start a subscription. Target launch date: November 15, 2026.',
   ],
-  formHeading: 'Join the launch list.',
+  formHeading: ['Join the launch list.', 'Request one email update.'],
   formBody: [
     'Your email address — and only your email address. No log content, source code, or filenames. Target launch: November 15, 2026; the product remains unpublished until a real release exists.',
     'Your email address — and only your email address. No log content, source code, or filenames.',
+    'A paid TraceGlass plan is planned, but it isn’t available yet. We’ll use your email only to send one update. Signing up does not start a subscription. Target launch date: November 15, 2026.',
   ],
 } as const;
 
+const previousWaitlistTitles = new Set<string>(previousGeneratedWaitlistCopy.title);
 const previousWaitlistBodies = new Set<string>(previousGeneratedWaitlistCopy.body);
 const previousWaitlistDescriptions = new Set<string>(previousGeneratedWaitlistCopy.seoDescription);
 
@@ -444,7 +456,7 @@ export function reconcileGeneratedWaitlistCopy(input: {
   changed: boolean;
   contentChanged: boolean;
 } {
-  const titleChanged = input.title === previousGeneratedWaitlistCopy.title;
+  const titleChanged = previousWaitlistTitles.has(input.title);
   const bodyChanged = previousWaitlistBodies.has(input.body);
   const descriptionChanged = previousWaitlistDescriptions.has(input.seoDescription);
   const title = titleChanged ? generatedWaitlistCopy.title : input.title;
@@ -473,11 +485,11 @@ export function reconcileGeneratedWaitlistCopy(input: {
       value.id === 'waitlist-hero'
         ? {
             eyebrow: {
-              previous: [previousGeneratedWaitlistCopy.heroEyebrow],
+              previous: [...previousGeneratedWaitlistCopy.heroEyebrow],
               next: generatedWaitlistCopy.heroEyebrow,
             },
             heading: {
-              previous: [previousGeneratedWaitlistCopy.heroHeading],
+              previous: [...previousGeneratedWaitlistCopy.heroHeading],
               next: generatedWaitlistCopy.heroHeading,
             },
             body: {
@@ -488,7 +500,7 @@ export function reconcileGeneratedWaitlistCopy(input: {
         : value.id === 'waitlist-form'
           ? {
               heading: {
-                previous: [previousGeneratedWaitlistCopy.formHeading],
+                previous: [...previousGeneratedWaitlistCopy.formHeading],
                 next: generatedWaitlistCopy.formHeading,
               },
               body: {
@@ -501,7 +513,9 @@ export function reconcileGeneratedWaitlistCopy(input: {
       Object.entries(replacements)
         .filter(
           ([field, copy]) =>
-            typeof sectionData[field] === 'string' && copy.previous.includes(sectionData[field]),
+            typeof sectionData[field] === 'string' &&
+            copy.previous.includes(sectionData[field]) &&
+            sectionData[field] !== copy.next,
         )
         .map(([field, copy]) => [field, copy.next]),
     );
@@ -521,3 +535,77 @@ export function reconcileGeneratedWaitlistCopy(input: {
 }
 
 export type MarketingSnapshotSection = SnapshotSection;
+
+const GITHUB_DORMAN_RE = /https?:\/\/(?:www\.)?github\.com\/dorman\/traceglass\b[^"'\\\s]*/gi;
+
+function rewriteGitHubLinkLabel(label: string): string {
+  const normalized = label.trim().toLowerCase();
+  if (
+    normalized.includes('github') ||
+    normalized.includes('view source') ||
+    normalized.includes('star on') ||
+    normalized.includes('check release status')
+  ) {
+    return 'Join the waitlist';
+  }
+  return label;
+}
+
+/** Strip dorman/traceglass GitHub URLs from managed page content (seed + runtime). */
+export function scrubPublicGitHubLinks(content: unknown): {
+  content: unknown;
+  changed: boolean;
+} {
+  if (!isJsonRecord(content) || !Array.isArray(content.sections)) {
+    return { content, changed: false };
+  }
+
+  let changed = false;
+  const sections = content.sections.map((section) => {
+    if (!isJsonRecord(section) || !isJsonRecord(section.data)) return section;
+    const data = { ...section.data };
+    let sectionChanged = false;
+
+    if (Array.isArray(data.links)) {
+      const links = data.links.map((link) => {
+        if (!isJsonRecord(link)) return link;
+        const href = typeof link.href === 'string' ? link.href : '';
+        if (!GITHUB_DORMAN_RE.test(href) && !href.includes('github.com/dorman/traceglass')) {
+          GITHUB_DORMAN_RE.lastIndex = 0;
+          return link;
+        }
+        GITHUB_DORMAN_RE.lastIndex = 0;
+        sectionChanged = true;
+        return {
+          ...link,
+          href: '#join-waitlist',
+          label:
+            typeof link.label === 'string'
+              ? rewriteGitHubLinkLabel(link.label)
+              : 'Join the waitlist',
+        };
+      });
+      if (sectionChanged) data.links = links;
+    }
+
+    for (const [key, value] of Object.entries(data)) {
+      if (typeof value !== 'string') continue;
+      if (!GITHUB_DORMAN_RE.test(value) && !value.includes('github.com/dorman/traceglass')) {
+        GITHUB_DORMAN_RE.lastIndex = 0;
+        continue;
+      }
+      GITHUB_DORMAN_RE.lastIndex = 0;
+      data[key] = value.replace(GITHUB_DORMAN_RE, '#join-waitlist');
+      sectionChanged = true;
+    }
+
+    if (!sectionChanged) return section;
+    changed = true;
+    return { ...section, data };
+  });
+
+  return {
+    content: changed ? { ...content, sections } : content,
+    changed,
+  };
+}

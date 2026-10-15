@@ -9,7 +9,6 @@ import {
   SIGNATURE_SEVERITIES,
   SignatureCatalogResponse,
 } from '@/lib/contracts/signatures';
-import { canonicalRepositoryBlobUrl } from '@/lib/repository';
 
 export const dynamic = 'force-dynamic';
 
@@ -58,7 +57,6 @@ export function GET() {
         version: manifest.version,
         severity,
         sample: [...SAMPLE_LINES[file]],
-        manifestHref: canonicalRepositoryBlobUrl(`signatures/v0.2.0/${manifest.set}.json`),
       };
     });
 

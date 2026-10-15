@@ -22,3 +22,6 @@ export const waitlistSchema = z.object({
 });
 
 export type WaitlistInput = z.infer<typeof waitlistSchema>;
+
+/** Sticky A/B assignment stored with each Notion waitlist row. */
+export type HeadlineVariant = 'A' | 'B';

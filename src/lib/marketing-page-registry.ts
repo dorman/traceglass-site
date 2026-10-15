@@ -37,9 +37,9 @@ export const existingMarketingPages: readonly ExistingMarketingPage[] = [
     slug: 'install',
     legacySlugs: [],
     title: 'Install TraceGlass',
-    body: 'Install TraceGlass with the planned signed one-click beta installer, or use the technical source fallback.',
+    body: 'TraceGlass installers arrive at the public launch around mid-November 2026. Join the waitlist for one email when they are available.',
     seoDescription:
-      'Install TraceGlass with the planned one-click beta installer for supported Linux, macOS, and Windows targets.',
+      'TraceGlass installers are coming soon. Join the waitlist for one email at the public launch around mid-November 2026.',
     content: getDefaultMarketingPageContent('install'),
   },
   {
@@ -50,9 +50,9 @@ export const existingMarketingPages: readonly ExistingMarketingPage[] = [
     slug: 'release',
     legacySlugs: [],
     title: 'TraceGlass release status',
-    body: 'The signed one-click beta installer is being prepared alongside the interactive TUI and stable machine modes.',
+    body: 'TraceGlass is preparing for a public launch around mid-November 2026. Join the waitlist for one email when it is available.',
     seoDescription:
-      'TraceGlass release status: signed installer plan, interactive TUI scanning, and structured output.',
+      'TraceGlass release status: public launch around mid-November 2026. Join the waitlist for one email when installers ship.',
     content: getDefaultMarketingPageContent('release'),
   },
   {
@@ -75,10 +75,10 @@ export const existingMarketingPages: readonly ExistingMarketingPage[] = [
     templateKey: 'waitlist',
     slug: 'waitlist',
     legacySlugs: [],
-    title: 'TraceGlass paid plan updates',
-    body: 'A paid TraceGlass plan is planned, but it isn’t available yet. Request one email update; signup does not start a subscription.',
+    title: 'TraceGlass launch waitlist',
+    body: 'Join the TraceGlass launch waitlist for one email when the local-first log triage tool is publicly available around mid-November 2026.',
     seoDescription:
-      'A paid TraceGlass plan is planned, but it isn’t available yet. Request one email update; signup does not start a subscription. Target date: November 15, 2026.',
+      'Join the TraceGlass launch waitlist. Local-first log triage for support specialists — one email at public launch around mid-November 2026. Not early access.',
     content: getDefaultMarketingPageContent('waitlist'),
   },
 ];

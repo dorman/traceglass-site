@@ -5,7 +5,7 @@ import { ExistingPageSurface } from '@/components/custom/marketing/existing-page
 export const metadata: Metadata = {
   title: 'Release status — TraceGlass',
   description:
-    'Release status for the TraceGlass one-click beta installer, signed artifact plan, local-only behavior, and CLI fallback.',
+    'TraceGlass is preparing for a public launch around mid-November 2026. Join the waitlist for one email when installers are available.',
   alternates: { canonical: '/release' },
 };
 

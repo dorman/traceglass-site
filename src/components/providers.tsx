@@ -18,7 +18,12 @@
 'use client';
 
 import { SiteDesignProvider } from '@/components/custom/site-design-provider';
+import { WaitlistDialogProvider } from '@/components/custom/waitlist-dialog';
 
 export function AppProviders({ children }: { children: React.ReactNode }) {
-  return <SiteDesignProvider>{children}</SiteDesignProvider>;
+  return (
+    <SiteDesignProvider>
+      <WaitlistDialogProvider>{children}</WaitlistDialogProvider>
+    </SiteDesignProvider>
+  );
 }

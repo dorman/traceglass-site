@@ -99,6 +99,7 @@ export async function seed(): Promise<void> {
     cleanupRetiredPricingContent,
     normalizeMarketingPageContent,
     reconcileGeneratedWaitlistCopy,
+    scrubPublicGitHubLinks,
   } = await import('@/lib/marketing-page-content');
 
   const contentFor = (template: (typeof existingMarketingPages)[number]) =>
@@ -212,7 +213,7 @@ export async function seed(): Promise<void> {
     }
   }
 
-  for (const sourceKey of ['home', 'release'] as const) {
+  for (const sourceKey of ['home', 'release', 'install', 'signatures'] as const) {
     const template = existingMarketingPages.find((page) => page.sourceKey === sourceKey);
     if (!template) continue;
     const page = await prisma.marketingPage.findFirst({
@@ -227,18 +228,29 @@ export async function seed(): Promise<void> {
     });
     if (!page) continue;
 
-    const cleanup = cleanupRetiredPricingContent({
-      sourceKey,
-      title: page.title,
-      content: page.content,
-    });
-    if (!cleanup.titleChanged && !cleanup.contentChanged) continue;
+    const cleanup =
+      sourceKey === 'home' || sourceKey === 'release'
+        ? cleanupRetiredPricingContent({
+            sourceKey,
+            title: page.title,
+            content: page.content,
+          })
+        : {
+            title: page.title,
+            content: page.content,
+            titleChanged: false,
+            contentChanged: false,
+          };
+    const scrubbed = scrubPublicGitHubLinks(cleanup.content);
+    if (!cleanup.titleChanged && !cleanup.contentChanged && !scrubbed.changed) continue;
 
     await prisma.marketingPage.update({
       where: { id: page.id },
       data: {
         ...(cleanup.titleChanged ? { title: cleanup.title } : {}),
-        ...(cleanup.contentChanged ? { content: cleanup.content as Prisma.InputJsonValue } : {}),
+        ...(cleanup.contentChanged || scrubbed.changed
+          ? { content: scrubbed.content as Prisma.InputJsonValue }
+          : {}),
       },
     });
   }

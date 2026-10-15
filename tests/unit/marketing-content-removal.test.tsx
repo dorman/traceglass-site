@@ -200,17 +200,13 @@ describe('retired TraceGlass pricing content', () => {
     const content = reconciled.content as typeof input.content;
 
     expect(reconciled.changed).toBe(true);
-    expect(reconciled.title).toBe('TraceGlass paid plan updates');
-    expect(reconciled.body).toContain(
-      'A paid TraceGlass plan is planned, but it isn’t available yet.',
-    );
+    expect(reconciled.title).toBe('TraceGlass launch waitlist');
+    expect(reconciled.body).toContain('launch waitlist');
     expect(content.sections[2]).toEqual(customSection);
     expect(content.editorNote).toBe('Preserve this editor field.');
-    expect(content.sections[0]?.data.heading).toBe(
-      'A paid TraceGlass plan is planned, but it isn’t available yet.',
-    );
+    expect(content.sections[0]?.data.heading).toBe('Get one email when TraceGlass launches.');
     const formData = content.sections[1]?.data as { body?: string };
-    expect(formData.body).toContain('does not start a subscription');
+    expect(formData.body).toContain('launch note');
     expect(reconcileGeneratedWaitlistCopy(reconciled).changed).toBe(false);
   });
 });

@@ -78,19 +78,18 @@ describe('TraceGlass branding', () => {
     const installCopy = JSON.stringify(getDefaultMarketingPageContent('install'));
     const registryWaitlist = existingMarketingPages.find((page) => page.sourceKey === 'waitlist');
 
-    expect(waitlistCopy).toContain(
-      'A paid TraceGlass plan is planned, but it isn’t available yet.',
-    );
-    expect(waitlistCopy).toContain('does not start a subscription');
-    expect(waitlistCopy).toContain('November 15, 2026');
+    expect(waitlistCopy).toContain('Get one email when TraceGlass launches.');
+    expect(waitlistCopy).toContain('mid-November');
+    expect(waitlistCopy).toContain('not early access');
     expect(waitlistCopy).not.toMatch(/\$\s*\d/);
     expect(waitlistCopy).not.toMatch(/subscribe via stripe|subscribe to pro|subscribe now/i);
-    expect(registryWaitlist?.body).toContain(
-      'A paid TraceGlass plan is planned, but it isn’t available yet.',
-    );
-    expect(registryWaitlist?.seoDescription).toContain('does not start a subscription');
+    expect(waitlistCopy.toLowerCase()).not.toContain('grammarly');
+    expect(registryWaitlist?.body).toContain('launch waitlist');
+    expect(registryWaitlist?.seoDescription).toContain('mid-November');
     expect(navItems.some((item) => item.href === '/pricing')).toBe(false);
-    expect(installCopy).toContain('not enabled until real artifacts are published');
+    expect(navItems.some((item) => /github\.com/i.test(item.href))).toBe(false);
+    expect(installCopy).toContain('Join the waitlist');
+    expect(installCopy).not.toMatch(/github\.com\/dorman/i);
     expect(installCatalog.releases.releaseStatus).toBe('unpublished');
     expect(
       installCatalog.releases.platforms.every(

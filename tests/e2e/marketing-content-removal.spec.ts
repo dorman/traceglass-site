@@ -90,16 +90,15 @@ test('public pages no longer publish the retired paid offer', async ({ page }) =
         section.kind === 'billing-card',
     ),
   ).toBe(false);
-  await expect(page.getByRole('link', { name: 'Notify me' })).toHaveAttribute('href', '/waitlist');
+  await expect(page.getByRole('button', { name: 'Notify me' })).toBeVisible();
+  await expect(page.locator('a[href*="github.com/dorman"]')).toHaveCount(0);
   await expect(page.locator('body')).not.toContainText('$12');
   await expect(page.locator('body')).not.toContainText('Subscribe via Stripe');
   for (const width of [1280, 375]) {
     await page.setViewportSize({ width, height: 850 });
     if (width < 768) await page.getByRole('button', { name: 'Open menu' }).click();
-    await expect(page.getByRole('link', { name: 'Notify me' })).toHaveAttribute(
-      'href',
-      '/waitlist',
-    );
+    await expect(page.getByRole('button', { name: 'Notify me' })).toBeVisible();
+    await expect(page.locator('a[href*="github.com/dorman"]')).toHaveCount(0);
     await expect(page.locator('body')).not.toContainText(/\$\s*\d/);
     await expect(page.locator('body')).not.toContainText('Subscribe via Stripe');
     expect(
@@ -115,22 +114,19 @@ test('public pages no longer publish the retired paid offer', async ({ page }) =
     expect(waitlistResponse.status()).toBe(200);
     const waitlist = PublicPage.parse(await waitlistResponse.json());
 
-    expect(JSON.stringify(waitlist)).toContain(
-      'A paid TraceGlass plan is planned, but it isn’t available yet.',
-    );
-    expect(JSON.stringify(waitlist)).toContain('does not start a subscription');
-    expect(JSON.stringify(waitlist)).toContain('November 15, 2026');
+    expect(JSON.stringify(waitlist)).toContain('Get one email when TraceGlass launches.');
+    expect(JSON.stringify(waitlist)).toContain('mid-November');
     expect(JSON.stringify(waitlist)).not.toMatch(/\$\s*\d/);
-    await expect(page.locator('body')).toContainText(
-      'A paid TraceGlass plan is planned, but it isn’t available yet.',
-    );
-    await expect(page.locator('body')).toContainText('does not start a subscription');
+    expect(JSON.stringify(waitlist)).not.toMatch(/github\.com\/dorman/i);
+    await expect(page.locator('body')).toContainText('Get one email when TraceGlass launches.');
+    await expect(page.locator('body')).toContainText('not early access');
     await expect(page.locator('meta[name="description"]')).toHaveAttribute(
       'content',
-      /A paid TraceGlass plan is planned, but it isn’t available yet\./,
+      /launch waitlist/i,
     );
     await expect(page.getByLabel('Email address')).toBeVisible();
     await expect(page.getByRole('button', { name: 'Notify me when available' })).toBeVisible();
+    await expect(page.locator('a[href*="github.com/dorman"]')).toHaveCount(0);
     await expect(page.locator('body')).not.toContainText(/\$\s*\d/);
     await expect(page.locator('body')).not.toContainText('Subscribe via Stripe');
     expect(
@@ -151,6 +147,7 @@ test('public pages no longer publish the retired paid offer', async ({ page }) =
   await expect(page.locator('main')).toContainText('This page is unpublished or does not exist.');
 
   await page.goto(route('/billing/checkout/cancelled'));
+  // Checkout cancel keeps a progressive-enhancement link to the standalone waitlist page.
   await expect(page.getByRole('link', { name: 'Notify me' })).toHaveAttribute('href', '/waitlist');
   await expect(page.getByRole('link', { name: 'Back to home' })).toHaveAttribute('href', '/');
 
