@@ -110,7 +110,8 @@ export function ContactForm() {
         ref={successRef}
         id={statusId}
         tabIndex={-1}
-        className="flex flex-col items-start gap-3 rounded-md border border-zinc-800 bg-zinc-950/80 p-5 outline-none sm:p-5"
+        data-contact-status="success"
+        className="flex scroll-mt-20 flex-col items-start gap-3 rounded-md border border-zinc-800 bg-zinc-950/80 p-5 outline-none sm:p-5"
         aria-live="polite"
       >
         <div className="flex items-center gap-2">
@@ -169,7 +170,11 @@ export function ContactForm() {
           aria-invalid={errors.email ? true : undefined}
         />
         {errors.email ? (
-          <p className="text-sm text-destructive" role="alert">
+          <p
+            data-contact-status="error"
+            className="scroll-mt-20 text-sm text-destructive"
+            role="alert"
+          >
             {errors.email}
           </p>
         ) : null}

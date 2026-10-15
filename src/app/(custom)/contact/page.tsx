@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <article className="site-design-page dark min-h-full bg-zinc-950 text-zinc-100">
-      <header className="border-b border-zinc-800 bg-zinc-950 pb-12 pt-14 sm:py-16">
+      <header className="scroll-mt-16 border-b border-zinc-800 bg-zinc-950 pb-12 pt-16 sm:py-16">
         <div className="container-page max-w-2xl">
           <p className="text-eyebrow font-mono" style={{ color: signalTheme.accent }}>
             CONTACT

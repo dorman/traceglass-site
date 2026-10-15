@@ -13,12 +13,14 @@ const principles = [
   },
   {
     title: 'Privacy-first',
-    body: 'Your logs are processed on your machine and never uploaded.',
+    // Product/CLI only (TRUST.md + home privacy/FAQ). Site may load optional PolsiaAnalytics when
+    // POLSIA_ANALYTICS_SLUG is set — do not claim this marketing site has no analytics.
+    body: 'No accounts, no telemetry, nothing phoning home.',
   },
   {
-    title: 'Signed releases',
-    // Wording aligned with /install + install-catalog (Ed25519 verify; unpublished until launch).
-    body: 'The planned installer verifies a signed release before installing for the current user. Signed installers stay unpublished until public launch.',
+    title: 'Verified installs',
+    // Aligned with install-catalog: Ed25519 signing planned; artifacts unpublished until launch.
+    body: "Installers will be signed and verified before they run. They'll be published at public launch.",
   },
   {
     title: 'MIT licensed',
