@@ -9,6 +9,7 @@ import { InstallGuide } from '@/components/custom/marketing/install-guide';
 import { RichTextContent } from '@/components/custom/marketing/rich-text-content';
 import { SampleLogDemo } from '@/components/custom/marketing/sample-log-demo';
 import { SignaturesPreview } from '@/components/custom/marketing/signatures-preview';
+import { isJoinWaitlistHref, JoinWaitlistButton } from '@/components/custom/waitlist-dialog';
 import { WaitlistForm } from '@/components/custom/waitlist-form';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -22,6 +23,7 @@ import {
   type SectionLayoutPreset,
 } from '@/lib/contracts/pages';
 import { signalTheme } from '@/lib/signal-theme';
+import { WAITLIST_PRIMARY_BUTTON_CLASS } from '@/lib/waitlist/ui';
 
 const layoutClassNames: Record<SectionLayoutPreset, string> = {
   'one-column': 'grid-cols-1',
@@ -124,13 +126,21 @@ function LinkButton({
   variant?: 'default' | 'outline' | 'ghost';
   className?: string;
 }) {
-  const link = href.startsWith('/') ? (
-    <Link href={href}>{children}</Link>
-  ) : (
-    <a href={href} target="_blank" rel="noreferrer">
-      {children}
-    </a>
-  );
+  if (isJoinWaitlistHref(href)) {
+    return (
+      <JoinWaitlistButton variant={variant} size="lg" className={className}>
+        {children}
+      </JoinWaitlistButton>
+    );
+  }
+  const link =
+    href.startsWith('/') || href.startsWith('#') ? (
+      <Link href={href}>{children}</Link>
+    ) : (
+      <a href={href} target="_blank" rel="noreferrer">
+        {children}
+      </a>
+    );
   return (
     <Button asChild variant={variant} size="lg" className={className}>
       {link}
@@ -226,7 +236,7 @@ function HeroSection({ section, content }: { section: PageContentSection; conten
                   variant={index === 0 ? 'default' : index === 1 ? 'ghost' : 'outline'}
                   className={
                     index === 0
-                      ? 'h-11 border-[#3EE0D8] bg-[#3EE0D8] px-6 text-sm font-semibold text-[#0B0F14] shadow-none hover:bg-[#3EE0D8]/brightness-105 hover:text-[#0B0F14]'
+                      ? `h-11 px-6 text-sm font-semibold ${WAITLIST_PRIMARY_BUTTON_CLASS}`
                       : 'h-11 px-5 text-sm font-semibold'
                   }
                 >

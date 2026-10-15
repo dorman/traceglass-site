@@ -1,10 +1,8 @@
 // @polsia:user-owned — client island for the public signature catalog preview.
 'use client';
 
-import { ExternalLink } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { apiFetch } from '@/lib/api-client';
 import { SignatureCatalogResponse } from '@/lib/contracts/signatures';
@@ -143,18 +141,6 @@ export function SignaturesPreview() {
                       </code>
                     </pre>
                   </div>
-
-                  <Button
-                    asChild
-                    variant="link"
-                    size="sm"
-                    className="mt-auto w-fit gap-1 px-0 font-medium text-brand-600 dark:text-brand-400"
-                  >
-                    <a href={signature.manifestHref} target="_blank" rel="noreferrer">
-                      View manifest
-                      <ExternalLink aria-hidden="true" className="size-3.5" />
-                    </a>
-                  </Button>
                 </CardContent>
               </Card>
             ))}

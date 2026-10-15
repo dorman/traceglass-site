@@ -1,13 +1,12 @@
-// @polsia:user-owned — metadata shell for the public TraceGlass install guide.
-// The interactive island owns the public read through /api/install.
+// @polsia:user-owned — metadata shell for the public TraceGlass install page.
 
 import type { Metadata } from 'next';
 import { ExistingPageSurface } from '@/components/custom/marketing/existing-page-surface';
 
 export const metadata: Metadata = {
-  title: 'Install TraceGlass — one-click beta installer',
+  title: 'Install TraceGlass — coming soon',
   description:
-    'Install TraceGlass with the planned one-click beta installer for supported Linux, macOS, and Windows targets, or use the technical source fallback.',
+    'TraceGlass installers arrive at the public launch around mid-November 2026. Join the waitlist for one email when they are available.',
   alternates: { canonical: '/install' },
 };
 

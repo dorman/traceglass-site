@@ -2,6 +2,9 @@
 // Writable home for root/global UI (Cmd+K palette, global keyboard listeners,
 // app-wide overlays/dialogs), mounted once at the app root by layout.tsx.
 // Put root mounts here, NOT in framework-owned layout.tsx. Returns null by default.
+//
+// Waitlist dialog lives in AppProviders (WaitlistDialogProvider) so SiteNav and
+// marketing CTAs share one accessible panel.
 
 'use client';
 

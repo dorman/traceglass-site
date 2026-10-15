@@ -8,7 +8,8 @@ describe('public install catalog', () => {
 
     expect(catalog.releases.releaseStatus).toBe('unpublished');
     expect(catalog.releases.version).toBeNull();
-    expect(catalog.releases.fallback.command).toBe('cargo install --path . --locked');
+    expect(catalog.releases.fallback.command).toContain('waitlist');
+    expect(JSON.stringify(catalog)).not.toMatch(/github\.com\/dorman/i);
     expect(catalog.releases.platforms.map((platform) => platform.target)).toEqual([
       'x86_64-unknown-linux-gnu',
       'aarch64-apple-darwin',
@@ -39,8 +40,7 @@ describe('public install catalog', () => {
             ? {
                 ...platform,
                 availability: 'available',
-                downloadUrl:
-                  'https://github.com/dorman/traceglass/releases/download/v0.2.0/installer',
+                downloadUrl: 'https://example.com/releases/download/v0.2.0/installer',
               }
             : platform,
         ),

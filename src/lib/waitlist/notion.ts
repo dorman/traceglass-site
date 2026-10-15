@@ -1,9 +1,11 @@
 // @polsia:user-owned — Notion REST helpers for the public waitlist.
 
+import type { HeadlineVariant } from '@/lib/waitlist/schema';
+
 const NOTION_VERSION = '2022-06-28';
 const NOTION_API = 'https://api.notion.com/v1';
 
-export type HeadlineVariant = 'A' | 'B';
+export type { HeadlineVariant };
 
 export function getNotionWaitlistConfig():
   | { ok: true; token: string; databaseId: string }

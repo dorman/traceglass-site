@@ -117,7 +117,8 @@ export const SignatureCatalogSet = z.object({
   version: SignatureManifest.shape.version,
   severity: SignatureSeverity,
   sample: z.array(z.string().min(1)).min(3).max(5),
-  manifestHref: z.string().url(),
+  /** Optional while the engine repo is private — omit public GitHub blob links. */
+  manifestHref: z.string().url().optional(),
 });
 
 export type SignatureCatalogSet = z.infer<typeof SignatureCatalogSet>;

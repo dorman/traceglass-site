@@ -1,12 +1,16 @@
 // @polsia:user-owned — Hero section for the TraceGlass marketing page.
 // Server Component. No data fetching; copy is static.
+// Prefer the CMS HeroSection in marketing-page-renderer for the live home page.
 
-import { Github } from 'lucide-react';
+'use client';
+
 import Link from 'next/link';
 import { Terminal } from '@/components/custom/terminal';
+import { JoinWaitlistButton } from '@/components/custom/waitlist-dialog';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { canonicalRepositoryUrl } from '@/lib/repository';
+import { cn } from '@/lib/utils';
+import { WAITLIST_PRIMARY_BUTTON_CLASS } from '@/lib/waitlist/ui';
 
 export function Hero() {
   return (
@@ -30,7 +34,7 @@ export function Hero() {
               className="gap-1.5 border-brand-400/60 bg-background/60 px-3 py-1 text-eyebrow text-brand-700 hover:border-brand-500/80 hover:bg-brand-50/60 dark:border-brand-700 dark:text-brand-300 dark:hover:bg-brand-900/30"
             >
               <span className="size-1.5 rounded-full bg-brand-500" />
-              v1.0 · Rust-native
+              Coming soon · mid-November 2026
             </Badge>
           </Link>
 
@@ -48,22 +52,17 @@ export function Hero() {
           </p>
 
           <div className="flex flex-wrap items-center gap-3">
-            <Button asChild size="lg" className="h-11 px-6 text-sm font-semibold">
-              <Link href="/install">Install TraceGlass</Link>
-            </Button>
+            <JoinWaitlistButton
+              size="lg"
+              className={cn('h-11 px-6 text-sm font-semibold', WAITLIST_PRIMARY_BUTTON_CLASS)}
+            >
+              Join the waitlist
+            </JoinWaitlistButton>
             <Button asChild variant="ghost" size="lg" className="h-11 px-5 text-sm font-semibold">
               <Link href="#workflow">How it works</Link>
             </Button>
             <Button asChild variant="outline" size="lg" className="h-11 px-5 text-sm font-semibold">
-              <a
-                href={canonicalRepositoryUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center"
-              >
-                <Github aria-hidden="true" className="size-4" />
-                Open on GitHub
-              </a>
+              <Link href="/demo">Try in browser</Link>
             </Button>
           </div>
 
@@ -72,7 +71,7 @@ export function Hero() {
               href="/release"
               className="font-medium text-brand-600 underline-offset-4 hover:underline dark:text-brand-400"
             >
-              Latest release: v1
+              Release status
             </Link>
             <span aria-hidden="true" className="text-muted-foreground/50">
               ·
@@ -81,7 +80,7 @@ export function Hero() {
               href="/signatures"
               className="font-medium text-brand-600 underline-offset-4 hover:underline dark:text-brand-400"
             >
-              Open-source signature library
+              Signature library
             </Link>
           </div>
 
@@ -92,11 +91,11 @@ export function Hero() {
             </div>
             <div className="flex flex-col gap-0.5">
               <span className="text-h4 font-semibold text-foreground">0</span>
-              <span className="text-caption">bytes uploaded</span>
+              <span className="text-caption">log bytes uploaded</span>
             </div>
             <div className="flex flex-col gap-0.5">
-              <span className="text-h4 font-semibold text-foreground">1 line</span>
-              <span className="text-caption">to install</span>
+              <span className="text-h4 font-semibold text-foreground">1 email</span>
+              <span className="text-caption">at launch</span>
             </div>
           </div>
         </div>

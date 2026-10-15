@@ -14,6 +14,7 @@ export const userRemotePatterns: RemotePatterns = [];
 /** Package-level Next options (transpilePackages, experimental.optimizePackageImports, …). */
 export const userNextConfig: NextConfig = {
   // Static WASM demo lives in public/demo/; Next does not auto-index directories.
+  // index.html uses absolute /demo/assets/* URLs so /demo and /demo/ both work.
   async rewrites() {
     return [{ source: '/demo', destination: '/demo/index.html' }];
   },

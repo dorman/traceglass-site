@@ -9,6 +9,7 @@ import * as React from 'react';
 import { AuthNav } from '@/components/custom/auth-nav';
 import { BrandMark } from '@/components/custom/brand-mark';
 import { ThemeToggle } from '@/components/custom/theme-toggle';
+import { useOptionalWaitlistDialog } from '@/components/custom/waitlist-dialog';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -24,6 +25,7 @@ import { usePageOwner } from '@/hooks/use-page-owner';
 import { useIsAdmin, useSession } from '@/lib/auth-client';
 import { type NavGroup, type NavItem, navItems } from '@/lib/nav';
 import { cn } from '@/lib/utils';
+import { WAITLIST_PRIMARY_BUTTON_CLASS } from '@/lib/waitlist/ui';
 
 function useIsAuthenticated(): boolean {
   const { data } = useSession();
@@ -102,6 +104,7 @@ export function SiteNav() {
   const isAuthenticated = useIsAuthenticated();
   const isAdmin = useIsAdmin();
   const { isOwner } = usePageOwner();
+  const waitlistDialog = useOptionalWaitlistDialog();
   // The brand links home, so drop a redundant '/' item from the rendered links.
   const primary = visibleItems('primary', isAuthenticated, isAdmin, isOwner).filter(
     (item) => item.href !== '/',
@@ -276,21 +279,32 @@ export function SiteNav() {
 
         {/* Right cluster: ml-auto pushes it right at every breakpoint */}
         <div className="ml-auto flex items-center gap-1">
-          {/* Desktop secondary buttons */}
           {/* Always-visible primary waitlist CTA (desktop + mobile). */}
           <div className="flex items-center gap-1">
-            {secondary.map((item) => (
-              <Button
-                key={item.href}
-                asChild
-                size="sm"
-                className="border-[#3EE0D8] bg-[#3EE0D8] text-[#0B0F14] shadow-none hover:bg-[#3EE0D8]/brightness-105 hover:text-[#0B0F14]"
-              >
-                <Link href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
+            {secondary.map((item) =>
+              item.href === '/waitlist' && waitlistDialog ? (
+                <Button
+                  key={item.href}
+                  type="button"
+                  size="sm"
+                  className={cn(WAITLIST_PRIMARY_BUTTON_CLASS, 'font-semibold')}
+                  onClick={(event) => waitlistDialog.openWaitlist(event.currentTarget)}
+                >
                   {item.label}
-                </Link>
-              </Button>
-            ))}
+                </Button>
+              ) : (
+                <Button
+                  key={item.href}
+                  asChild
+                  size="sm"
+                  className={cn(WAITLIST_PRIMARY_BUTTON_CLASS, 'font-semibold')}
+                >
+                  <Link href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
+                    {item.label}
+                  </Link>
+                </Button>
+              ),
+            )}
           </div>
 
           {/* Always visible */}

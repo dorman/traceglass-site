@@ -1,5 +1,5 @@
 // @polsia:user-owned — typed static release catalog for the public install API.
-import { canonicalReleasesUrl } from '@/lib/repository';
+// Public site no longer advertises GitHub downloads while the engine repo is private.
 
 const unavailablePlatform = (platform: {
   name: string;
@@ -26,10 +26,10 @@ export const installCatalog = {
   releases: {
     releaseStatus: 'unpublished' as const,
     version: null,
-    heading: 'One-click beta installers are being prepared',
+    heading: 'One-click installers arrive at public launch',
     description:
-      'The signed installer path is the planned beta experience. Downloads stay disabled until the matching release artifacts and signed manifest are published.',
-    releasePageUrl: canonicalReleasesUrl,
+      'Signed installers for Linux, macOS, and Windows stay unpublished until the TraceGlass public launch around mid-November 2026. Join the waitlist for one email when they are available.',
+    releasePageUrl: 'https://traceglass.dev/release',
     verification: {
       manifestUrl: null,
       manifestSignatureUrl: null,
@@ -78,11 +78,11 @@ export const installCatalog = {
       }),
     ],
     fallback: {
-      label: 'Technical fallback: build from source',
-      command: 'cargo install --path . --locked',
+      label: 'Coming soon',
+      command: 'join the waitlist for launch notification',
       details:
-        'Rust 1.85+ is required. This is for contributors and technical users while the signed beta installers remain unpublished.',
-      docsUrl: 'https://github.com/dorman/traceglass/blob/main/traceglass/docs/USER_GUIDE.md',
+        'Installers and signed release artifacts are not published yet. Join the waitlist for one email when TraceGlass launches around mid-November 2026.',
+      docsUrl: 'https://traceglass.dev/waitlist',
     },
   },
 } as const;
