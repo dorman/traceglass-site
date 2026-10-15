@@ -49,17 +49,18 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true }, { status: 201 });
   }
 
+  // Consent is implied by submitting the form; always treat as true server-side.
   const result = contactSchema.safeParse({
     name: typeof body.name === 'string' ? body.name : undefined,
     email: body.email,
     topic: body.topic,
     message: body.message,
-    consent: body.consent,
+    consent: true,
   });
   if (!result.success) {
     const flattened = result.error.flatten().fieldErrors;
     const errors: Record<string, string> = {};
-    for (const field of ['name', 'email', 'topic', 'message', 'consent'] as const) {
+    for (const field of ['name', 'email', 'topic', 'message'] as const) {
       const message = flattened[field]?.[0];
       if (message) errors[field] = message;
     }

@@ -4,7 +4,6 @@
 import { CheckCircle2 } from 'lucide-react';
 import { useEffect, useId, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
@@ -17,6 +16,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { apiFetch } from '@/lib/api-client';
 import { CONTACT_MESSAGE_MAX, CONTACT_TOPICS, type ContactTopic } from '@/lib/contact/schema';
+import { signalTheme } from '@/lib/signal-theme';
 import { cn } from '@/lib/utils';
 import { WAITLIST_PRIMARY_BUTTON_CLASS } from '@/lib/waitlist/ui';
 
@@ -25,11 +25,11 @@ type FieldErrors = {
   email?: string;
   topic?: string;
   message?: string;
-  consent?: string;
   form?: string;
 };
 
-const CONSENT_REQUIRED = 'Please confirm you want us to receive this message.';
+const EMAIL_RE =
+  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
 
 export function ContactForm() {
   const reactId = useId();
@@ -38,7 +38,6 @@ export function ContactForm() {
   const emailId = `contact-email-${prefix}`;
   const topicId = `contact-topic-${prefix}`;
   const messageId = `contact-message-${prefix}`;
-  const consentId = `contact-consent-${prefix}`;
   const companyId = `contact-company-${prefix}`;
   const statusId = `contact-status-${prefix}`;
   const successRef = useRef<HTMLOutputElement>(null);
@@ -47,7 +46,6 @@ export function ContactForm() {
   const [email, setEmail] = useState('');
   const [topic, setTopic] = useState<ContactTopic | ''>('');
   const [message, setMessage] = useState('');
-  const [consent, setConsent] = useState(false);
   const [company, setCompany] = useState('');
   const [pending, setPending] = useState(false);
   const [errors, setErrors] = useState<FieldErrors>({});
@@ -61,13 +59,14 @@ export function ContactForm() {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const next: FieldErrors = {};
-    if (!email.trim()) next.email = 'Email is required.';
+    const trimmedEmail = email.trim();
+    if (!trimmedEmail) next.email = 'Email is required.';
+    else if (!EMAIL_RE.test(trimmedEmail)) next.email = 'Please enter a valid email address.';
     if (!topic) next.topic = 'Please choose a topic.';
     if (!message.trim()) next.message = 'Message is required.';
     else if (message.trim().length > CONTACT_MESSAGE_MAX) {
       next.message = `Message must be ${CONTACT_MESSAGE_MAX} characters or fewer.`;
     }
-    if (!consent) next.consent = CONSENT_REQUIRED;
     if (Object.keys(next).length > 0) {
       setErrors(next);
       return;
@@ -80,10 +79,11 @@ export function ContactForm() {
         method: 'POST',
         body: JSON.stringify({
           name: name.trim() || undefined,
-          email,
+          email: trimmedEmail,
           topic,
           message,
-          consent,
+          // Consent is implied by submitting; the API always treats it as true.
+          consent: true,
           company,
         }),
       });
@@ -92,7 +92,7 @@ export function ContactForm() {
       const cause = (err as { cause?: { errors?: FieldErrors } }).cause;
       const fieldErrors = cause?.errors ?? {};
       const mapped: FieldErrors = {};
-      for (const key of ['name', 'email', 'topic', 'message', 'consent', 'form'] as const) {
+      for (const key of ['name', 'email', 'topic', 'message', 'form'] as const) {
         if (fieldErrors[key]) mapped[key] = fieldErrors[key];
       }
       if (Object.keys(mapped).length === 0) {
@@ -110,14 +110,18 @@ export function ContactForm() {
         ref={successRef}
         id={statusId}
         tabIndex={-1}
-        className="flex flex-col items-start gap-3 rounded-lg border border-[#3EE0D8]/40 bg-[#3EE0D8]/10 p-5 outline-none"
+        className="flex flex-col items-start gap-3 rounded-md border border-zinc-800 bg-zinc-950/80 p-5 outline-none sm:p-5"
         aria-live="polite"
       >
         <div className="flex items-center gap-2">
-          <CheckCircle2 aria-hidden="true" className="size-5 text-[#3EE0D8]" />
-          <p className="text-base font-semibold text-foreground">Message sent.</p>
+          <CheckCircle2
+            aria-hidden="true"
+            className="size-5"
+            style={{ color: signalTheme.accent }}
+          />
+          <p className="text-base font-semibold text-zinc-50">Message sent.</p>
         </div>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-sm text-zinc-400">
           Thanks — we received your note and will reply by email when we can.
         </p>
       </output>
@@ -241,35 +245,6 @@ export function ContactForm() {
         />
       </div>
 
-      <div className="grid gap-2">
-        <div className="flex items-start gap-3">
-          <Checkbox
-            id={consentId}
-            name="consent"
-            checked={consent}
-            onCheckedChange={(state) => {
-              const next = state === true;
-              setConsent(next);
-              if (next) setErrors((prev) => ({ ...prev, consent: undefined }));
-            }}
-            aria-invalid={errors.consent ? true : undefined}
-            className="mt-0.5"
-          />
-          <Label
-            htmlFor={consentId}
-            className="cursor-pointer text-sm font-normal leading-snug text-foreground"
-          >
-            I agree that TraceGlass may use my email to respond to this message. My email is never
-            sold.
-          </Label>
-        </div>
-        {errors.consent ? (
-          <p className="text-sm text-destructive" role="alert">
-            {errors.consent}
-          </p>
-        ) : null}
-      </div>
-
       {errors.form ? (
         <p id={statusId} className="text-sm text-destructive" role="alert" aria-live="assertive">
           {errors.form}
@@ -288,6 +263,9 @@ export function ContactForm() {
       >
         {pending ? 'Sending…' : 'Send message'}
       </Button>
+      <p className="text-sm text-zinc-500">
+        We&apos;ll only use your email to reply to this message.
+      </p>
     </form>
   );
 }

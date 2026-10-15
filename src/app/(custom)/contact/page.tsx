@@ -1,6 +1,7 @@
 // @polsia:user-owned — public Contact page for TraceGlass.
 import type { Metadata } from 'next';
 import { ContactForm } from '@/components/custom/contact-form';
+import { signalTheme } from '@/lib/signal-theme';
 
 const title = 'Contact TraceGlass';
 const description =
@@ -20,9 +21,11 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <article className="site-design-page dark min-h-full bg-zinc-950 text-zinc-100">
-      <header className="border-b border-zinc-800 bg-zinc-950 py-12 sm:py-16">
+      <header className="border-b border-zinc-800 bg-zinc-950 pb-12 pt-14 sm:py-16">
         <div className="container-page max-w-2xl">
-          <p className="text-eyebrow font-mono text-[#3EE0D8]">CONTACT</p>
+          <p className="text-eyebrow font-mono" style={{ color: signalTheme.accent }}>
+            CONTACT
+          </p>
           <h1 className="mt-3 font-display text-display text-balance text-zinc-50">
             Get in touch.
           </h1>
@@ -30,7 +33,8 @@ export default function ContactPage() {
             Send a short note and we&apos;ll reply by email when we can. Prefer launch updates?{' '}
             <a
               href="/waitlist"
-              className="font-medium text-[#8B7CF6] underline-offset-4 hover:underline"
+              className="font-medium underline-offset-4 hover:underline"
+              style={{ color: signalTheme.secondary }}
             >
               Join the waitlist
             </a>
@@ -41,7 +45,8 @@ export default function ContactPage() {
 
       <section className="section">
         <div className="container-page mx-auto max-w-2xl">
-          <div className="site-design-card rounded-md border border-[#2B3040] bg-zinc-950/80 p-5 shadow-lg shadow-black/20 sm:p-6">
+          {/* Neutral waitlist-dialog card surface (no green/teal fill). */}
+          <div className="rounded-md border border-zinc-800 bg-zinc-950/80 p-5 shadow-lg shadow-black/20 sm:p-6">
             <ContactForm />
           </div>
 

@@ -406,28 +406,33 @@ export function SiteFooter() {
 
   return (
     <footer className="site-design-footer dark border-t border-zinc-800 bg-zinc-950 text-zinc-100">
-      <nav
-        aria-label="Footer"
-        className="mx-auto flex max-w-screen-xl flex-wrap items-center gap-4 px-4 py-8 text-sm"
-      >
-        <Link
-          href="/"
-          className="mr-3 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
-        >
-          <BrandMark variant="mark" showWordmark sizes="120px" />
-        </Link>
-        {footer.map((item) => (
-          <Button
-            key={item.href}
-            asChild
-            variant="link"
-            size="sm"
-            className="text-zinc-400 hover:text-brand-300"
+      <div className="mx-auto flex max-w-screen-xl flex-col gap-6 px-4 py-8 text-sm">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
+          <Link
+            href="/"
+            className="w-fit shrink-0 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
           >
-            <Link href={item.href}>{item.label}</Link>
-          </Button>
-        ))}
-      </nav>
+            <BrandMark variant="mark" showWordmark sizes="120px" />
+          </Link>
+          <nav
+            aria-label="Footer"
+            className="grid grid-cols-2 gap-x-4 gap-y-2 sm:flex sm:flex-wrap sm:items-center sm:gap-x-4 sm:gap-y-1"
+          >
+            {footer.map((item) => (
+              <Button
+                key={item.href}
+                asChild
+                variant="link"
+                size="sm"
+                className="h-auto justify-start px-0 text-zinc-400 hover:text-brand-300"
+              >
+                <Link href={item.href}>{item.label}</Link>
+              </Button>
+            ))}
+          </nav>
+        </div>
+        <p className="text-xs text-zinc-500">© 2026 TraceGlass</p>
+      </div>
     </footer>
   );
 }

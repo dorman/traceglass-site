@@ -40,7 +40,6 @@ const valid = {
   email: 'Person@Example.COM',
   topic: 'General question',
   message: 'Hello from the contact form.',
-  consent: true,
 };
 
 describe('POST /api/contact', () => {
@@ -83,6 +82,12 @@ describe('POST /api/contact', () => {
     expect(name.title[0]?.text.content).toBe('person@example.com');
   });
 
+  it('implies consent server-side even when the client omits it', async () => {
+    const res = await POST(request(valid));
+    expect(res.status).toBe(201);
+    expect(notionState.createCalls).toBe(1);
+  });
+
   it('rejects an invalid email', async () => {
     const res = await POST(request({ ...valid, email: 'not-an-email' }));
     expect(res.status).toBe(400);
@@ -100,11 +105,11 @@ describe('POST /api/contact', () => {
     expect(notionState.createCalls).toBe(0);
   });
 
-  it('rejects missing consent', async () => {
-    const res = await POST(request({ ...valid, consent: false }));
+  it('rejects an empty message', async () => {
+    const res = await POST(request({ ...valid, message: '   ' }));
     expect(res.status).toBe(400);
     expect(await res.json()).toEqual({
-      errors: { consent: 'Please confirm you want us to receive this message.' },
+      errors: { message: 'Message is required.' },
     });
   });
 
