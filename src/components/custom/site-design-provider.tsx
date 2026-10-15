@@ -11,40 +11,13 @@ import {
   siteDesignCssVariables,
 } from '@/lib/contracts/site-design';
 
-const SITE_ONLY_VARS = new Set([
-  '--site-primary',
-  '--site-accent',
-  '--site-background',
-  '--site-surface',
-  '--site-text',
-  '--site-muted-text',
-  '--site-border',
-  '--font-display',
-  '--font-body',
-  '--radius',
-]);
-
 function applyDesign(design: SiteDesign) {
   const root = document.documentElement;
   root.dataset.siteDesign = 'active';
   root.dataset.siteCardTreatment = design.cardTreatment;
   root.dataset.siteButtonTreatment = design.buttonTreatment;
-  const vars = siteDesignCssVariables(design);
-  const isDark = root.classList.contains('dark');
-
-  for (const [name, value] of Object.entries(vars)) {
-    // Nav/footer chrome always uses site-* tokens (dark branded bar).
-    if (SITE_ONLY_VARS.has(name)) {
-      root.style.setProperty(name, value);
-      continue;
-    }
-    // Role tokens (--background, --foreground, …): apply in dark mode only so
-    // next-themes light mode keeps light surfaces for AA text accents.
-    if (isDark) {
-      root.style.setProperty(name, value);
-    } else {
-      root.style.removeProperty(name);
-    }
+  for (const [name, value] of Object.entries(siteDesignCssVariables(design))) {
+    root.style.setProperty(name, value);
   }
 }
 
@@ -61,13 +34,6 @@ export function SiteDesignProvider({ children }: { children: ReactNode }) {
       applyDesign(parsed.data);
     };
 
-    const handleThemeMutation = () => applyDesign(savedDesign);
-    const themeObserver = new MutationObserver(handleThemeMutation);
-    themeObserver.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ['class'],
-    });
-
     window.addEventListener('site-design:saved', handleSavedEvent);
     void apiFetch('/api/site-design', { schema: SiteDesignResponse })
       .then((response) => {
@@ -78,7 +44,6 @@ export function SiteDesignProvider({ children }: { children: ReactNode }) {
 
     return () => {
       window.removeEventListener('site-design:saved', handleSavedEvent);
-      themeObserver.disconnect();
     };
   }, []);
 
