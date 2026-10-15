@@ -448,10 +448,40 @@ function PrivacySection({
 }
 
 function FaqSection({ section, content }: { section: PageContentSection; content: PageContent }) {
+  const data = section.data;
   return (
     <section id={section.id} className="section">
-      <div className="container-page grid gap-10 lg:grid-cols-[0.4fr_0.6fr] lg:gap-16">
-        <SectionHeading section={section} content={content} />
+      <div className="container-page grid gap-10 lg:grid-cols-[minmax(18rem,0.55fr)_0.45fr] lg:gap-12">
+        <div className="flex flex-col gap-3">
+          {text(data, 'eyebrow') ? (
+            <span className="text-eyebrow text-[color:var(--signal-accent-strong)] dark:text-[color:var(--signal-accent)]">
+              <Copy
+                content={content}
+                section={section}
+                path={['eyebrow']}
+                fallback={text(data, 'eyebrow')}
+              />
+            </span>
+          ) : null}
+          <h2 className="max-w-[20rem] text-balance font-display text-[1.5rem] font-semibold leading-snug tracking-tight text-foreground sm:max-w-none sm:text-h2 sm:leading-[1.14] sm:tracking-[-0.016em]">
+            <Copy
+              content={content}
+              section={section}
+              path={['heading']}
+              fallback={text(data, 'heading')}
+            />
+          </h2>
+          {text(data, 'body') ? (
+            <p className="text-body-lg text-muted-foreground">
+              <Copy
+                content={content}
+                section={section}
+                path={['body']}
+                fallback={text(data, 'body')}
+              />
+            </p>
+          ) : null}
+        </div>
         <div>
           {records(section.data, 'items').map((item, index) => (
             <details key={text(item, 'question')} className="border-b border-border/60 py-5">

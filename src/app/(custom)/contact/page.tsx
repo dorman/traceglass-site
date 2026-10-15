@@ -33,8 +33,7 @@ export default function ContactPage() {
             Send a short note and we&apos;ll reply by email when we can. Prefer launch updates?{' '}
             <a
               href="/waitlist"
-              className="font-medium underline-offset-4 hover:underline"
-              style={{ color: signalTheme.secondary }}
+              className="font-medium text-[color:var(--signal-accent)] underline-offset-4 hover:underline"
             >
               Join the waitlist
             </a>
