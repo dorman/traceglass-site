@@ -49,8 +49,8 @@ export default function ContactPage() {
 
           <p className="mt-8 text-sm leading-relaxed text-muted-foreground">
             Security reports: please use this form and choose the topic{' '}
-            <span className="font-medium text-foreground">Security report</span>. Do not paste exploit
-            details that include customer logs or credentials.
+            <span className="font-medium text-foreground">Security report</span>. Do not paste
+            exploit details that include customer logs or credentials.
           </p>
         </div>
       </section>

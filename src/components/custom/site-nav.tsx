@@ -207,7 +207,8 @@ function SiteNavChrome({
                 size="sm"
                 className={cn(
                   'site-design-nav-link text-muted-foreground hover:bg-muted hover:text-[color:var(--signal-accent-strong)] dark:hover:text-[color:var(--signal-accent)]',
-                  isActive(slot.item.href) && 'bg-muted text-[color:var(--signal-accent-strong)] dark:text-[color:var(--signal-accent)]',
+                  isActive(slot.item.href) &&
+                    'bg-muted text-[color:var(--signal-accent-strong)] dark:text-[color:var(--signal-accent)]',
                 )}
               >
                 <Link
@@ -225,17 +226,15 @@ function SiteNavChrome({
                     size="sm"
                     className={cn(
                       'site-design-nav-link text-muted-foreground hover:bg-muted hover:text-[color:var(--signal-accent-strong)] dark:hover:text-[color:var(--signal-accent)]',
-                      isSlotActive(slot) && 'bg-muted text-[color:var(--signal-accent-strong)] dark:text-[color:var(--signal-accent)]',
+                      isSlotActive(slot) &&
+                        'bg-muted text-[color:var(--signal-accent-strong)] dark:text-[color:var(--signal-accent)]',
                     )}
                   >
                     {slot.label}
                     <ChevronDown className="ml-1 size-4 opacity-60" aria-hidden />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  align="start"
-                  className="site-design-menu"
-                >
+                <DropdownMenuContent align="start" className="site-design-menu">
                   {slot.items.map((item) => (
                     <DropdownMenuItem
                       key={item.href}
@@ -264,17 +263,15 @@ function SiteNavChrome({
                   size="sm"
                   className={cn(
                     'site-design-nav-link text-muted-foreground hover:bg-muted hover:text-[color:var(--signal-accent-strong)] dark:hover:text-[color:var(--signal-accent)]',
-                    overflow.some(isSlotActive) && 'bg-muted text-[color:var(--signal-accent-strong)] dark:text-[color:var(--signal-accent)]',
+                    overflow.some(isSlotActive) &&
+                      'bg-muted text-[color:var(--signal-accent-strong)] dark:text-[color:var(--signal-accent)]',
                   )}
                 >
                   More
                   <ChevronDown className="ml-1 size-4 opacity-60" aria-hidden />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent
-                align="end"
-                className="site-design-menu"
-              >
+              <DropdownMenuContent align="end" className="site-design-menu">
                 {overflow.map((slot, index) => {
                   // Separate a menu group from its neighbours, but not plain links.
                   const fenced =
