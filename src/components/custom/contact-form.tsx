@@ -16,7 +16,6 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { apiFetch } from '@/lib/api-client';
 import { CONTACT_MESSAGE_MAX, CONTACT_TOPICS, type ContactTopic } from '@/lib/contact/schema';
-import { signalTheme } from '@/lib/signal-theme';
 import { cn } from '@/lib/utils';
 import { WAITLIST_PRIMARY_BUTTON_CLASS } from '@/lib/waitlist/ui';
 
@@ -111,18 +110,17 @@ export function ContactForm() {
         id={statusId}
         tabIndex={-1}
         data-contact-status="success"
-        className="flex scroll-mt-20 flex-col items-start gap-3 rounded-md border border-zinc-800 bg-zinc-950/80 p-5 outline-none sm:p-5"
+        className="flex scroll-mt-20 flex-col items-start gap-3 rounded-md border border-border bg-muted/40 p-5 outline-none sm:p-5 dark:bg-muted/20"
         aria-live="polite"
       >
         <div className="flex items-center gap-2">
           <CheckCircle2
             aria-hidden="true"
-            className="size-5"
-            style={{ color: signalTheme.accent }}
+            className="size-5 text-[color:var(--signal-accent-strong)] dark:text-[color:var(--signal-accent)]"
           />
-          <p className="text-base font-semibold text-zinc-50">Message sent.</p>
+          <p className="text-base font-semibold text-foreground">Message sent.</p>
         </div>
-        <p className="text-sm text-zinc-400">
+        <p className="text-sm text-muted-foreground">
           Thanks — we received your note and will reply by email when we can.
         </p>
       </output>
@@ -131,7 +129,7 @@ export function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit} className="relative flex flex-col gap-5" noValidate>
-      <p className="rounded-md border border-zinc-800 bg-zinc-950/60 px-3 py-2 text-sm text-zinc-400">
+      <p className="rounded-md border border-border bg-muted/40 px-3 py-2 text-sm text-muted-foreground dark:bg-muted/20">
         Please don&apos;t paste logs or sensitive data into this form.
       </p>
 
@@ -268,7 +266,7 @@ export function ContactForm() {
       >
         {pending ? 'Sending…' : 'Send message'}
       </Button>
-      <p className="text-sm text-zinc-500">
+      <p className="text-sm text-muted-foreground">
         We&apos;ll only use your email to reply to this message.
       </p>
     </form>
