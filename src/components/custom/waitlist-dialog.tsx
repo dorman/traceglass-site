@@ -177,7 +177,7 @@ function WaitlistDialog({
         }}
       >
         <DialogHeader className="gap-3 text-left">
-          <p className="text-eyebrow font-mono text-[color:var(--signal-accent)]">
+          <p className="text-eyebrow font-mono text-[color:var(--signal-accent-strong)] dark:text-[color:var(--signal-accent)]">
             PUBLIC LAUNCH · MID-NOVEMBER 2026
           </p>
           <DialogTitle className="font-display text-h3 text-balance text-zinc-50">

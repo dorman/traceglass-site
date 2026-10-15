@@ -27,8 +27,9 @@ const iconMark = {
  */
 export const WORDMARK_COLOR_VARIANT: 'unified' | 'split' = 'unified';
 
-/** Signal teal — CSS token shared with waitlist primary CTA (`--signal-accent`). */
-const WORDMARK_TEAL_CLASS = 'text-[color:var(--signal-accent)]';
+/** Signal teal — strong on light surfaces (AA); bright accent in dark mode. */
+const WORDMARK_TEAL_CLASS =
+  'text-[color:var(--signal-accent-strong)] dark:text-[color:var(--signal-accent)]';
 /** Site light text token used by marketing chrome. */
 const WORDMARK_LIGHT_CLASS = 'text-[color:var(--site-text)]';
 

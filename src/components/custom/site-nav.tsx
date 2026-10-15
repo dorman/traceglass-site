@@ -206,8 +206,9 @@ function SiteNavChrome({
                 variant="ghost"
                 size="sm"
                 className={cn(
-                  'site-design-nav-link text-zinc-300 hover:bg-zinc-900 hover:text-[color:var(--signal-accent)]',
-                  isActive(slot.item.href) && 'bg-zinc-900 text-[color:var(--signal-accent)]',
+                  'site-design-nav-link text-zinc-300 hover:bg-zinc-900 hover:text-[color:var(--signal-accent-strong)] dark:hover:text-[color:var(--signal-accent)]',
+                  isActive(slot.item.href) &&
+                    'bg-zinc-900 text-[color:var(--signal-accent-strong)] dark:text-[color:var(--signal-accent)]',
                 )}
               >
                 <Link
@@ -224,8 +225,9 @@ function SiteNavChrome({
                     variant="ghost"
                     size="sm"
                     className={cn(
-                      'site-design-nav-link text-zinc-300 hover:bg-zinc-900 hover:text-[color:var(--signal-accent)]',
-                      isSlotActive(slot) && 'bg-zinc-900 text-[color:var(--signal-accent)]',
+                      'site-design-nav-link text-zinc-300 hover:bg-zinc-900 hover:text-[color:var(--signal-accent-strong)] dark:hover:text-[color:var(--signal-accent)]',
+                      isSlotActive(slot) &&
+                        'bg-zinc-900 text-[color:var(--signal-accent-strong)] dark:text-[color:var(--signal-accent)]',
                     )}
                   >
                     {slot.label}
@@ -240,7 +242,7 @@ function SiteNavChrome({
                     <DropdownMenuItem
                       key={item.href}
                       asChild
-                      className="focus:bg-zinc-800 focus:text-[color:var(--signal-accent)]"
+                      className="focus:bg-zinc-800 focus:text-[color:var(--signal-accent-strong)] dark:focus:text-[color:var(--signal-accent)]"
                     >
                       <Link
                         href={item.href}
@@ -263,8 +265,9 @@ function SiteNavChrome({
                   variant="ghost"
                   size="sm"
                   className={cn(
-                    'site-design-nav-link text-zinc-300 hover:bg-zinc-900 hover:text-[color:var(--signal-accent)]',
-                    overflow.some(isSlotActive) && 'bg-zinc-900 text-[color:var(--signal-accent)]',
+                    'site-design-nav-link text-zinc-300 hover:bg-zinc-900 hover:text-[color:var(--signal-accent-strong)] dark:hover:text-[color:var(--signal-accent)]',
+                    overflow.some(isSlotActive) &&
+                      'bg-zinc-900 text-[color:var(--signal-accent-strong)] dark:text-[color:var(--signal-accent)]',
                   )}
                 >
                   More
@@ -287,7 +290,7 @@ function SiteNavChrome({
                       {slot.type === 'link' ? (
                         <DropdownMenuItem
                           asChild
-                          className="focus:bg-zinc-800 focus:text-[color:var(--signal-accent)]"
+                          className="focus:bg-zinc-800 focus:text-[color:var(--signal-accent-strong)] dark:focus:text-[color:var(--signal-accent)]"
                         >
                           <Link
                             href={slot.item.href}
@@ -303,7 +306,7 @@ function SiteNavChrome({
                             <DropdownMenuItem
                               key={item.href}
                               asChild
-                              className="focus:bg-zinc-800 focus:text-[color:var(--signal-accent)]"
+                              className="focus:bg-zinc-800 focus:text-[color:var(--signal-accent-strong)] dark:focus:text-[color:var(--signal-accent)]"
                             >
                               <Link
                                 href={item.href}
@@ -387,7 +390,7 @@ function SiteNavChrome({
                         className={cn(
                           'site-design-nav-link w-full justify-start',
                           isActive(slot.item.href) &&
-                            'bg-zinc-900 text-[color:var(--signal-accent)]',
+                            'bg-zinc-900 text-[color:var(--signal-accent-strong)] dark:text-[color:var(--signal-accent)]',
                         )}
                       >
                         <Link
@@ -411,7 +414,7 @@ function SiteNavChrome({
                             className={cn(
                               'site-design-nav-link w-full justify-start pl-6',
                               isActive(item.href) &&
-                                'bg-zinc-900 text-[color:var(--signal-accent)]',
+                                'bg-zinc-900 text-[color:var(--signal-accent-strong)] dark:text-[color:var(--signal-accent)]',
                             )}
                           >
                             <Link
@@ -491,7 +494,7 @@ function SiteFooterChrome({
                 asChild
                 variant="link"
                 size="sm"
-                className="h-auto justify-start px-0 text-zinc-400 hover:text-[color:var(--signal-accent)]"
+                className="h-auto justify-start px-0 text-zinc-400 hover:text-[color:var(--signal-accent-strong)] dark:hover:text-[color:var(--signal-accent)]"
               >
                 <Link href={item.href}>{item.label}</Link>
               </Button>

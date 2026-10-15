@@ -52,10 +52,10 @@ const items = [
 export function FAQ() {
   return (
     <section id="faq" className="section">
-      <div className="container-page grid gap-10 lg:grid-cols-[0.4fr_0.6fr] lg:gap-16">
+      <div className="container-page grid gap-10 lg:grid-cols-[minmax(18rem,0.55fr)_0.45fr] lg:gap-12">
         <div className="flex flex-col gap-3">
           <span className="text-eyebrow">FAQ</span>
-          <h2 className="text-h2 font-display text-balance text-foreground">
+          <h2 className="max-w-[20rem] text-balance font-display text-[1.5rem] font-semibold leading-snug tracking-tight text-foreground sm:max-w-none sm:text-h2 sm:leading-[1.14] sm:tracking-[-0.016em]">
             Questions support specialists ask before installing a CLI.
           </h2>
           <p className="text-body-lg text-muted-foreground">

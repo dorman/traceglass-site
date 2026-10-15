@@ -1,7 +1,6 @@
 // @polsia:user-owned — public Contact page for TraceGlass.
 import type { Metadata } from 'next';
 import { ContactForm } from '@/components/custom/contact-form';
-import { signalTheme } from '@/lib/signal-theme';
 
 const title = 'Contact TraceGlass';
 const description =
@@ -23,7 +22,7 @@ export default function ContactPage() {
     <article className="site-design-page dark min-h-full bg-zinc-950 text-zinc-100">
       <header className="scroll-mt-16 border-b border-zinc-800 bg-zinc-950 pb-12 pt-16 sm:py-16">
         <div className="container-page max-w-2xl">
-          <p className="text-eyebrow font-mono" style={{ color: signalTheme.accent }}>
+          <p className="text-eyebrow font-mono text-[color:var(--signal-accent-strong)] dark:text-[color:var(--signal-accent)]">
             CONTACT
           </p>
           <h1 className="mt-3 font-display text-display text-balance text-zinc-50">
@@ -33,8 +32,7 @@ export default function ContactPage() {
             Send a short note and we&apos;ll reply by email when we can. Prefer launch updates?{' '}
             <a
               href="/waitlist"
-              className="font-medium underline-offset-4 hover:underline"
-              style={{ color: signalTheme.secondary }}
+              className="font-medium text-[color:var(--signal-accent-strong)] underline-offset-4 hover:underline dark:text-[color:var(--signal-accent)]"
             >
               Join the waitlist
             </a>

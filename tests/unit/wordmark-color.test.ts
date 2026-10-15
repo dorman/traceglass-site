@@ -13,7 +13,9 @@ describe('TraceGlass wordmark Signal teal', () => {
     expect(brandMarkSource).toMatch(
       /export const WORDMARK_COLOR_VARIANT:\s*'unified'\s*\|\s*'split'\s*=\s*'unified'/,
     );
-    expect(brandMarkSource).toContain('text-[color:var(--signal-accent)]');
+    expect(brandMarkSource).toContain(
+      'text-[color:var(--signal-accent-strong)] dark:text-[color:var(--signal-accent)]',
+    );
     expect(brandMarkSource).toContain('text-[color:var(--site-text)]');
     expect(brandMarkSource).not.toContain('text-brand-400');
   });

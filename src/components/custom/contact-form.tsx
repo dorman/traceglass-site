@@ -16,7 +16,6 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { apiFetch } from '@/lib/api-client';
 import { CONTACT_MESSAGE_MAX, CONTACT_TOPICS, type ContactTopic } from '@/lib/contact/schema';
-import { signalTheme } from '@/lib/signal-theme';
 import { cn } from '@/lib/utils';
 import { WAITLIST_PRIMARY_BUTTON_CLASS } from '@/lib/waitlist/ui';
 
@@ -117,8 +116,7 @@ export function ContactForm() {
         <div className="flex items-center gap-2">
           <CheckCircle2
             aria-hidden="true"
-            className="size-5"
-            style={{ color: signalTheme.accent }}
+            className="size-5 text-[color:var(--signal-accent-strong)] dark:text-[color:var(--signal-accent)]"
           />
           <p className="text-base font-semibold text-zinc-50">Message sent.</p>
         </div>
