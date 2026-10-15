@@ -33,7 +33,7 @@ const homeSections: SnapshotSection[] = [
   section('hero', 'hero', {
     eyebrow: 'Rust-native · local-first · beta installer',
     heading: 'Local-first log triage.',
-    body: 'Open a diagnostic file in the TUI, or pipe logs through a machine mode. TraceGlass keeps source lines visible while it ranks signals across Splunk, Docker, Kubernetes, databases, and endpoint collections.',
+    body: 'Open a diagnostic file in the TUI, or pipe logs through a machine mode. TraceGlass keeps source lines visible while it ranks signals for L2 (second-line) support specialists across Splunk, Docker, Kubernetes, databases, and endpoint collections.',
     links: [
       { label: 'Join the waitlist', href: '#join-waitlist' },
       { label: 'How it works', href: '#workflow' },
@@ -52,7 +52,7 @@ const homeSections: SnapshotSection[] = [
   }),
   section('features', 'features', {
     eyebrow: 'Features',
-    heading: "Built for the developer who already knows what they're looking for.",
+    heading: "Built for support specialists who already know what they're looking for.",
     body: 'No upload and no remote processing. The TUI keeps your user-controlled local keyword watchlist separate from curated built-in signatures: add a keyword or regex highlight when you choose, while built-ins produce findings without changing your saved entries.',
     items: [
       {
@@ -167,7 +167,7 @@ const homeSections: SnapshotSection[] = [
   ),
   section('faq', 'faq', {
     eyebrow: 'FAQ',
-    heading: 'Questions a developer asks before installing a CLI.',
+    heading: 'Questions support specialists ask before installing a CLI.',
     body: "If yours isn't here, write to us.",
     items: [
       {
@@ -350,8 +350,56 @@ export function normalizeMarketingPageContent(input: {
   content?: unknown;
 }): PageContentValue {
   const baseline = legacyMarketingPageContent(input);
-  const scrubbed = scrubPublicGitHubLinks(baseline);
-  return PageContent.parse(scrubbed.content);
+  const scrubbedGithub = scrubPublicGitHubLinks(baseline);
+  const scrubbedAudience = scrubDeveloperAudienceCopy(scrubbedGithub.content);
+  return PageContent.parse(scrubbedAudience.content);
+}
+
+/** Exact developer-audience strings retired in favor of support specialists. */
+const DEVELOPER_AUDIENCE_REPLACEMENTS: ReadonlyArray<{ from: string; to: string }> = [
+  {
+    from: "Built for the developer who already knows what they're looking for.",
+    to: "Built for support specialists who already know what they're looking for.",
+  },
+  {
+    from: 'Questions a developer asks before installing a CLI.',
+    to: 'Questions support specialists ask before installing a CLI.',
+  },
+];
+
+/** Rewrite known developer-audience headings in managed page content (seed + runtime). */
+export function scrubDeveloperAudienceCopy(content: unknown): {
+  content: unknown;
+  changed: boolean;
+} {
+  if (!isJsonRecord(content) || !Array.isArray(content.sections)) {
+    return { content, changed: false };
+  }
+
+  let changed = false;
+  const sections = content.sections.map((section) => {
+    if (!isJsonRecord(section) || !isJsonRecord(section.data)) return section;
+    const data = { ...section.data };
+    let sectionChanged = false;
+    for (const [key, value] of Object.entries(data)) {
+      if (typeof value !== 'string') continue;
+      for (const { from, to } of DEVELOPER_AUDIENCE_REPLACEMENTS) {
+        if (value === from) {
+          data[key] = to;
+          sectionChanged = true;
+          break;
+        }
+      }
+    }
+    if (!sectionChanged) return section;
+    changed = true;
+    return { ...section, data };
+  });
+
+  return {
+    content: changed ? { ...content, sections } : content,
+    changed,
+  };
 }
 
 type JsonRecord = Record<string, unknown>;

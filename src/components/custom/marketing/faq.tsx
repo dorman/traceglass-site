@@ -56,7 +56,7 @@ export function FAQ() {
         <div className="flex flex-col gap-3">
           <span className="text-eyebrow">FAQ</span>
           <h2 className="text-h2 font-display text-balance text-foreground">
-            Questions a developer asks before installing a CLI.
+            Questions support specialists ask before installing a CLI.
           </h2>
           <p className="text-body-lg text-muted-foreground">
             If yours isn&apos;t here,{' '}

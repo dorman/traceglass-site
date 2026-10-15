@@ -10,9 +10,10 @@
 // the install if any non-NEXT_PUBLIC_ env name appears in client chunks.
 //
 // Public marketing deploy (Vercel): only NEXT_PUBLIC_APP_URL is required at
-// build time. NOTION_TOKEN + NOTION_WAITLIST_DB_ID are needed at runtime for
-// waitlist signups. DATABASE_URL / BETTER_AUTH_* / POLSIA_* remain optional so
-// auth, admin, Stripe, and Prisma CMS stay available when those vars are set.
+// build time. NOTION_TOKEN + NOTION_WAITLIST_DB_ID / NOTION_CONTACT_DB_ID are
+// needed at runtime for waitlist and contact. DATABASE_URL / BETTER_AUTH_* /
+// POLSIA_* remain optional so auth, admin, Stripe, and Prisma CMS stay
+// available when those vars are set.
 
 import { createEnv } from '@t3-oss/env-nextjs';
 import { z } from 'zod';
@@ -23,10 +24,11 @@ export const env = createEnv({
     // Optional: Postgres for auth/admin/CMS. Public marketing pages fall back
     // to in-repo defaults when unset.
     DATABASE_URL: z.string().url().optional(),
-    // Notion waitlist (public marketing). Validated at request time by the
-    // waitlist route; missing values yield HTTP 503 rather than a build failure.
+    // Notion waitlist + contact (public marketing). Validated at request time
+    // by the routes; missing values yield HTTP 503 rather than a build failure.
     NOTION_TOKEN: z.string().min(1).optional(),
     NOTION_WAITLIST_DB_ID: z.string().min(1).optional(),
+    NOTION_CONTACT_DB_ID: z.string().min(1).optional(),
     // @polsia:slot env_vars_server start
     // Modules append additional server-side env vars here at install time.
     // @polsia:contrib stripe-billing start
@@ -62,6 +64,7 @@ export const env = createEnv({
     DATABASE_URL: process.env.DATABASE_URL,
     NOTION_TOKEN: process.env.NOTION_TOKEN,
     NOTION_WAITLIST_DB_ID: process.env.NOTION_WAITLIST_DB_ID,
+    NOTION_CONTACT_DB_ID: process.env.NOTION_CONTACT_DB_ID,
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
     // @polsia:slot env_runtime start

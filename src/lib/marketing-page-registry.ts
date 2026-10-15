@@ -24,9 +24,9 @@ export const existingMarketingPages: readonly ExistingMarketingPage[] = [
     slug: 'home',
     legacySlugs: [],
     title: 'TraceGlass',
-    body: 'TraceGlass highlights the log lines that matter with a local watchlist and curated built-in signatures, then stays entirely local.',
+    body: 'TraceGlass helps support specialists highlight the log lines that matter with a local watchlist and curated built-in signatures, then stays entirely local.',
     seoDescription:
-      'A local-first Rust CLI for local keyword and regex highlights, curated built-in signature findings, and CI-ready log review. No AI or network access required.',
+      'Local-first log triage for support specialists. Keyword and regex watchlists plus curated signatures — no AI or network access required.',
     content: getDefaultMarketingPageContent('home'),
   },
   {
