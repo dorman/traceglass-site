@@ -85,6 +85,13 @@ const nextConfig: NextConfig = {
           // X-Frame-Options is obsoleted by CSP frame-ancestors per OWASP, but
           // we ship both for defense in depth across older browsers.
           { key: 'X-Frame-Options', value: 'DENY' },
+          // frame-ancestors is ignored in <meta http-equiv>; ship it as an HTTP
+          // header so /demo (and all routes) get clickjacking protection. The
+          // full nonce CSP still comes from proxy.ts when that runs.
+          {
+            key: 'Content-Security-Policy',
+            value: "frame-ancestors 'none'",
+          },
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
           {
             // Locked-down by default; apps opt features in via appCapabilities

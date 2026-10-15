@@ -10,8 +10,8 @@ export const siteDescription =
 // PWA + social-share colors. HEX only (the oklch() tokens in globals.css aren't
 // readable here) — set to match your brand seed.
 export const brandVisual = {
-  /** PWA browser-UI / status-bar color. */
-  themeColor: '#158353',
+  /** PWA browser-UI / status-bar color — Signal teal. */
+  themeColor: signalTheme.accent,
   /** PWA splash + install background. */
   backgroundColor: '#050706',
   /** Social-share (OG/Twitter) image. */

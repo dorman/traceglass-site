@@ -116,11 +116,11 @@ export function WaitlistForm({
   if (ok) {
     return (
       <output
-        className="flex flex-col items-start gap-3 rounded-lg border border-[#3EE0D8]/40 bg-[#3EE0D8]/10 p-5"
+        className="flex flex-col items-start gap-3 rounded-lg border border-[color:var(--signal-accent)]/40 bg-[color:var(--signal-accent)]/10 p-5"
         aria-live="polite"
       >
         <div className="flex items-center gap-2">
-          <CheckCircle2 aria-hidden="true" className="size-5 text-[#3EE0D8]" />
+          <CheckCircle2 aria-hidden="true" className="size-5 text-[color:var(--signal-accent)]" />
           <p className="text-base font-semibold text-foreground">You&apos;re on the list.</p>
         </div>
         <p className="text-sm text-muted-foreground">{successMessage}</p>
@@ -214,7 +214,9 @@ export function WaitlistForm({
         {pending ? 'Sending request…' : submitLabel}
       </Button>
 
-      {footerNote ? <p className="text-sm font-medium text-[#3EE0D8]">{footerNote}</p> : null}
+      {footerNote ? (
+        <p className="text-sm font-medium text-[color:var(--signal-accent)]">{footerNote}</p>
+      ) : null}
     </form>
   );
 }

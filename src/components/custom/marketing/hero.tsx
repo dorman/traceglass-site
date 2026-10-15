@@ -17,7 +17,7 @@ export function Hero() {
     <section id="top" className="relative overflow-hidden pb-16 pt-20 sm:pb-24 sm:pt-28">
       <div
         aria-hidden="true"
-        className="absolute inset-x-0 top-0 -z-10 h-[60vh] bg-gradient-to-b from-brand-100/60 via-background to-background dark:from-brand-900/30"
+        className="absolute inset-x-0 top-0 -z-10 h-[60vh] bg-gradient-to-b from-[color:var(--signal-accent)]/10 via-background to-background dark:from-[color:var(--signal-accent)]/15"
       />
       <div
         aria-hidden="true"
@@ -31,16 +31,16 @@ export function Hero() {
           <Link href="/release" className="w-fit">
             <Badge
               variant="outline"
-              className="gap-1.5 border-brand-400/60 bg-background/60 px-3 py-1 text-eyebrow text-brand-700 hover:border-brand-500/80 hover:bg-brand-50/60 dark:border-brand-700 dark:text-brand-300 dark:hover:bg-brand-900/30"
+              className="gap-1.5 border-[color:var(--signal-accent)]/60 bg-background/60 px-3 py-1 text-eyebrow text-[color:var(--signal-accent-strong)] hover:border-[color:var(--signal-accent)]/80 hover:bg-[color:var(--signal-accent)]/10 dark:border-[color:var(--signal-accent)]/50 dark:text-[color:var(--signal-accent)] dark:hover:bg-[color:var(--signal-accent)]/15"
             >
-              <span className="size-1.5 rounded-full bg-brand-500" />
+              <span className="size-1.5 rounded-full bg-[color:var(--signal-accent)]" />
               Coming soon · mid-November 2026
             </Badge>
           </Link>
 
           <h1 className="text-display font-display text-balance text-foreground">
             Local-first{' '}
-            <span className="bg-gradient-to-r from-brand-600 to-brand-400 bg-clip-text text-transparent dark:from-brand-400 dark:to-brand-200">
+            <span className="bg-gradient-to-r from-[color:var(--signal-accent-strong)] to-[color:var(--signal-accent)] bg-clip-text text-transparent dark:from-[color:var(--signal-accent)] dark:to-[color:var(--signal-accent-dim)]">
               log triage.
             </span>
           </h1>
@@ -69,7 +69,7 @@ export function Hero() {
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm">
             <Link
               href="/release"
-              className="font-medium text-brand-600 underline-offset-4 hover:underline dark:text-brand-400"
+              className="font-medium text-[color:var(--signal-accent-strong)] underline-offset-4 hover:underline dark:text-[color:var(--signal-accent)]"
             >
               Release status
             </Link>
@@ -78,7 +78,7 @@ export function Hero() {
             </span>
             <Link
               href="/signatures"
-              className="font-medium text-brand-600 underline-offset-4 hover:underline dark:text-brand-400"
+              className="font-medium text-[color:var(--signal-accent-strong)] underline-offset-4 hover:underline dark:text-[color:var(--signal-accent)]"
             >
               Signature library
             </Link>
@@ -103,7 +103,7 @@ export function Hero() {
         <div className="relative">
           <div
             aria-hidden="true"
-            className="absolute -inset-6 -z-10 rounded-3xl bg-gradient-to-tr from-brand-500/15 via-transparent to-transparent blur-2xl dark:from-brand-500/20"
+            className="absolute -inset-6 -z-10 rounded-3xl bg-gradient-to-tr from-[color:var(--signal-accent)]/15 via-transparent to-transparent blur-2xl dark:from-[color:var(--signal-accent)]/20"
           />
           <Terminal
             prompt="$ traceglass --watchlist traceglass.toml < docker-compose.log"

@@ -1,5 +1,6 @@
 // @polsia:user-owned — safe shared appearance contract for public and owner APIs.
 import { z } from 'zod';
+import { signalTheme } from '@/lib/signal-theme';
 
 export const SiteDesignSchema = z
   .object({
@@ -42,8 +43,8 @@ export type SiteDesignResponse = z.infer<typeof SiteDesignResponse>;
 export const DEFAULT_SITE_DESIGN: SiteDesign = SiteDesignSchema.parse({
   version: 1,
   colors: {
-    primary: '#55A77C',
-    accent: '#86A58F',
+    primary: signalTheme.accent,
+    accent: signalTheme.accentDim,
     background: '#090D0B',
     surface: '#141B17',
     text: '#E7EEE9',

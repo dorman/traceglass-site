@@ -107,7 +107,7 @@ test('public pages hide GitHub engine links and share one waitlist dialog', asyn
 
   // Submit button uses Signal teal primary colors while enabled.
   const submit = page.getByRole('dialog').getByRole('button', { name: 'Join the waitlist' });
-  await expect(submit).toHaveClass(/bg-\[#3EE0D8\]/);
+  await expect(submit).toHaveClass(/bg-\[color:var\(--signal-accent\)\]/);
   await expect(submit).toHaveClass(/text-\[#0B0F14\]/);
 
   const responsePromise = page.waitForResponse(

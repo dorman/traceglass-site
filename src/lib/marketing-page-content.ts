@@ -47,7 +47,7 @@ const homeSections: SnapshotSection[] = [
     terminal: {
       title: 'sample.log',
       prompt: '$ traceglass sample.log',
-      lines: ['Signal TUI · sample.log · general-triage', '7 findings · press s to review'],
+      lines: ['TraceGlass · sample.log · general-triage', '7 findings · press s to review'],
     },
   }),
   section('features', 'features', {

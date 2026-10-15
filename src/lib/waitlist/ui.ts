@@ -2,4 +2,4 @@
 
 /** Matches nav Notify me / hero Join the waitlist primary buttons. */
 export const WAITLIST_PRIMARY_BUTTON_CLASS =
-  'border-[#3EE0D8] bg-[#3EE0D8] text-[#0B0F14] shadow-none hover:bg-[#3EE0D8]/brightness-105 hover:text-[#0B0F14] focus-visible:ring-[#3EE0D8] disabled:pointer-events-none disabled:opacity-50';
+  'border-[color:var(--signal-accent)] bg-[color:var(--signal-accent)] text-[#0B0F14] shadow-none hover:brightness-105 hover:text-[#0B0F14] focus-visible:ring-[color:var(--signal-accent)] disabled:pointer-events-none disabled:opacity-50';
