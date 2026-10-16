@@ -2,16 +2,22 @@
 import type { Metadata } from 'next';
 import { ExistingPageSurface } from '@/components/custom/marketing/existing-page-surface';
 
+const title = 'TraceGlass launch waitlist';
+const description =
+  "Join the TraceGlass waitlist to hear when it's ready. Local-first CI log triage for developers and on-call engineers.";
+
 export const metadata: Metadata = {
-  title: 'TraceGlass launch waitlist',
-  description:
-    'Join the TraceGlass waitlist for early access. Local-first CI log triage for developers and on-call engineers.',
+  title,
+  description,
   alternates: { canonical: '/waitlist' },
   openGraph: {
-    title: 'TraceGlass launch waitlist',
-    description:
-      'Join the TraceGlass waitlist for early access. Local-first CI log triage for developers and on-call engineers.',
+    title,
+    description,
     url: '/waitlist',
+  },
+  twitter: {
+    title,
+    description,
   },
 };
 

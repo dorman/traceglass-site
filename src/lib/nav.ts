@@ -26,17 +26,13 @@ export interface NavItem {
 }
 
 // Keep the bar short: ~3-5 primary slots, group the tail with `menu`, push the
-// rest to 'footer' (SiteNav overflows extras into a "More" dropdown). Example:
-//   { label: 'Pricing', href: '/pricing', group: 'primary' },
-//   { label: 'Blog',    href: '/blog',    group: 'primary', menu: 'Resources' },
-//   { label: 'Docs',    href: '/docs',    group: 'primary', menu: 'Resources' },
-//   { label: 'Sign in', href: '/login',   group: 'secondary' },
+// rest to 'footer' (SiteNav overflows extras into a "More" dropdown).
 export const navItems: NavItem[] = [
   { label: 'Features', href: '/#features', group: 'primary', order: 1 },
   { label: 'How it works', href: '/#features', group: 'primary', order: 2 },
   { label: 'FAQ', href: '/#faq', group: 'primary', order: 3 },
-  // Secondary waitlist CTA opens the shared dialog (see SiteNav); href kept for
-  // sitemap/llms consumers and as a progressive-enhancement fallback.
+  // Secondary waitlist CTA: on home focuses hero email; elsewhere opens dialog
+  // (see SiteNav). href kept for sitemap/llms and progressive enhancement.
   { label: 'Notify me', href: '/waitlist', group: 'secondary', order: 2 },
   {
     label: 'Manage pages',
@@ -52,10 +48,8 @@ export const navItems: NavItem[] = [
     requiresOwner: true,
     order: 4,
   },
-  // About + Contact stay in the footer so the primary bar (and Notify me CTA) stay uncrowded.
   { label: 'About', href: '/about', group: 'footer', order: 1 },
   { label: 'Contact', href: '/contact', group: 'footer', order: 2 },
   { label: 'Waitlist', href: '/waitlist', group: 'footer', order: 3 },
-  { label: 'Release notes', href: '/release', group: 'footer', order: 4 },
-  { label: 'Install', href: '/install', group: 'footer', order: 5 },
+  { label: 'Privacy', href: '/#privacy', group: 'footer', order: 4 },
 ];

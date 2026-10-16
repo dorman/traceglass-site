@@ -25,7 +25,7 @@ test('about and contact pages render, validate, and stay accessible', async ({ p
     await expect(
       page.getByText('Installers will be signed and verified before they run.'),
     ).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Get early access' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Join the waitlist' })).toBeVisible();
     await expect(page.getByText('Copyright (c) 2026 TraceGlass')).toBeVisible();
     await expect(page.locator('footer')).toContainText('© 2026 TraceGlass');
     await expect(page.locator('a[href*="github.com/dorman"]')).toHaveCount(0);
@@ -68,11 +68,8 @@ test('about and contact pages render, validate, and stay accessible', async ({ p
   const footer = page.locator('footer');
   await expect(footer.getByRole('link', { name: 'About' })).toHaveAttribute('href', '/about');
   await expect(footer.getByRole('link', { name: 'Contact' })).toHaveAttribute('href', '/contact');
-  await expect(footer.getByRole('link', { name: 'Release notes' })).toHaveAttribute(
-    'href',
-    '/release',
-  );
   await expect(footer.getByRole('link', { name: 'Waitlist' })).toHaveAttribute('href', '/waitlist');
+  await expect(footer.getByRole('link', { name: 'Privacy' })).toHaveAttribute('href', '/#privacy');
 
   // Contact form client validation (no network).
   await page.goto(route('/contact'));
@@ -138,7 +135,7 @@ test('header and footer links resolve to real pages', async ({ page }) => {
   }
 
   // Footer link navigation smoke.
-  for (const label of ['Release notes', 'Waitlist', 'About', 'Contact', 'Install'] as const) {
+  for (const label of ['Waitlist', 'About', 'Contact', 'Privacy'] as const) {
     await page.goto(route('/about'));
     await page.locator('footer').getByRole('link', { name: label }).click();
     await expect(page).not.toHaveURL(/404/);

@@ -440,9 +440,6 @@ function PrivacySection({
       <div className="container-page">
         <Card className="site-design-card mx-auto max-w-3xl border-[color:var(--signal-accent)]/40 bg-gradient-to-br from-[color:var(--signal-accent)]/20 via-background to-background">
           <CardHeader className="gap-4 p-8">
-            <Badge variant="outline" className="w-fit">
-              Local-only
-            </Badge>
             <CardTitle className="text-h2 font-display">
               <Copy
                 content={content}

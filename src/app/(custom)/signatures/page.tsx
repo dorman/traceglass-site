@@ -6,7 +6,7 @@ import { ExistingPageSurface } from '@/components/custom/marketing/existing-page
 export const metadata: Metadata = {
   title: 'Product direction — TraceGlass',
   description:
-    'TraceGlass is focused on local-first CI log triage for GitHub Actions. Join the waitlist for early access.',
+    "TraceGlass is focused on local-first CI log triage for GitHub Actions. Join the waitlist to hear when it's ready.",
   alternates: { canonical: '/signatures' },
 };
 

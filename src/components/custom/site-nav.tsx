@@ -328,13 +328,30 @@ function SiteNavChrome({
           {/* Always-visible primary waitlist CTA (desktop + mobile). */}
           <div className="flex items-center gap-1">
             {secondary.map((item) =>
-              item.href === '/waitlist' && waitlistDialog ? (
+              item.href === '/waitlist' ? (
                 <Button
                   key={item.href}
                   type="button"
                   size="sm"
                   className={cn(WAITLIST_PRIMARY_BUTTON_CLASS, 'font-semibold')}
-                  onClick={(event) => waitlistDialog.openWaitlist(event.currentTarget)}
+                  onClick={() => {
+                    // Prefer focusing the hero inline email when it exists (home).
+                    const heroEmail = document.getElementById('waitlist-email-hero');
+                    if (heroEmail instanceof HTMLElement) {
+                      heroEmail.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                      window.setTimeout(() => heroEmail.focus(), 250);
+                      return;
+                    }
+                    if (waitlistDialog) {
+                      waitlistDialog.openWaitlist(
+                        document.activeElement instanceof HTMLElement
+                          ? document.activeElement
+                          : null,
+                      );
+                      return;
+                    }
+                    window.location.assign('/waitlist');
+                  }}
                 >
                   {item.label}
                 </Button>

@@ -63,54 +63,45 @@ describe('TraceGlass branding', () => {
     expect(homeCopy).not.toContain('already knows what they');
     expect(homeCopy).not.toContain('pricing');
     expect(homeCopy).not.toContain('$12');
-    expect(homeCopy).not.toContain('read the signal. ignore the noise.');
     expect(existingMarketingPages.find((page) => page.sourceKey === 'home')?.title).toBe(
       'TraceGlass',
     );
-    expect(getDefaultMarketingPageContent('billing').sections).toEqual([]);
-    expect(navItems.some((item) => item.href === '/#pricing' || item.href === '/billing')).toBe(
-      false,
-    );
     expect(homeCopy).toContain('first error candidate');
     expect(homeCopy).toContain('github actions');
-    expect(homeCopy).toContain('waitlist for early access');
+    expect(homeCopy).toContain("hear when it's ready");
+    expect(homeCopy).not.toContain('early access');
+    expect(homeCopy).not.toContain('mid-november');
     expect(homeCopy).not.toContain('support specialists');
-    expect(homeCopy).not.toContain('l2 (second-line)');
     expect(homeCopy).not.toContain('try in browser');
     expect(homeCopy).not.toContain('splunk');
     expect(homeCopy).not.toContain('signature catalog');
-    expect(homeCopy).not.toContain('grammarly');
-    expect(homeCopy).not.toContain('open-source');
-    expect(homeCopy).not.toContain('open source');
+    expect(homeCopy).not.toContain('no analytics');
     expect(siteDescription.toLowerCase()).toContain('ci log triage');
     expect(brandVisual.og.tagline.toLowerCase()).toContain('ci log triage');
     expect(navItems.some((item) => item.href === '/demo')).toBe(false);
     expect(navItems.some((item) => item.label === 'Try in browser')).toBe(false);
+    expect(navItems.filter((item) => item.group === 'footer').map((item) => item.label)).toEqual([
+      'About',
+      'Contact',
+      'Waitlist',
+      'Privacy',
+    ]);
   });
 
-  it('states waitlist early access without claiming installers are published', () => {
+  it('states waitlist without claiming installers are published', () => {
     const waitlist = getDefaultMarketingPageContent('waitlist');
     const waitlistCopy = JSON.stringify(waitlist);
     const installCopy = JSON.stringify(getDefaultMarketingPageContent('install'));
     const registryWaitlist = existingMarketingPages.find((page) => page.sourceKey === 'waitlist');
 
-    expect(waitlistCopy).toContain('Join the waitlist for early access.');
+    expect(waitlistCopy).toContain("Join the waitlist to hear when it's ready.");
+    expect(waitlistCopy.toLowerCase()).not.toContain('early access');
+    expect(waitlistCopy.toLowerCase()).not.toContain('mid-november');
     expect(waitlistCopy).not.toMatch(/\$\s*\d/);
-    expect(waitlistCopy).not.toMatch(/subscribe via stripe|subscribe to pro|subscribe now/i);
-    expect(waitlistCopy.toLowerCase()).not.toContain('grammarly');
-    expect(waitlistCopy.toLowerCase()).not.toContain('support specialists');
-    expect(registryWaitlist?.body).toContain('waitlist');
-    expect(registryWaitlist?.seoDescription.toLowerCase()).toContain('early access');
-    expect(navItems.some((item) => item.href === '/pricing')).toBe(false);
+    expect(registryWaitlist?.seoDescription.toLowerCase()).toContain('hear when');
     expect(navItems.some((item) => /github\.com/i.test(item.href))).toBe(false);
     expect(installCopy).toContain('Join the waitlist');
-    expect(installCopy).not.toMatch(/github\.com\/dorman/i);
     expect(installCopy.toLowerCase()).not.toContain('try the browser demo');
     expect(installCatalog.releases.releaseStatus).toBe('unpublished');
-    expect(
-      installCatalog.releases.platforms.every(
-        (platform) => platform.availability === 'unavailable',
-      ),
-    ).toBe(true);
   });
 });

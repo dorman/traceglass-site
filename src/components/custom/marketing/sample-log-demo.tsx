@@ -82,7 +82,7 @@ function Status() {
     <div className="signal-tui__status">
       <span className="signal-tui__mode">NORMAL</span>
       <span className="signal-tui__status-mid">
-        1 first error candidate - press n to jump
+        1 candidate · press E to jump
         {' · '}
         <span className="signal-tui__help">? help</span>
       </span>

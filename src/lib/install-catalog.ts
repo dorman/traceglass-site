@@ -28,7 +28,7 @@ export const installCatalog = {
     version: null,
     heading: 'One-click installers arrive at public launch',
     description:
-      'Signed installers for Linux, macOS, and Windows stay unpublished until the TraceGlass public launch around mid-November 2026. Join the waitlist for one email when they are available.',
+      'Signed installers for Linux, macOS, and Windows stay unpublished until TraceGlass publicly launches. Join the waitlist for one email when they are available.',
     releasePageUrl: 'https://traceglass.dev/release',
     verification: {
       manifestUrl: null,
@@ -81,7 +81,7 @@ export const installCatalog = {
       label: 'Coming soon',
       command: 'join the waitlist for launch notification',
       details:
-        'Installers and signed release artifacts are not published yet. Join the waitlist for one email when TraceGlass launches around mid-November 2026.',
+        'Installers and signed release artifacts are not published yet. Join the waitlist for one email when TraceGlass publicly launches.',
       docsUrl: 'https://traceglass.dev/waitlist',
     },
   },

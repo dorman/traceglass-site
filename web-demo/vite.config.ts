@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'node:path';
 
-// Self-contained static demo. No analytics, no third-party CDN scripts.
+// Self-contained static demo. No third-party CDN scripts.
 export default defineConfig({
   root: '.',
   base: './',

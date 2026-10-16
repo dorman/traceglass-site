@@ -43,7 +43,7 @@ const homeSections: SnapshotSection[] = [
   section('hero', 'hero', {
     eyebrow: 'Local-first CI log triage',
     heading: 'Start at the first error candidate.',
-    body: 'Open a failed GitHub Actions log offline. Jump to the first error candidate, fold the setup noise, compare with your last green run. Join the waitlist for early access.',
+    body: "Open a failed GitHub Actions log offline. Jump to the first error candidate, fold the setup noise, compare with your last green run. Join the waitlist to hear when it's ready.",
     inlineWaitlist: true,
     links: [{ label: 'See how it works', href: '#features' }],
     stats: [
@@ -53,10 +53,7 @@ const homeSections: SnapshotSection[] = [
     terminal: {
       title: 'ci-failed.log',
       prompt: '$ traceglass ci-failed.log',
-      lines: [
-        'TraceGlass · ci-failed.log · github-actions',
-        '1 first error candidate - press n to jump',
-      ],
+      lines: ['TraceGlass · ci-failed.log · github-actions', '1 candidate · press E to jump'],
     },
   }),
   section('features', 'features', {
@@ -91,16 +88,11 @@ const homeSections: SnapshotSection[] = [
       },
     ],
   }),
-  section(
-    'privacy',
-    'privacy',
-    {
-      heading: 'Your logs never leave your machine.',
-      body: 'TraceGlass is built so reading a log stays on your machine: no upload and no account. Offline use is the product goal. Network behavior of the CLI build is still being confirmed before we make stronger claims.',
-      points: ['No upload', 'No account', 'Works offline'],
-    },
-    [asset('privacy-lock', 'lock', 'Local-only privacy')],
-  ),
+  section('privacy', 'privacy', {
+    heading: 'Your logs never leave your machine.',
+    body: 'Reading a log happens on your machine: no upload and no account.',
+    points: ['No upload', 'No account', 'Works offline'],
+  }),
   section('faq', 'faq', {
     eyebrow: 'FAQ',
     heading: 'Questions developers and on-call engineers ask first.',
@@ -133,13 +125,13 @@ const homeSections: SnapshotSection[] = [
       },
       {
         question: 'How do I get access?',
-        answer: 'Join the waitlist for early access.',
+        answer: "Join the waitlist to hear when it's ready.",
       },
     ],
   }),
   section('waitlist-cta', 'waitlist-form', {
     heading: 'Join the waitlist.',
-    body: 'Get early access when TraceGlass is ready for developers and on-call engineers. We only use your email for that note and will not share it.',
+    body: "Join the waitlist to hear when TraceGlass is ready for developers and on-call engineers. We only use your email for that note and will not share it.",
   }),
 ];
 
@@ -154,17 +146,17 @@ const snapshots: Record<string, PageContentValue> = {
     sections: [
       section('install-hero', 'hero', {
         eyebrow: 'Install · coming soon',
-        heading: 'Installers arrive with early access.',
-        body: 'TraceGlass is local-first CI log triage for developers and on-call engineers. Installers are not published yet — join the waitlist for early access.',
+        heading: 'Installers are not published yet.',
+        body: "TraceGlass is local-first CI log triage for developers and on-call engineers. Installers are not published yet — join the waitlist to hear when it's ready.",
         links: [
           { label: 'Join the waitlist', href: '#join-waitlist' },
-          { label: 'Read release notes', href: '/release' },
+          { label: 'About TraceGlass', href: '/about' },
         ],
       }),
       section('install-coming-soon', 'cta', {
         eyebrow: 'Coming soon',
         heading: 'No downloads yet — join the waitlist.',
-        body: 'Signed installers for Linux, macOS, and Windows stay unpublished until early access. We only use your email for that note and will not share it.',
+        body: "Signed installers for Linux, macOS, and Windows stay unpublished until TraceGlass publicly launches. We only use your email for that note and will not share it.",
         links: [{ label: 'Join the waitlist', href: '#join-waitlist' }],
       }),
     ],
@@ -175,8 +167,8 @@ const snapshots: Record<string, PageContentValue> = {
     sections: [
       section('release-hero', 'hero', {
         eyebrow: 'Release status',
-        heading: 'Early access is next.',
-        body: 'TraceGlass is pivoting to local-first GitHub Actions log triage. Installers and signed releases are not available yet. Join the waitlist for early access.',
+        heading: "Join the waitlist to hear when it's ready.",
+        body: "TraceGlass is pivoting to local-first GitHub Actions log triage. Installers and signed releases are not available yet. Join the waitlist to hear when it's ready.",
         links: [{ label: 'Join the waitlist', href: '#join-waitlist' }],
       }),
       section('release-features', 'features', {
@@ -207,13 +199,13 @@ const snapshots: Record<string, PageContentValue> = {
       }),
       section('release-privacy', 'privacy', {
         heading: 'Your logs never leave your machine.',
-        body: 'TraceGlass is designed so triage stays local — no upload and no account required. Offline use is the product goal.',
+        body: 'Reading a log happens on your machine: no upload and no account.',
         points: ['No upload', 'No account', 'Works offline'],
       }),
       section('release-waitlist', 'cta', {
         eyebrow: 'Waitlist',
-        heading: 'Join the waitlist for early access.',
-        body: 'We are gauging demand for local-first CI log triage. We only use your email for early-access notes.',
+        heading: 'Join the waitlist.',
+        body: "We are gauging demand for local-first CI log triage. We only use your email to tell you when it's ready.",
         links: [{ label: 'Join the waitlist', href: '#join-waitlist' }],
       }),
     ],
@@ -225,12 +217,12 @@ const snapshots: Record<string, PageContentValue> = {
       section('signature-hero', 'hero', {
         eyebrow: 'Product direction',
         heading: 'Starting with GitHub Actions logs.',
-        body: 'TraceGlass is focused on local-first CI log triage: first error candidates, folded setup noise, and last-green compare. Join the waitlist for early access.',
+        body: "TraceGlass is focused on local-first CI log triage: first error candidates, folded setup noise, and last-green compare. Join the waitlist to hear when it's ready.",
         links: [{ label: 'Join the waitlist', href: '#join-waitlist' }],
       }),
       section('signature-waitlist', 'waitlist-form', {
         heading: 'Join the waitlist.',
-        body: 'Get early access when TraceGlass is ready. We only use your email for that note and will not share it.',
+        body: "Join the waitlist to hear when TraceGlass is ready. We only use your email for that note and will not share it.",
       }),
     ],
     assets: [asset('signature-library', 'library', 'CI log triage')],
@@ -239,13 +231,13 @@ const snapshots: Record<string, PageContentValue> = {
     version: 1,
     sections: [
       section('waitlist-hero', 'hero', {
-        eyebrow: 'Early access waitlist',
-        heading: 'Join the waitlist for early access.',
+        eyebrow: 'Waitlist',
+        heading: "Join the waitlist to hear when it's ready.",
         body: 'TraceGlass is local-first CI log triage for developers and on-call engineers. Open a failed GitHub Actions log offline, jump to the first error candidate, fold setup noise, and compare with your last green run.',
       }),
       section('waitlist-form', 'waitlist-form', {
         heading: 'Join the waitlist.',
-        body: 'We only use your email for early-access notes and will not share it. Signing up does not start a subscription.',
+        body: "We only use your email to tell you when TraceGlass publicly launches and will not share it. Signing up does not start a subscription.",
       }),
     ],
     assets: [asset('waitlist-shield', 'shield-check', 'Email-only waitlist')],
@@ -440,16 +432,16 @@ export function cleanupRetiredPricingContent(input: {
 
 const generatedWaitlistCopy = {
   title: 'TraceGlass launch waitlist',
-  body: 'Join the TraceGlass waitlist for early access to local-first CI log triage.',
+  body: "Join the TraceGlass waitlist to hear when local-first CI log triage is ready.",
   seoDescription:
-    'Join the TraceGlass waitlist for early access. Local-first CI log triage for developers and on-call engineers.',
-  heroEyebrow: 'Early access waitlist',
-  heroHeading: 'Join the waitlist for early access.',
+    "Join the TraceGlass waitlist to hear when it's ready. Local-first CI log triage for developers and on-call engineers.",
+  heroEyebrow: 'Waitlist',
+  heroHeading: "Join the waitlist to hear when it's ready.",
   heroBody:
     'TraceGlass is local-first CI log triage for developers and on-call engineers. Open a failed GitHub Actions log offline, jump to the first error candidate, fold setup noise, and compare with your last green run.',
   formHeading: 'Join the waitlist.',
   formBody:
-    'We only use your email for early-access notes and will not share it. Signing up does not start a subscription.',
+    'We only use your email to tell you when TraceGlass publicly launches and will not share it. Signing up does not start a subscription.',
 } as const;
 
 const previousGeneratedWaitlistCopy = {
@@ -459,22 +451,26 @@ const previousGeneratedWaitlistCopy = {
     'Join the email-only waitlist for curated local watchlists.',
     'A paid TraceGlass plan is planned, but it isn’t available yet. Request one email update; signup does not start a subscription.',
     'Join the TraceGlass launch waitlist for one email when the local-first log triage tool is publicly available around mid-November 2026.',
+    'Join the TraceGlass waitlist for early access to local-first CI log triage.',
   ],
   seoDescription: [
     'Join the TraceGlass Pro waitlist for weekly curated packs. No log content or diagnostic data is collected. Target launch: November 15, 2026.',
     'Join the TraceGlass Pro waitlist for weekly curated watchlists. No log content or diagnostic data is collected.',
     'A paid TraceGlass plan is planned, but it isn’t available yet. Request one email update; signup does not start a subscription. Target date: November 15, 2026.',
     'Join the TraceGlass launch waitlist. Local-first log triage for support specialists — one email at public launch around mid-November 2026. Not early access.',
+    'Join the TraceGlass waitlist for early access. Local-first CI log triage for developers and on-call engineers.',
   ],
   heroEyebrow: [
     'Pro · launching soon',
     'Paid plan · not available yet',
     'Public launch · mid-November 2026',
+    'Early access waitlist',
   ],
   heroHeading: [
     'Get the email when Pro ships.',
     'A paid TraceGlass plan is planned, but it isn’t available yet.',
     'Get one email when TraceGlass launches.',
+    'Join the waitlist for early access.',
   ],
   heroBody: [
     "Pro brings weekly curated, domain-tuned packs for Splunk, Docker, Kubernetes, Endpoint Detection, and CI runners — delivered to your local TraceGlass CLI without changing your editable local watchlist. We'll send exactly one message on the target launch date, November 15, 2026.",
@@ -488,6 +484,7 @@ const previousGeneratedWaitlistCopy = {
     'Your email address — and only your email address. No log content, source code, or filenames.',
     'A paid TraceGlass plan is planned, but it isn’t available yet. We’ll use your email only to send one update. Signing up does not start a subscription. Target launch date: November 15, 2026.',
     'We only use your email for one launch note and will not share it. Signing up does not start a subscription. Target launch: around mid-November 2026.',
+    'We only use your email for early-access notes and will not share it. Signing up does not start a subscription.',
   ],
 } as const;
 

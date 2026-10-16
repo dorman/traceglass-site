@@ -20,7 +20,8 @@ describe('SampleLogDemo data', () => {
     if (candidate?.kind === 'line') {
       expect(candidate.text.toLowerCase()).toContain('error');
     }
-    expect(sampleLogDemoSource).toContain('1 first error candidate - press n to jump');
+    expect(sampleLogDemoSource).toContain('1 candidate · press E to jump');
+    expect(sampleLogDemoSource).not.toContain('press n to jump');
     expect(sampleLogDemoSource).toContain('ci-failed.log');
     expect(sampleLogDemoSource.toLowerCase()).not.toContain('root cause of cascading');
   });
@@ -31,7 +32,7 @@ describe('SampleLogDemo data', () => {
     const terminal = hero?.data.terminal as { lines?: string[] } | undefined;
     expect(terminal?.lines).toEqual([
       'TraceGlass · ci-failed.log · github-actions',
-      '1 first error candidate - press n to jump',
+      '1 candidate · press E to jump',
     ]);
     expect(hero?.assets ?? []).toEqual([]);
   });

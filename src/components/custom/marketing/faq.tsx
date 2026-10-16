@@ -24,7 +24,7 @@ const items = [
   },
   {
     q: 'How do I get access?',
-    a: 'Join the waitlist for early access.',
+    a: "Join the waitlist to hear when it's ready.",
   },
 ] as const;
 

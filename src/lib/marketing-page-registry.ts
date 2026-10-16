@@ -37,9 +37,9 @@ export const existingMarketingPages: readonly ExistingMarketingPage[] = [
     slug: 'install',
     legacySlugs: [],
     title: 'Install TraceGlass',
-    body: 'TraceGlass installers are not published yet. Join the waitlist for early access.',
+    body: "TraceGlass installers are not published yet. Join the waitlist to hear when it's ready.",
     seoDescription:
-      'TraceGlass installers are coming soon. Join the waitlist for early access to local-first CI log triage.',
+      "TraceGlass installers are coming soon. Join the waitlist to hear when local-first CI log triage is ready.",
     content: getDefaultMarketingPageContent('install'),
   },
   {
@@ -50,9 +50,9 @@ export const existingMarketingPages: readonly ExistingMarketingPage[] = [
     slug: 'release',
     legacySlugs: [],
     title: 'TraceGlass release status',
-    body: 'TraceGlass is preparing early access for local-first GitHub Actions log triage. Join the waitlist.',
+    body: "TraceGlass is preparing local-first GitHub Actions log triage. Join the waitlist to hear when it's ready.",
     seoDescription:
-      'TraceGlass release status: join the waitlist for early access to local-first CI log triage.',
+      "TraceGlass release status: join the waitlist to hear when local-first CI log triage is ready.",
     content: getDefaultMarketingPageContent('release'),
   },
   {
@@ -63,9 +63,9 @@ export const existingMarketingPages: readonly ExistingMarketingPage[] = [
     slug: 'signatures',
     legacySlugs: [],
     title: 'Product direction',
-    body: 'TraceGlass is focused on local-first CI log triage for GitHub Actions. Join the waitlist for early access.',
+    body: "TraceGlass is focused on local-first CI log triage for GitHub Actions. Join the waitlist to hear when it's ready.",
     seoDescription:
-      'TraceGlass product direction: local-first GitHub Actions log triage. Join the waitlist for early access.',
+      "TraceGlass product direction: local-first GitHub Actions log triage. Join the waitlist to hear when it's ready.",
     content: getDefaultMarketingPageContent('signatures'),
   },
   {
@@ -76,9 +76,9 @@ export const existingMarketingPages: readonly ExistingMarketingPage[] = [
     slug: 'waitlist',
     legacySlugs: [],
     title: 'TraceGlass launch waitlist',
-    body: 'Join the TraceGlass waitlist for early access to local-first CI log triage.',
+    body: "Join the TraceGlass waitlist to hear when local-first CI log triage is ready.",
     seoDescription:
-      'Join the TraceGlass waitlist for early access. Local-first CI log triage for developers and on-call engineers.',
+      "Join the TraceGlass waitlist to hear when it's ready. Local-first CI log triage for developers and on-call engineers.",
     content: getDefaultMarketingPageContent('waitlist'),
   },
 ];

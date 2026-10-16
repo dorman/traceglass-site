@@ -15,6 +15,10 @@ export const metadata: Metadata = {
     description,
     url: '/about',
   },
+  twitter: {
+    title,
+    description,
+  },
 };
 
 export default function AboutPage() {

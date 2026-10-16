@@ -40,7 +40,8 @@ export function Hero() {
 
           <p className="max-w-xl text-balance text-body-lg text-muted-foreground">
             Open a failed GitHub Actions log offline. Jump to the first error candidate, fold the
-            setup noise, compare with your last green run. Join the waitlist for early access.
+            setup noise, compare with your last green run. Join the waitlist to hear when it&apos;s
+            ready.
           </p>
 
           <div className="max-w-md rounded-md border border-[color:var(--signal-accent)]/30 bg-card/80 p-4 shadow-lg shadow-black/20 sm:p-5">

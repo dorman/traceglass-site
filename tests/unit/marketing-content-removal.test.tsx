@@ -201,12 +201,12 @@ describe('retired TraceGlass pricing content', () => {
 
     expect(reconciled.changed).toBe(true);
     expect(reconciled.title).toBe('TraceGlass launch waitlist');
-    expect(reconciled.body).toContain('waitlist for early access');
+    expect(reconciled.body).toContain('hear when');
     expect(content.sections[2]).toEqual(customSection);
     expect(content.editorNote).toBe('Preserve this editor field.');
-    expect(content.sections[0]?.data.heading).toBe('Join the waitlist for early access.');
+    expect(content.sections[0]?.data.heading).toBe("Join the waitlist to hear when it's ready.");
     const formData = content.sections[1]?.data as { body?: string };
-    expect(formData.body).toContain('early-access notes');
+    expect(formData.body).toContain('publicly launches');
     expect(reconcileGeneratedWaitlistCopy(reconciled).changed).toBe(false);
   });
 });
