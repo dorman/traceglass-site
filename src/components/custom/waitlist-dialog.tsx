@@ -168,28 +168,24 @@ function WaitlistDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         className={cn(
-          'site-design-card dark max-h-[min(92vh,40rem)] w-[calc(100vw-1.5rem)] max-w-lg overflow-y-auto border-zinc-800 bg-zinc-950 p-5 text-zinc-100 shadow-2xl shadow-black/50 sm:p-6',
-          'border-[#2B3040] sm:rounded-lg',
+          'site-design-card max-h-[min(92vh,40rem)] w-[calc(100vw-1.5rem)] max-w-lg overflow-y-auto border-border bg-card p-5 text-card-foreground shadow-2xl shadow-black/10 dark:shadow-black/50 sm:p-6',
+          'sm:rounded-lg',
         )}
-        style={{
-          background:
-            'radial-gradient(120% 80% at 0% 0%, rgba(62,224,216,0.12), transparent 55%), radial-gradient(100% 70% at 100% 0%, rgba(139,124,246,0.14), transparent 50%), #0F1117',
-        }}
       >
         <DialogHeader className="gap-3 text-left">
-          <p className="text-eyebrow font-mono text-[color:var(--signal-accent)]">
+          <p className="text-eyebrow font-mono text-[color:var(--signal-accent-strong)] dark:text-[color:var(--signal-accent)]">
             PUBLIC LAUNCH · MID-NOVEMBER 2026
           </p>
-          <DialogTitle className="font-display text-h3 text-balance text-zinc-50">
+          <DialogTitle className="font-display text-h3 text-balance text-foreground">
             Get one email when TraceGlass launches
           </DialogTitle>
-          <DialogDescription className="text-sm leading-relaxed text-zinc-400 sm:text-[0.95rem]">
+          <DialogDescription className="text-sm leading-relaxed text-muted-foreground sm:text-[0.95rem]">
             TraceGlass is a local-first log triage tool. We&apos;re gauging interest ahead of a
             public launch around mid-November, and we&apos;ll email you once when it ships. No early
             access, no newsletter, and your email is never shared.
           </DialogDescription>
         </DialogHeader>
-        <div className="mt-2 rounded-md border border-zinc-800 bg-zinc-950/80 p-4 sm:p-5">
+        <div className="mt-2 rounded-md border border-border bg-muted/40 p-4 sm:p-5 dark:bg-muted/20">
           <WaitlistForm
             key={formKey}
             idPrefix="dialog"
@@ -198,9 +194,12 @@ function WaitlistDialog({
             footerNote="Your logs are never uploaded."
           />
         </div>
-        <p className="text-xs leading-relaxed text-zinc-500">
+        <p className="text-xs leading-relaxed text-muted-foreground">
           Prefer a full page?{' '}
-          <a href="/waitlist" className="text-[#8B7CF6] underline-offset-2 hover:underline">
+          <a
+            href="/waitlist"
+            className="font-medium text-[color:var(--signal-accent-strong)] underline-offset-2 hover:underline dark:text-[color:var(--signal-accent)]"
+          >
             Open the waitlist page
           </a>
           .

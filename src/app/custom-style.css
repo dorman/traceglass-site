@@ -20,6 +20,7 @@
   --site-border: #2b3930;
 }
 
+html.dark[data-site-design="active"],
 html[data-site-design="active"] .dark {
   --background: var(--site-background);
   --foreground: var(--site-text);
@@ -41,22 +42,44 @@ html[data-site-design="active"] .dark {
 }
 
 .site-design-nav {
+  background-color: color-mix(in srgb, var(--background) 92%, transparent);
+  border-color: var(--border);
+  color: var(--foreground);
+}
+
+html.dark .site-design-nav {
   background-color: color-mix(in srgb, var(--site-background) 95%, transparent);
   border-color: var(--site-border);
   color: var(--site-text);
 }
 
 .site-design-nav .site-design-nav-link {
+  color: var(--muted-foreground);
+}
+
+html.dark .site-design-nav .site-design-nav-link {
   color: var(--site-muted-text);
 }
 
 .site-design-nav .site-design-nav-link:hover,
 .site-design-nav .site-design-nav-link[aria-current="page"] {
+  background-color: var(--muted);
+  color: var(--signal-accent-strong);
+}
+
+html.dark .site-design-nav .site-design-nav-link:hover,
+html.dark .site-design-nav .site-design-nav-link[aria-current="page"] {
   background-color: var(--site-surface);
-  color: var(--site-primary);
+  color: var(--signal-accent);
 }
 
 .site-design-menu {
+  background-color: var(--card);
+  border-color: var(--border);
+  color: var(--card-foreground);
+}
+
+html.dark .site-design-menu {
   background-color: var(--site-surface);
   border-color: var(--site-border);
   color: var(--site-text);
@@ -64,46 +87,77 @@ html[data-site-design="active"] .dark {
 
 .site-design-menu [role="menuitem"]:focus,
 .site-design-menu [data-highlighted] {
+  background-color: color-mix(in srgb, var(--signal-accent) 14%, var(--card));
+  color: var(--foreground);
+}
+
+html.dark .site-design-menu [role="menuitem"]:focus,
+html.dark .site-design-menu [data-highlighted] {
   background-color: color-mix(in srgb, var(--site-primary) 18%, var(--site-surface));
   color: var(--site-text);
 }
 
 .site-design-nav .site-design-action,
 .site-design-button {
-  background-color: var(--site-primary);
-  border-color: var(--site-primary);
-  color: var(--site-background);
+  background-color: var(--signal-accent);
+  border-color: var(--signal-accent);
+  color: var(--signal-match-fg, #0b0f14);
 }
 
 .site-design-nav .site-design-action:hover,
 .site-design-button:hover {
-  background-color: var(--site-accent);
-  border-color: var(--site-accent);
-  color: var(--site-background);
+  background-color: var(--signal-accent-dim, var(--signal-accent));
+  border-color: var(--signal-accent-dim, var(--signal-accent));
+  color: var(--signal-match-fg, #0b0f14);
 }
 
 .site-design-footer {
+  background-color: var(--background);
+  border-color: var(--border);
+  color: var(--foreground);
+}
+
+html.dark .site-design-footer {
   background-color: var(--site-background);
   border-color: var(--site-border);
   color: var(--site-text);
 }
 
 .site-design-footer a {
+  color: var(--muted-foreground);
+}
+
+html.dark .site-design-footer a {
   color: var(--site-muted-text);
 }
 
 .site-design-footer a:hover {
-  color: var(--site-primary);
+  color: var(--signal-accent-strong);
+}
+
+html.dark .site-design-footer a:hover {
+  color: var(--signal-accent);
 }
 
 .site-design-card {
-  border-color: var(--site-border);
+  border-color: var(--border);
   border-radius: var(--radius);
+}
+
+html.dark .site-design-card {
+  border-color: var(--site-border);
 }
 
 html[data-site-design="active"] .site-design-page .text-eyebrow,
 html[data-site-design="active"] .site-design-page [class*="text-brand-"] {
-  /* Eyebrows use full Signal teal (not the dim secondary) so marketing chrome matches CTAs. */
+  /* Darker teal on light surfaces (AA); bright Signal teal in dark mode. */
+  color: var(--signal-accent-strong);
+}
+
+html.dark[data-site-design="active"] .site-design-page .text-eyebrow,
+html.dark[data-site-design="active"] .site-design-page [class*="text-brand-"],
+html[data-site-design="active"] .dark .text-eyebrow,
+html[data-site-design="active"] .dark [class*="text-brand-"] {
   color: var(--signal-accent);
 }
 
@@ -112,7 +166,14 @@ html[data-site-design="active"] .site-design-page ::selection {
   color: var(--site-background);
 }
 
-html[data-site-card-treatment="terminal"] .site-design-card,
+/* Light mode: card treatments use semantic surfaces (not forced dark site tokens). */
+html[data-site-card-treatment="terminal"] .site-design-card {
+  background-color: var(--card);
+  box-shadow: 0 12px 28px color-mix(in srgb, var(--foreground) 8%, transparent);
+}
+
+html.dark[data-site-card-treatment="terminal"] .site-design-card,
+html[data-site-card-treatment="terminal"] .dark .site-design-card,
 .site-design-preview[data-site-card-treatment="terminal"] .site-design-card {
   background-color: color-mix(in srgb, var(--site-surface) 92%, var(--site-background));
   box-shadow: 0 16px 36px color-mix(in srgb, var(--site-background) 55%, transparent);
@@ -125,7 +186,13 @@ html[data-site-card-treatment="outlined"] .site-design-card,
   box-shadow: none;
 }
 
-html[data-site-card-treatment="soft"] .site-design-card,
+html[data-site-card-treatment="soft"] .site-design-card {
+  background-color: color-mix(in srgb, var(--card) 88%, var(--signal-accent));
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--foreground) 6%, transparent);
+}
+
+html.dark[data-site-card-treatment="soft"] .site-design-card,
+html[data-site-card-treatment="soft"] .dark .site-design-card,
 .site-design-preview[data-site-card-treatment="soft"] .site-design-card {
   background-color: color-mix(in srgb, var(--site-surface) 78%, var(--site-accent));
   box-shadow: 0 8px 24px color-mix(in srgb, var(--site-background) 28%, transparent);

@@ -12,11 +12,11 @@ import { WAITLIST_PRIMARY_BUTTON_CLASS } from '@/lib/waitlist/ui';
 export function InstallGuide() {
   return (
     <section className="mt-10 flex flex-col gap-8">
-      <Card className="site-design-card border-[#2B3040] bg-zinc-950/80">
+      <Card className="site-design-card border-border bg-card">
         <CardHeader className="gap-4">
           <Badge
             variant="outline"
-            className="w-fit border-[color:var(--signal-accent)]/50 px-3 py-1 text-eyebrow text-[color:var(--signal-accent)]"
+            className="w-fit border-[color:var(--signal-accent)]/50 px-3 py-1 text-eyebrow text-[color:var(--signal-accent-strong)] dark:text-[color:var(--signal-accent)]"
           >
             Coming soon · mid-November 2026
           </Badge>

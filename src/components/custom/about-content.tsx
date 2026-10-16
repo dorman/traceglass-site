@@ -2,7 +2,6 @@
 import Link from 'next/link';
 import { JoinWaitlistButton } from '@/components/custom/waitlist-dialog';
 import { Button } from '@/components/ui/button';
-import { signalTheme } from '@/lib/signal-theme';
 import { cn } from '@/lib/utils';
 import { WAITLIST_PRIMARY_BUTTON_CLASS } from '@/lib/waitlist/ui';
 
@@ -30,41 +29,41 @@ const principles = [
 
 export function AboutContent() {
   return (
-    <article className="site-design-page dark min-h-full bg-zinc-950 text-zinc-100">
-      <header className="border-b border-zinc-800 bg-zinc-950 py-12 sm:py-16">
+    <article className="site-design-page min-h-full bg-background text-foreground">
+      <header className="border-b border-border bg-background py-12 sm:py-16">
         <div className="container-page max-w-3xl">
-          <p className="text-eyebrow font-mono" style={{ color: signalTheme.accent }}>
+          <p className="text-eyebrow font-mono text-[color:var(--signal-accent-strong)] dark:text-[color:var(--signal-accent)]">
             ABOUT · TRACEGLASS
           </p>
-          <h1 className="mt-3 font-display text-display text-balance break-words text-zinc-50">
+          <h1 className="mt-3 font-display text-display text-balance break-words text-foreground">
             Local-first log triage.
           </h1>
-          <p className="mt-4 max-w-2xl text-body-lg text-zinc-400">
+          <p className="mt-4 max-w-2xl text-body-lg text-muted-foreground">
             TraceGlass ranks signals in diagnostic logs so support specialists can find what matters
             without sending files off-machine.
           </p>
         </div>
       </header>
 
-      <section className="section border-b border-zinc-800/80">
+      <section className="section border-b border-border/80">
         <div className="container-page max-w-3xl flex flex-col gap-5">
-          <h2 className="font-display text-h2 text-balance text-zinc-50">What it is</h2>
-          <p className="text-body-lg leading-relaxed text-zinc-400">
+          <h2 className="font-display text-h2 text-balance text-foreground">What it is</h2>
+          <p className="text-body-lg leading-relaxed text-muted-foreground">
             TraceGlass is a local-first log triage tool. Open a diagnostic collection or pipe a
             stream through a Rust engine that keeps source lines visible while it ranks signals —
             built for support specialists.
           </p>
-          <p className="text-body-lg leading-relaxed text-zinc-400">
+          <p className="text-body-lg leading-relaxed text-muted-foreground">
             Your logs are processed on your machine and never uploaded.
           </p>
         </div>
       </section>
 
-      <section className="section border-b border-zinc-800/80">
+      <section className="section border-b border-border/80">
         <div className="container-page max-w-3xl flex flex-col gap-8">
           <div className="flex flex-col gap-3">
-            <h2 className="font-display text-h2 text-balance text-zinc-50">Why it exists</h2>
-            <p className="text-body-lg leading-relaxed text-zinc-400">
+            <h2 className="font-display text-h2 text-balance text-foreground">Why it exists</h2>
+            <p className="text-body-lg leading-relaxed text-muted-foreground">
               Support work already lives in large, messy diagnostics. TraceGlass exists to make that
               review faster without asking anyone to trust a cloud inbox with customer logs.
             </p>
@@ -73,10 +72,10 @@ export function AboutContent() {
             {principles.map((item) => (
               <li
                 key={item.title}
-                className="flex flex-col gap-2 border border-zinc-800 bg-zinc-950/80 p-5 sm:p-6"
+                className="site-design-card flex flex-col gap-2 border border-border bg-card p-5 sm:p-6"
               >
-                <h3 className="text-base font-semibold text-zinc-100">{item.title}</h3>
-                <p className="text-sm leading-relaxed text-zinc-400 sm:text-[0.9375rem]">
+                <h3 className="text-base font-semibold text-card-foreground">{item.title}</h3>
+                <p className="text-sm leading-relaxed text-muted-foreground sm:text-[0.9375rem]">
                   {item.body}
                 </p>
               </li>
@@ -88,11 +87,11 @@ export function AboutContent() {
       <section className="section">
         <div className="container-page max-w-3xl flex flex-col gap-6">
           <div className="flex flex-col gap-3">
-            <p className="text-eyebrow font-mono" style={{ color: signalTheme.accent }}>
+            <p className="text-eyebrow font-mono text-[color:var(--signal-accent-strong)] dark:text-[color:var(--signal-accent)]">
               PUBLIC LAUNCH · MID-NOVEMBER 2026
             </p>
-            <h2 className="font-display text-h2 text-balance text-zinc-50">When it launches</h2>
-            <p className="text-body-lg leading-relaxed text-zinc-400">
+            <h2 className="font-display text-h2 text-balance text-foreground">When it launches</h2>
+            <p className="text-body-lg leading-relaxed text-muted-foreground">
               TraceGlass is preparing for a public launch around mid-November 2026. Join the
               waitlist for one email when it ships — no newsletter, and your email is never shared.
             </p>
