@@ -4,9 +4,9 @@ import type { Metadata } from 'next';
 import { ExistingPageSurface } from '@/components/custom/marketing/existing-page-surface';
 
 export const metadata: Metadata = {
-  title: 'Signature library — TraceGlass',
+  title: 'Product direction — TraceGlass',
   description:
-    'Preview the v0.2.0 curated, versioned built-in signature library for Splunk search errors, Windows Event anomalies, and antivirus/EDR alerts. Built-ins produce findings and never enter your local watchlist.',
+    'TraceGlass is focused on local-first CI log triage for GitHub Actions. Join the waitlist for early access.',
   alternates: { canonical: '/signatures' },
 };
 

@@ -1,91 +1,67 @@
-// @polsia:user-owned — FAQ section for the TraceGlass marketing page.
-// Server Component. 5 honest items using the Accordion primitive. The shipped
-// Accordion root is a Radix client component — keeping this section a Server
-// Component here just means the page tree stays a Server Component while the
-// internals of <Accordion/> hydrate on their own (the existing shadcn pattern).
-
+// @polsia:user-owned — FAQ section (static fallback; live home uses CMS renderer).
 import Link from 'next/link';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
 
 const items = [
   {
-    q: 'How does this differ from grep --color?',
-    a: 'grep highlights a pattern. TraceGlass keeps curated built-in signatures as separate scan evidence, while your keyword and regex highlights are user-controlled entries in a local watchlist. It prints counts and exits non-zero on critical findings, so one command replaces a grep wrapper script in CI.',
-  },
-  {
     q: 'Does it upload my logs?',
-    a: 'No. The CLI is a single Rust binary that reads from stdin, a file, or a pipe and writes to your terminal. The local watchlist needs no AI or network access: there is no network call, hosted backend, or analytics. The same binary that runs in your terminal this morning will run the same way next year.',
+    a: 'No. Triage is designed to run on your machine. Your log file stays local.',
   },
   {
-    q: "What's the install method?",
-    a: (
-      <>
-        The TraceGlass one-click beta installer is planned for Linux glibc x86_64, macOS Apple
-        silicon, macOS Intel, and Windows x86_64. It will verify the signed release before
-        installing for the current user; downloads remain disabled until those artifacts exist.{' '}
-        <Link
-          href="/install"
-          className="font-medium text-[color:var(--signal-accent-strong)] underline-offset-4 hover:underline dark:text-[color:var(--signal-accent)]"
-        >
-          See the full install guide.
-        </Link>{' '}
-        Technical users can build from source while the signed beta release is unpublished. The
-        single-binary distribution is what keeps the tool auditable in five minutes.
-      </>
-    ),
+    q: 'Does it find the root cause?',
+    a: 'No. It shows a first error candidate and the evidence around it. You decide what it means.',
   },
   {
-    q: 'What about regex highlights and watchlists?',
-    a: 'The TUI supports keyword and regex highlights today. Press a or r to add the selected highlight to your local watchlist. Curated built-in signatures are a separate versioned scan catalog and never enter the saved list. No candidate suggestions are currently generated.',
+    q: 'Which logs work?',
+    a: 'GitHub Actions logs and zips in v1. Other formats are not promised.',
   },
   {
-    q: 'Which log formats work?',
-    a: 'Anything that is line-oriented text. Splunk CSV exports, JSON-per-line, Docker Compose output, kubectl logs piped in plain format, antivirus diagnostic.txt, CI runner output, systemd journalctl in short format. The runner reads each line as a string; local watchlist entries match according to their keyword or regex kind.',
+    q: 'How is it different from searching the log?',
+    a: 'It folds repeated setup noise, jumps to the first error candidate, and compares with a green run you provide.',
   },
-];
+  {
+    q: 'How does the last-green comparison work offline?',
+    a: 'You supply the passing log file. TraceGlass compares it with the failed log locally.',
+  },
+  {
+    q: 'How do I get access?',
+    a: 'Join the waitlist for early access.',
+  },
+] as const;
 
-export function FAQ() {
+export function Faq() {
   return (
     <section id="faq" className="section">
       <div className="container-page grid gap-10 lg:grid-cols-[0.4fr_0.6fr] lg:gap-16">
-        <div className="flex flex-col gap-3">
-          <span className="text-eyebrow">FAQ</span>
-          <h2 className="text-h2 font-display text-balance text-foreground">
-            Questions support specialists ask before installing a CLI.
+        <div className="flex max-w-3xl flex-col gap-3">
+          <span className="text-eyebrow text-[color:var(--signal-accent-strong)] dark:text-[color:var(--signal-accent)]">
+            FAQ
+          </span>
+          <h2 className="text-balance text-h2 font-display text-foreground max-md:max-w-[20ch] max-md:text-[1.65rem] max-md:leading-snug md:max-w-xl">
+            Questions developers and on-call engineers ask first.
           </h2>
           <p className="text-body-lg text-muted-foreground">
             If yours isn&apos;t here,{' '}
-            <a
-              href="mailto:traceglass@polsia.app"
+            <Link
+              href="/contact"
               className="font-medium text-[color:var(--signal-accent-strong)] underline-offset-4 hover:underline dark:text-[color:var(--signal-accent)]"
             >
               write to us
-            </a>
+            </Link>
             .
           </p>
         </div>
-
-        <Accordion type="single" collapsible className="w-full">
+        <div>
           {items.map((item) => (
-            <AccordionItem
-              key={item.q}
-              value={item.q}
-              className="border-b border-border/60 last:border-b-0"
-            >
-              <AccordionTrigger className="py-5 text-base font-semibold text-foreground hover:no-underline hover:text-[color:var(--signal-accent-strong)] dark:hover:text-[color:var(--signal-accent)]">
-                {item.q}
-              </AccordionTrigger>
-              <AccordionContent className="pb-5 text-sm leading-relaxed text-muted-foreground">
-                {item.a}
-              </AccordionContent>
-            </AccordionItem>
+            <details key={item.q} className="border-b border-border/60 py-5">
+              <summary className="cursor-pointer font-semibold text-foreground">{item.q}</summary>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{item.a}</p>
+            </details>
           ))}
-        </Accordion>
+          <p className="mt-6 text-xs leading-relaxed text-muted-foreground/80">
+            TraceGlass is not affiliated with GitHub. GitHub Actions is used only to name the log
+            format.
+          </p>
+        </div>
       </div>
     </section>
   );

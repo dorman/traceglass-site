@@ -24,9 +24,9 @@ export const existingMarketingPages: readonly ExistingMarketingPage[] = [
     slug: 'home',
     legacySlugs: [],
     title: 'TraceGlass',
-    body: 'TraceGlass helps support specialists highlight the log lines that matter with a local watchlist and curated built-in signatures, then stays entirely local.',
+    body: 'TraceGlass is local-first CI log triage for developers and on-call engineers. Open a failed GitHub Actions log offline, jump to the first error candidate, fold setup noise, and compare with your last green run.',
     seoDescription:
-      'Local-first log triage for support specialists. Keyword and regex watchlists plus curated signatures — no AI or network access required.',
+      'Local-first CI log triage for developers and on-call engineers. Open failed GitHub Actions logs offline — first error candidate, last-green compare.',
     content: getDefaultMarketingPageContent('home'),
   },
   {
@@ -37,9 +37,9 @@ export const existingMarketingPages: readonly ExistingMarketingPage[] = [
     slug: 'install',
     legacySlugs: [],
     title: 'Install TraceGlass',
-    body: 'TraceGlass installers arrive at the public launch around mid-November 2026. Join the waitlist for one email when they are available.',
+    body: 'TraceGlass installers are not published yet. Join the waitlist for early access.',
     seoDescription:
-      'TraceGlass installers are coming soon. Join the waitlist for one email at the public launch around mid-November 2026.',
+      'TraceGlass installers are coming soon. Join the waitlist for early access to local-first CI log triage.',
     content: getDefaultMarketingPageContent('install'),
   },
   {
@@ -50,9 +50,9 @@ export const existingMarketingPages: readonly ExistingMarketingPage[] = [
     slug: 'release',
     legacySlugs: [],
     title: 'TraceGlass release status',
-    body: 'TraceGlass is preparing for a public launch around mid-November 2026. Join the waitlist for one email when it is available.',
+    body: 'TraceGlass is preparing early access for local-first GitHub Actions log triage. Join the waitlist.',
     seoDescription:
-      'TraceGlass release status: public launch around mid-November 2026. Join the waitlist for one email when installers ship.',
+      'TraceGlass release status: join the waitlist for early access to local-first CI log triage.',
     content: getDefaultMarketingPageContent('release'),
   },
   {
@@ -62,10 +62,10 @@ export const existingMarketingPages: readonly ExistingMarketingPage[] = [
     templateKey: 'signatures',
     slug: 'signatures',
     legacySlugs: [],
-    title: 'Signature library',
-    body: 'Preview the open-source signature sets that ship with TraceGlass.',
+    title: 'Product direction',
+    body: 'TraceGlass is focused on local-first CI log triage for GitHub Actions. Join the waitlist for early access.',
     seoDescription:
-      'Preview the open-source TraceGlass signature library for search errors, Windows events, and antivirus alerts.',
+      'TraceGlass product direction: local-first GitHub Actions log triage. Join the waitlist for early access.',
     content: getDefaultMarketingPageContent('signatures'),
   },
   {
@@ -76,9 +76,9 @@ export const existingMarketingPages: readonly ExistingMarketingPage[] = [
     slug: 'waitlist',
     legacySlugs: [],
     title: 'TraceGlass launch waitlist',
-    body: 'Join the TraceGlass launch waitlist for one email when the local-first log triage tool is publicly available around mid-November 2026.',
+    body: 'Join the TraceGlass waitlist for early access to local-first CI log triage.',
     seoDescription:
-      'Join the TraceGlass launch waitlist. Local-first log triage for support specialists — one email at public launch around mid-November 2026. Not early access.',
+      'Join the TraceGlass waitlist for early access. Local-first CI log triage for developers and on-call engineers.',
     content: getDefaultMarketingPageContent('waitlist'),
   },
 ];

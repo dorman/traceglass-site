@@ -5,12 +5,10 @@
 'use client';
 
 import Link from 'next/link';
-import { Terminal } from '@/components/custom/terminal';
-import { JoinWaitlistButton } from '@/components/custom/waitlist-dialog';
+import { SampleLogDemo } from '@/components/custom/marketing/sample-log-demo';
+import { WaitlistForm } from '@/components/custom/waitlist-form';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { WAITLIST_PRIMARY_BUTTON_CLASS } from '@/lib/waitlist/ui';
 
 export function Hero() {
   return (
@@ -23,68 +21,39 @@ export function Hero() {
         aria-hidden="true"
         className="absolute inset-0 -z-10 [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_70%)]"
       >
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,oklch(1_0_0/0.04)_1px,transparent_1px),linear-gradient(to_bottom,oklch(1_0_0/0.04)_1px,transparent_1px)] bg-[size:64px_64px] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,oklch(1_0_0/0.04)_1px,transparent_1px),linear-gradient(to_bottom,oklch(1_0_0/0.04)_1px,transparent_1px)] bg-[size:64px_64px] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgb(255,255,255,0.05)_1px,transparent_1px)]" />
       </div>
 
       <div className="container-page grid items-start gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
         <div className="flex flex-col gap-7">
-          <Link href="/release" className="w-fit">
-            <Badge
-              variant="outline"
-              className="gap-1.5 border-[color:var(--signal-accent)]/60 bg-background/60 px-3 py-1 text-eyebrow text-[color:var(--signal-accent-strong)] hover:border-[color:var(--signal-accent)]/80 hover:bg-[color:var(--signal-accent)]/10 dark:border-[color:var(--signal-accent)]/50 dark:text-[color:var(--signal-accent)] dark:hover:bg-[color:var(--signal-accent)]/15"
-            >
-              <span className="size-1.5 rounded-full bg-[color:var(--signal-accent)]" />
-              Coming soon · mid-November 2026
-            </Badge>
-          </Link>
+          <Badge
+            variant="outline"
+            className="w-fit gap-1.5 border-[color:var(--signal-accent)]/60 bg-background/60 px-3 py-1 text-eyebrow text-[color:var(--signal-accent-strong)] dark:border-[color:var(--signal-accent)]/50 dark:text-[color:var(--signal-accent)]"
+          >
+            <span className="size-1.5 rounded-full bg-[color:var(--signal-accent)]" />
+            Local-first CI log triage
+          </Badge>
 
           <h1 className="text-display font-display text-balance text-foreground">
-            Local-first{' '}
-            <span className="bg-gradient-to-r from-[color:var(--signal-accent-strong)] to-[color:var(--signal-accent)] bg-clip-text text-transparent dark:from-[color:var(--signal-accent)] dark:to-[color:var(--signal-accent-dim)]">
-              log triage.
-            </span>
+            Start at the first error candidate.
           </h1>
 
           <p className="max-w-xl text-balance text-body-lg text-muted-foreground">
-            Add a keyword or regex highlight to your local watchlist. TraceGlass highlights, counts,
-            and fails the build on the lines you care about, while curated built-in signatures scan
-            separately — no AI or network access required.
+            Open a failed GitHub Actions log offline. Jump to the first error candidate, fold the
+            setup noise, compare with your last green run. Join the waitlist for early access.
           </p>
 
+          <div className="max-w-md rounded-md border border-[color:var(--signal-accent)]/30 bg-card/80 p-4 shadow-lg shadow-black/20 sm:p-5">
+            <WaitlistForm idPrefix="static-hero" submitLabel="Join the waitlist" />
+          </div>
+
           <div className="flex flex-wrap items-center gap-3">
-            <JoinWaitlistButton
-              size="lg"
-              className={cn('h-11 px-6 text-sm font-semibold', WAITLIST_PRIMARY_BUTTON_CLASS)}
-            >
-              Join the waitlist
-            </JoinWaitlistButton>
             <Button asChild variant="ghost" size="lg" className="h-11 px-5 text-sm font-semibold">
-              <Link href="#workflow">How it works</Link>
-            </Button>
-            <Button asChild variant="outline" size="lg" className="h-11 px-5 text-sm font-semibold">
-              <Link href="/demo">Try in browser</Link>
+              <Link href="#features">See how it works</Link>
             </Button>
           </div>
 
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm">
-            <Link
-              href="/release"
-              className="font-medium text-[color:var(--signal-accent-strong)] underline-offset-4 hover:underline dark:text-[color:var(--signal-accent)]"
-            >
-              Release status
-            </Link>
-            <span aria-hidden="true" className="text-muted-foreground/50">
-              ·
-            </span>
-            <Link
-              href="/signatures"
-              className="font-medium text-[color:var(--signal-accent-strong)] underline-offset-4 hover:underline dark:text-[color:var(--signal-accent)]"
-            >
-              Signature library
-            </Link>
-          </div>
-
-          <div className="mt-2 grid grid-cols-3 gap-4 border-t border-border/60 pt-6 text-sm text-muted-foreground sm:max-w-md">
+          <div className="mt-2 grid grid-cols-2 gap-4 border-t border-border/60 pt-6 text-sm text-muted-foreground sm:max-w-md">
             <div className="flex flex-col gap-0.5">
               <span className="text-h4 font-semibold text-foreground">100%</span>
               <span className="text-caption">runs locally</span>
@@ -92,10 +61,6 @@ export function Hero() {
             <div className="flex flex-col gap-0.5">
               <span className="text-h4 font-semibold text-foreground">0</span>
               <span className="text-caption">log bytes uploaded</span>
-            </div>
-            <div className="flex flex-col gap-0.5">
-              <span className="text-h4 font-semibold text-foreground">1 email</span>
-              <span className="text-caption">at launch</span>
             </div>
           </div>
         </div>
@@ -105,66 +70,7 @@ export function Hero() {
             aria-hidden="true"
             className="absolute -inset-6 -z-10 rounded-3xl bg-gradient-to-tr from-[color:var(--signal-accent)]/15 via-transparent to-transparent blur-2xl dark:from-[color:var(--signal-accent)]/20"
           />
-          <Terminal
-            prompt="$ traceglass --watchlist traceglass.toml < docker-compose.log"
-            title="docker-compose.log"
-          >
-            <code>
-              <span className="block whitespace-pre">
-                <span style={{ color: '#737A8C' }}>2026-07-22T10:14:02Z </span>
-                <span style={{ color: '#D7DAE0' }}>api-gateway-1 | </span>
-                <span className="font-semibold" style={{ color: '#7FA7CF' }}>
-                  INFO
-                </span>
-                <span style={{ color: '#D7DAE0' }}> Server ready on :8080</span>
-              </span>
-              <span className="block whitespace-pre">
-                <span style={{ color: '#737A8C' }}>2026-07-22T10:14:03Z </span>
-                <span style={{ color: '#D7DAE0' }}>api-gateway-1 | </span>
-                <span className="font-semibold" style={{ color: '#7FA7CF' }}>
-                  INFO
-                </span>
-                <span style={{ color: '#D7DAE0' }}> Connected to postgres</span>
-              </span>
-              <span className="block whitespace-pre">
-                <span style={{ color: '#737A8C' }}>2026-07-22T10:14:11Z </span>
-                <span style={{ color: '#D7DAE0' }}>payments-api-x | </span>
-                <span className="font-semibold" style={{ color: '#E06C75' }}>
-                  FATAL
-                </span>
-                <span style={{ color: '#D7DAE0' }}>
-                  {' '}
-                  NullPointerException at CheckoutService.charge:142
-                </span>
-              </span>
-              <span className="block whitespace-pre">
-                <span style={{ color: '#737A8C' }}>2026-07-22T10:14:12Z </span>
-                <span style={{ color: '#D7DAE0' }}>auth-svc-b | </span>
-                <span className="font-semibold" style={{ color: '#E06C75' }}>
-                  ERROR
-                </span>
-                <span style={{ color: '#D7DAE0' }}> upstream timeout, retries=3</span>
-              </span>
-              <span className="block whitespace-pre">
-                <span style={{ color: '#737A8C' }}>2026-07-22T10:14:14Z </span>
-                <span style={{ color: '#D7DAE0' }}>payments-api-x | </span>
-                <span className="font-semibold" style={{ color: '#7FA7CF' }}>
-                  INFO
-                </span>
-                <span style={{ color: '#D7DAE0' }}> Starting graceful shutdown</span>
-              </span>
-              <span className="block whitespace-pre" style={{ color: '#737A8C' }}>
-                {'\n'}counts: lines=5 critical=1 info=3
-              </span>
-              <span className="block whitespace-pre">
-                <span style={{ color: '#737A8C' }}>$ </span>
-                <span style={{ color: '#D7DAE0' }}>echo $?</span>
-              </span>
-              <span className="block whitespace-pre font-bold" style={{ color: '#E06C75' }}>
-                1
-              </span>
-            </code>
-          </Terminal>
+          <SampleLogDemo className="signal-tui--hero min-h-[22rem] w-full min-w-0 shadow-xl shadow-black/40 sm:min-h-[26rem]" />
         </div>
       </div>
     </section>

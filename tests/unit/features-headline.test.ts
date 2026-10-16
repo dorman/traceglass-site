@@ -13,7 +13,7 @@ describe('Features headline', () => {
       (section) => section.id === 'features',
     );
     expect(features?.data.heading).toBe(FEATURES_HEADING);
-    expect(features?.data.body).toContain('No upload and no remote processing');
+    expect(features?.data.body).toContain('Starting with GitHub Actions');
   });
 
   it('rewrites retired CMS Features headings without changing the body', () => {
@@ -22,6 +22,7 @@ describe('Features headline', () => {
     for (const previous of [
       PREVIOUS_FEATURES_HEADING,
       "Built for support specialists who already know what they're looking for.",
+      'Built for the people who read logs all day.',
     ]) {
       const withOld = {
         ...home,

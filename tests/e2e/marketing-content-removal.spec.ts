@@ -39,7 +39,9 @@ test('public pages no longer publish the retired paid offer', async ({ page }) =
       'privacy',
       'faq',
     ]);
-    await expect(page.getByRole('heading', { name: 'Local-first log triage.' })).toBeVisible();
+    await expect(
+      page.getByRole('heading', { name: 'Start at the first error candidate.' }),
+    ).toBeVisible();
     await expect(page.locator('body')).not.toContainText('Read the signal. Ignore the noise.');
     await expect(page.locator('body')).not.toContainText('$12');
     await expect(page.locator('body')).not.toContainText('Subscribe via Stripe');
@@ -114,16 +116,11 @@ test('public pages no longer publish the retired paid offer', async ({ page }) =
     expect(waitlistResponse.status()).toBe(200);
     const waitlist = PublicPage.parse(await waitlistResponse.json());
 
-    expect(JSON.stringify(waitlist)).toContain('Get one email when TraceGlass launches.');
-    expect(JSON.stringify(waitlist)).toContain('mid-November');
+    expect(JSON.stringify(waitlist)).toContain('Join the waitlist for early access.');
     expect(JSON.stringify(waitlist)).not.toMatch(/\$\s*\d/);
     expect(JSON.stringify(waitlist)).not.toMatch(/github\.com\/dorman/i);
-    await expect(page.locator('body')).toContainText('Get one email when TraceGlass launches.');
-    await expect(page.locator('body')).toContainText('not early access');
-    await expect(page.locator('meta[name="description"]')).toHaveAttribute(
-      'content',
-      /launch waitlist/i,
-    );
+    await expect(page.locator('body')).toContainText('Join the waitlist for early access.');
+    await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /waitlist/i);
     await expect(page.getByLabel('Email address')).toBeVisible();
     await expect(page.getByRole('button', { name: 'Notify me when available' })).toBeVisible();
     await expect(page.locator('a[href*="github.com/dorman"]')).toHaveCount(0);

@@ -25,11 +25,13 @@ test('public pages hide GitHub engine links and share one waitlist dialog', asyn
   await page.setViewportSize({ width: 1280, height: 850 });
   await page.goto(route('/'));
   await expect(page.getByText('log bytes uploaded', { exact: true })).toBeVisible();
+  // Hero primary CTA is an inline waitlist form (not a dialog trigger).
   await expect(page.getByRole('button', { name: 'Join the waitlist' }).first()).toBeVisible();
   await expect(page.locator('a[href*="github.com/dorman"]')).toHaveCount(0);
+  await expect(page.getByRole('link', { name: 'Try in browser' })).toHaveCount(0);
 
-  const join = page.getByRole('button', { name: 'Join the waitlist' }).first();
-  await join.click();
+  const notify = page.getByRole('button', { name: 'Notify me' });
+  await notify.click();
   const dialog = page.getByRole('dialog');
   await expect(dialog).toBeVisible();
   await expect(
@@ -77,13 +79,10 @@ test('public pages hide GitHub engine links and share one waitlist dialog', asyn
   // Focus returns to the trigger that opened the dialog.
   await expect
     .poll(async () =>
-      page.evaluate(
-        () => document.activeElement?.textContent?.includes('Join the waitlist') ?? false,
-      ),
+      page.evaluate(() => document.activeElement?.textContent?.includes('Notify me') ?? false),
     )
     .toBe(true);
 
-  const notify = page.getByRole('button', { name: 'Notify me' });
   await notify.click();
   await expect(page.getByRole('dialog')).toBeVisible();
   await expect(page.getByRole('dialog').getByRole('checkbox')).not.toBeChecked();

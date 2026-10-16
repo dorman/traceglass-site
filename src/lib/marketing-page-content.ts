@@ -14,10 +14,11 @@ type SnapshotSection = {
 export const PREVIOUS_FEATURES_HEADINGS = [
   "Built for the developer who already knows what they're looking for.",
   "Built for support specialists who already know what they're looking for.",
+  'Built for the people who read logs all day.',
 ] as const;
 /** @deprecated Prefer PREVIOUS_FEATURES_HEADINGS — kept for existing imports/tests. */
 export const PREVIOUS_FEATURES_HEADING = PREVIOUS_FEATURES_HEADINGS[0];
-export const FEATURES_HEADING = 'Built for the people who read logs all day.';
+export const FEATURES_HEADING = 'Built for whoever gets the red build.';
 
 const asset = (id: string, ref: string, alt?: string) => ({
   id,
@@ -40,127 +41,53 @@ const section = (
 
 const homeSections: SnapshotSection[] = [
   section('hero', 'hero', {
-    eyebrow: 'Rust-native · local-first · beta installer',
-    heading: 'Local-first log triage.',
-    body: 'Open a diagnostic file in the TUI, or pipe logs through a machine mode. TraceGlass keeps source lines visible while it ranks signals for L2 (second-line) support specialists across Splunk, Docker, Kubernetes, databases, and endpoint collections.',
-    links: [
-      { label: 'Join the waitlist', href: '#join-waitlist' },
-      { label: 'How it works', href: '#workflow' },
-      { label: 'Try in browser', href: '/demo' },
-    ],
+    eyebrow: 'Local-first CI log triage',
+    heading: 'Start at the first error candidate.',
+    body: 'Open a failed GitHub Actions log offline. Jump to the first error candidate, fold the setup noise, compare with your last green run. Join the waitlist for early access.',
+    inlineWaitlist: true,
+    links: [{ label: 'See how it works', href: '#features' }],
     stats: [
       { value: '100%', label: 'runs locally' },
       { value: '0', label: 'log bytes uploaded' },
-      { value: '1 click', label: 'beta install path' },
     ],
     terminal: {
-      title: 'sample.log',
-      prompt: '$ traceglass sample.log',
-      lines: ['TraceGlass · sample.log · general-triage', '7 findings · press s to review'],
+      title: 'ci-failed.log',
+      prompt: '$ traceglass ci-failed.log',
+      lines: [
+        'TraceGlass · ci-failed.log · github-actions',
+        '1 first error candidate - press n to jump',
+      ],
     },
   }),
   section('features', 'features', {
     eyebrow: 'Features',
     heading: FEATURES_HEADING,
-    body: 'No upload and no remote processing. The TUI keeps your user-controlled local keyword watchlist separate from curated built-in signatures: add a keyword or regex highlight when you choose, while built-ins produce findings without changing your saved entries.',
+    body: 'Starting with GitHub Actions logs. Five steps from a red build to a short summary you can paste into an issue or Slack.',
     items: [
       {
-        title: 'Stdin, file, or pipe',
-        body: 'Reads from stdin, a file path, or a piped stream. Drop into any shell command — tail, journalctl, kubectl logs, splunk export.',
-        icon: 'terminal',
+        title: 'Open offline',
+        body: 'Open a failed log file or the zip GitHub gives you. Nothing is uploaded to triage the log.',
+        icon: 'folder-open',
       },
       {
-        title: 'Curated built-in signatures + local highlights',
-        body: 'Review severity-ranked findings from the versioned built-in signature catalog, then add keyword or regex highlights to your local watchlist for the vocabulary of your system. Built-ins never enter the saved watchlist.',
+        title: 'First error candidate',
+        body: 'Jump to the earliest line that looks like a failure, with the lines around it as evidence.',
         icon: 'list-checks',
-        badge: 'Today',
       },
       {
-        title: 'File-first TUI',
-        body: 'A regular file opens the interactive terminal UI and scans immediately. Piped stdin and redirected output stay plain and automation-safe.',
-        icon: 'palette',
+        title: 'Fold the noise',
+        body: 'Repeated setup and install steps collapse into folded groups, and you can expand them when you need the detail.',
+        icon: 'fold-vertical',
       },
       {
-        title: 'Raw, JSON, or CSV',
-        body: 'Use --format raw, --format json, or --format csv for stable automation output with file identity, line numbers, severity, and evidence.',
-        icon: 'shield-alert',
+        title: 'Compare with last green',
+        body: 'Load a passing log you provide and see what changed between green and red.',
+        icon: 'git-compare',
       },
       {
-        title: 'One-click beta installer',
-        body: 'The planned TraceGlass installer verifies a signed release before installing for the current user and opening the TUI. Downloads stay disabled until artifacts are published.',
-        icon: 'package',
-      },
-      {
-        title: 'Local-only by default',
-        body: 'Runs entirely on the machine reading the log. The local watchlist needs no AI or network access: nothing is transmitted, no telemetry, no service, and no silent update behavior.',
-        icon: 'lock',
-      },
-    ],
-  }),
-  section('use-cases', 'use-cases', {
-    eyebrow: 'Built for',
-    heading: 'Wherever the log already lives.',
-    body: 'Splunk exports, Docker and Kubernetes output, systemd/journal logs, nginx, MySQL, PostgreSQL, Windows Event, antivirus/EDR collections, and generic diagnostics.',
-    items: [
-      {
-        title: 'Splunk exports',
-        body: 'Open a CSV export or choose JSON/CSV output for scripts while retaining raw source lines and matched evidence.',
-        command: '$ traceglass --format json splunk-export.csv',
-        output: '{ "file": "splunk-export.csv", "severity": "high" }',
-      },
-      {
-        title: 'Docker Compose',
-        body: 'Open a compose log and scan on open; use search, line filtering, and finding navigation to keep the review focused.',
-        command: '$ docker compose logs -t | traceglass',
-        output: 'L3  HIGH  container startup or runtime failure\nEnter → source evidence',
-      },
-      {
-        title: 'Antivirus diagnostic logs',
-        body: 'AV and EDR reports can be large and vendor-specific; line fallback keeps the source searchable even when a structure is unknown.',
-        command: '$ traceglass diagnostic-collection.zip',
-        output: '[2026-07-22 10:14] HIGH endpoint detection signal\nreview → jump to source line',
-      },
-      {
-        title: 'kubectl pod logs',
-        body: 'Kubernetes restart, probe, image-pull, and OOM signals are highlighted without requiring a vendor-specific parser.',
-        command: '$ kubectl logs api-x-7f9c | traceglass',
-        output:
-          'INFO  container started\nHIGH OOMKilled  memory limit exceeded\nfinding evidence retained',
-      },
-      {
-        title: 'CI runner logs',
-        body: 'Use JSON or CSV records in CI when a script needs stable fields; findings remain neutral review signals with evidence and severity.',
-        command: '$ traceglass --format csv runner.log',
-        output:
-          'file,line,severity,message,evidence,raw\nrunner.log,2,medium,panic: …,Diagnostic assertion,…',
-      },
-    ],
-  }),
-  section('workflow', 'how-it-works', {
-    eyebrow: 'How it works',
-    heading: 'Install once, then review locally.',
-    body: 'The beta installer verifies the release, opens the same interactive TUI, and leaves every CLI output mode available for scripts.',
-    items: [
-      {
-        number: '01',
-        title: 'Open a source',
-        body: 'Pass a file, folder, ZIP bundle, or pipe stdin. The TUI scans file paths on open and preserves raw line identity.',
-        command: '$ traceglass ./diagnostic-bundle/',
-        output: 'opened 8 file(s) · scanning diagnostic signals…',
-      },
-      {
-        number: '02',
-        title: 'Search and triage',
-        body: 'Search text, filter visible lines, filter finding severity, and jump from a finding to its source evidence.',
-        command: '$ traceglass --format json events.ndjson',
-        output: '[ { "line": 2, "severity": "high", "finding": { ... } } ]',
-      },
-      {
-        number: '03',
-        title: 'Choose an output mode',
-        body: 'Pipes default to raw text. Explicit raw, JSON, and CSV modes never start the interactive terminal protocol.',
-        command: '$ cat app.log | traceglass --format csv',
-        output: 'file,line,severity,message,evidence,raw',
+        title: 'Short Markdown summary',
+        body: 'Export the candidate and its evidence as Markdown for an issue, PR comment, or Slack thread.',
+        icon: 'file-down',
       },
     ],
   }),
@@ -168,43 +95,51 @@ const homeSections: SnapshotSection[] = [
     'privacy',
     'privacy',
     {
-      heading: 'Nothing leaves your machine.',
-      body: 'TraceGlass is a local CLI. Your log content, your stack traces, your PII — all of it stays in the pipe between the source command and your terminal. There is no hosted backend, no analytics, no opt-in telemetry. Even crash reports are written locally.',
-      points: ['No network calls', 'No cloud dashboard', 'No telemetry'],
+      heading: 'Your logs never leave your machine.',
+      body: 'TraceGlass is built so reading a log stays on your machine: no upload and no account. Offline use is the product goal. Network behavior of the CLI build is still being confirmed before we make stronger claims.',
+      points: ['No upload', 'No account', 'Works offline'],
     },
     [asset('privacy-lock', 'lock', 'Local-only privacy')],
   ),
   section('faq', 'faq', {
     eyebrow: 'FAQ',
-    heading: 'Questions support specialists ask before installing a CLI.',
+    heading: 'Questions developers and on-call engineers ask first.',
     body: "If yours isn't here, write to us.",
+    disclaimer:
+      'TraceGlass is not affiliated with GitHub. GitHub Actions is used only to name the log format.',
     items: [
       {
-        question: 'How does this differ from grep --color?',
-        answer:
-          'grep highlights a pattern. TraceGlass keeps curated built-in signatures as separate scan evidence, while your keyword and regex highlights are user-controlled entries in a local watchlist. Add them explicitly, then jump from each match to its source line.',
-      },
-      {
         question: 'Does it upload my logs?',
-        answer:
-          'No. The CLI is a single Rust binary that reads from stdin, a file, or a pipe and writes to your terminal. The local watchlist needs no AI or network access: there is no network call, hosted backend, or analytics.',
+        answer: 'No. Triage is designed to run on your machine. Your log file stays local.',
       },
       {
-        question: 'What is the beta install method?',
+        question: 'Does it find the root cause?',
         answer:
-          'The TraceGlass one-click installer is the planned path for supported Linux glibc x86_64, macOS Apple silicon, macOS Intel, and Windows x86_64 targets. It will verify a signed manifest and payload before installing for the current user. Installers stay unpublished until the public launch around mid-November 2026 — join the waitlist to get one email when they are available.',
+          'No. It shows a first error candidate and the evidence around it. You decide what it means.',
       },
       {
-        question: 'What about regex highlights and watchlists?',
-        answer:
-          'The TUI supports live keyword and regex highlights. Press a or r to add the chosen highlight to your local watchlist. Curated built-in signatures are a separate versioned scan catalog and never enter the saved list. TraceGlass does not currently generate candidate suggestions.',
+        question: 'Which logs work?',
+        answer: 'GitHub Actions logs and zips in v1. Other formats are not promised.',
       },
       {
-        question: 'Which log formats work?',
+        question: 'How is it different from searching the log?',
         answer:
-          'Plain text, .txt and .log files, JSON and NDJSON, CSV and .csb, folders, ZIP bundles, and stdin. Unknown vendor structures fall back to line-level scanning.',
+          'It folds repeated setup noise, jumps to the first error candidate, and compares with a green run you provide.',
+      },
+      {
+        question: 'How does the last-green comparison work offline?',
+        answer:
+          'You supply the passing log file. TraceGlass compares it with the failed log locally.',
+      },
+      {
+        question: 'How do I get access?',
+        answer: 'Join the waitlist for early access.',
       },
     ],
+  }),
+  section('waitlist-cta', 'waitlist-form', {
+    heading: 'Join the waitlist.',
+    body: 'Get early access when TraceGlass is ready for developers and on-call engineers. We only use your email for that note and will not share it.',
   }),
 ];
 
@@ -218,19 +153,18 @@ const snapshots: Record<string, PageContentValue> = {
     version: 1,
     sections: [
       section('install-hero', 'hero', {
-        eyebrow: 'Coming soon · mid-November 2026',
-        heading: 'Installers arrive at launch.',
-        body: 'TraceGlass is a local-first log triage tool getting ready for its public launch. We are collecting a waitlist to understand demand — not early access. Join and we will email you once when installers are officially available.',
+        eyebrow: 'Install · coming soon',
+        heading: 'Installers arrive with early access.',
+        body: 'TraceGlass is local-first CI log triage for developers and on-call engineers. Installers are not published yet — join the waitlist for early access.',
         links: [
           { label: 'Join the waitlist', href: '#join-waitlist' },
-          { label: 'Try the browser demo', href: '/demo' },
           { label: 'Read release notes', href: '/release' },
         ],
       }),
       section('install-coming-soon', 'cta', {
         eyebrow: 'Coming soon',
-        heading: 'No downloads yet — we will email you at launch.',
-        body: 'Signed one-click installers for Linux, macOS, and Windows stay unpublished until the public launch around mid-November 2026. We only use your email for that one launch note and will not share it.',
+        heading: 'No downloads yet — join the waitlist.',
+        body: 'Signed installers for Linux, macOS, and Windows stay unpublished until early access. We only use your email for that note and will not share it.',
         links: [{ label: 'Join the waitlist', href: '#join-waitlist' }],
       }),
     ],
@@ -240,48 +174,46 @@ const snapshots: Record<string, PageContentValue> = {
     version: 1,
     sections: [
       section('release-hero', 'hero', {
-        eyebrow: 'Release status · coming soon',
-        heading: 'Public launch around mid-November',
-        body: 'TraceGlass is a local-first log triage tool preparing for its public launch. Installers and signed releases are not available yet. Join the waitlist and we will email you once when they ship.',
-        links: [
-          { label: 'Join the waitlist', href: '#join-waitlist' },
-          { label: 'Try the browser demo', href: '/demo' },
-        ],
+        eyebrow: 'Release status',
+        heading: 'Early access is next.',
+        body: 'TraceGlass is pivoting to local-first GitHub Actions log triage. Installers and signed releases are not available yet. Join the waitlist for early access.',
+        links: [{ label: 'Join the waitlist', href: '#join-waitlist' }],
       }),
       section('release-features', 'features', {
-        eyebrow: 'What launches with TraceGlass',
-        heading: 'Local triage for the logs that matter.',
+        eyebrow: 'What ships with TraceGlass',
+        heading: 'Local triage for failed CI logs.',
         items: [
           {
-            title: 'Interactive TUI scan-on-open',
-            body: 'Running TraceGlass against a file opens the interactive terminal UI and scans immediately.',
+            title: 'Open offline',
+            body: 'Open a failed GitHub Actions log or zip on your machine.',
           },
           {
-            title: 'Severity-ranked findings',
-            body: 'Curated built-in signatures produce severity-ranked findings and evidence for human review. They are immutable scan metadata, not local watchlist entries.',
+            title: 'First error candidate',
+            body: 'Jump to the earliest line that looks like a failure, with nearby lines as evidence.',
           },
           {
-            title: 'Search, filter, and triage',
-            body: 'Search source text, filter visible lines, filter findings by severity, and jump to evidence.',
+            title: 'Fold the noise',
+            body: 'Collapse repeated setup and install steps so the failure is easier to see.',
           },
           {
-            title: 'JSON / CSV structured output',
-            body: '--format raw, --format json, and --format csv are non-interactive and preserve file/line identity.',
+            title: 'Compare with last green',
+            body: 'Load a passing log you provide and review what changed.',
           },
           {
-            title: 'Versioned signature library',
-            body: 'Signals cover Docker, Kubernetes, systemd, nginx, MySQL, PostgreSQL, Windows Event, antivirus/EDR, Splunk, and generic diagnostics.',
+            title: 'Markdown summary',
+            body: 'Export the candidate and evidence for an issue or Slack thread.',
           },
         ],
       }),
       section('release-privacy', 'privacy', {
-        heading: 'Your logs never leave the pipe.',
-        body: 'TraceGlass is a local-only binary. Your logs never leave the pipe between the log source and your terminal — no cloud backend, no telemetry, no service, and no silent auto-update.',
+        heading: 'Your logs never leave your machine.',
+        body: 'TraceGlass is designed so triage stays local — no upload and no account required. Offline use is the product goal.',
+        points: ['No upload', 'No account', 'Works offline'],
       }),
       section('release-waitlist', 'cta', {
-        eyebrow: 'Launch list',
-        heading: 'Get one email when TraceGlass is available.',
-        body: 'We are gauging demand ahead of the public launch. This is a notification list — not early access. We only use your email for the launch note.',
+        eyebrow: 'Waitlist',
+        heading: 'Join the waitlist for early access.',
+        body: 'We are gauging demand for local-first CI log triage. We only use your email for early-access notes.',
         links: [{ label: 'Join the waitlist', href: '#join-waitlist' }],
       }),
     ],
@@ -291,27 +223,29 @@ const snapshots: Record<string, PageContentValue> = {
     version: 1,
     sections: [
       section('signature-hero', 'hero', {
-        eyebrow: 'Signature library · v0.2.0',
-        heading: 'Open-source detection sets for the logs that hurt.',
-        body: 'Preview the curated, versioned built-in signature library for Splunk search errors, Windows Event anomalies, and antivirus/EDR alerts. Built-ins produce findings and never enter the local watchlist.',
+        eyebrow: 'Product direction',
+        heading: 'Starting with GitHub Actions logs.',
+        body: 'TraceGlass is focused on local-first CI log triage: first error candidates, folded setup noise, and last-green compare. Join the waitlist for early access.',
+        links: [{ label: 'Join the waitlist', href: '#join-waitlist' }],
       }),
-      section('signature-catalog', 'signature-catalog', {
-        body: 'The live catalog below is loaded from the current release.',
+      section('signature-waitlist', 'waitlist-form', {
+        heading: 'Join the waitlist.',
+        body: 'Get early access when TraceGlass is ready. We only use your email for that note and will not share it.',
       }),
     ],
-    assets: [asset('signature-library', 'library', 'Signature library')],
+    assets: [asset('signature-library', 'library', 'CI log triage')],
   }),
   waitlist: PageContent.parse({
     version: 1,
     sections: [
       section('waitlist-hero', 'hero', {
-        eyebrow: 'Public launch · mid-November 2026',
-        heading: 'Get one email when TraceGlass launches.',
-        body: 'TraceGlass is a local-first log triage tool for support specialists. We are collecting a waitlist to understand demand ahead of the public launch — not early access. We will email you once around mid-November when it is officially available.',
+        eyebrow: 'Early access waitlist',
+        heading: 'Join the waitlist for early access.',
+        body: 'TraceGlass is local-first CI log triage for developers and on-call engineers. Open a failed GitHub Actions log offline, jump to the first error candidate, fold setup noise, and compare with your last green run.',
       }),
       section('waitlist-form', 'waitlist-form', {
-        heading: 'Join the launch list.',
-        body: 'We only use your email for one launch note and will not share it. Signing up does not start a subscription. Target launch: around mid-November 2026.',
+        heading: 'Join the waitlist.',
+        body: 'We only use your email for early-access notes and will not share it. Signing up does not start a subscription.',
       }),
     ],
     assets: [asset('waitlist-shield', 'shield-check', 'Email-only waitlist')],
@@ -417,15 +351,19 @@ export function normalizeMarketingPageContent(input: {
   return PageContent.parse(rewritten.content);
 }
 
-/** Exact developer-audience strings retired in favor of support specialists (non-Features). */
-const DEVELOPER_AUDIENCE_REPLACEMENTS: ReadonlyArray<{ from: string; to: string }> = [
+/** Exact retired audience strings rewritten for developers / on-call (non-Features). */
+const RETIRED_AUDIENCE_REPLACEMENTS: ReadonlyArray<{ from: string; to: string }> = [
   {
     from: 'Questions a developer asks before installing a CLI.',
-    to: 'Questions support specialists ask before installing a CLI.',
+    to: 'Questions developers and on-call engineers ask first.',
+  },
+  {
+    from: 'Questions support specialists ask before installing a CLI.',
+    to: 'Questions developers and on-call engineers ask first.',
   },
 ];
 
-/** Rewrite known developer-audience headings in managed page content (seed + runtime). */
+/** Rewrite known retired audience headings in managed page content (seed + runtime). */
 export function scrubDeveloperAudienceCopy(content: unknown): {
   content: unknown;
   changed: boolean;
@@ -441,7 +379,7 @@ export function scrubDeveloperAudienceCopy(content: unknown): {
     let sectionChanged = false;
     for (const [key, value] of Object.entries(data)) {
       if (typeof value !== 'string') continue;
-      for (const { from, to } of DEVELOPER_AUDIENCE_REPLACEMENTS) {
+      for (const { from, to } of RETIRED_AUDIENCE_REPLACEMENTS) {
         if (value === from) {
           data[key] = to;
           sectionChanged = true;
@@ -502,16 +440,16 @@ export function cleanupRetiredPricingContent(input: {
 
 const generatedWaitlistCopy = {
   title: 'TraceGlass launch waitlist',
-  body: 'Join the TraceGlass launch waitlist for one email when the local-first log triage tool is publicly available around mid-November 2026.',
+  body: 'Join the TraceGlass waitlist for early access to local-first CI log triage.',
   seoDescription:
-    'Join the TraceGlass launch waitlist. Local-first log triage for support specialists — one email at public launch around mid-November 2026. Not early access.',
-  heroEyebrow: 'Public launch · mid-November 2026',
-  heroHeading: 'Get one email when TraceGlass launches.',
+    'Join the TraceGlass waitlist for early access. Local-first CI log triage for developers and on-call engineers.',
+  heroEyebrow: 'Early access waitlist',
+  heroHeading: 'Join the waitlist for early access.',
   heroBody:
-    'TraceGlass is a local-first log triage tool for support specialists. We are collecting a waitlist to understand demand ahead of the public launch — not early access. We will email you once around mid-November when it is officially available.',
-  formHeading: 'Join the launch list.',
+    'TraceGlass is local-first CI log triage for developers and on-call engineers. Open a failed GitHub Actions log offline, jump to the first error candidate, fold setup noise, and compare with your last green run.',
+  formHeading: 'Join the waitlist.',
   formBody:
-    'We only use your email for one launch note and will not share it. Signing up does not start a subscription. Target launch: around mid-November 2026.',
+    'We only use your email for early-access notes and will not share it. Signing up does not start a subscription.',
 } as const;
 
 const previousGeneratedWaitlistCopy = {
@@ -520,27 +458,36 @@ const previousGeneratedWaitlistCopy = {
     'Join the email-only waitlist for curated packs that stay separate from your local watchlist.',
     'Join the email-only waitlist for curated local watchlists.',
     'A paid TraceGlass plan is planned, but it isn’t available yet. Request one email update; signup does not start a subscription.',
+    'Join the TraceGlass launch waitlist for one email when the local-first log triage tool is publicly available around mid-November 2026.',
   ],
   seoDescription: [
     'Join the TraceGlass Pro waitlist for weekly curated packs. No log content or diagnostic data is collected. Target launch: November 15, 2026.',
     'Join the TraceGlass Pro waitlist for weekly curated watchlists. No log content or diagnostic data is collected.',
     'A paid TraceGlass plan is planned, but it isn’t available yet. Request one email update; signup does not start a subscription. Target date: November 15, 2026.',
+    'Join the TraceGlass launch waitlist. Local-first log triage for support specialists — one email at public launch around mid-November 2026. Not early access.',
   ],
-  heroEyebrow: ['Pro · launching soon', 'Paid plan · not available yet'],
+  heroEyebrow: [
+    'Pro · launching soon',
+    'Paid plan · not available yet',
+    'Public launch · mid-November 2026',
+  ],
   heroHeading: [
     'Get the email when Pro ships.',
     'A paid TraceGlass plan is planned, but it isn’t available yet.',
+    'Get one email when TraceGlass launches.',
   ],
   heroBody: [
     "Pro brings weekly curated, domain-tuned packs for Splunk, Docker, Kubernetes, Endpoint Detection, and CI runners — delivered to your local TraceGlass CLI without changing your editable local watchlist. We'll send exactly one message on the target launch date, November 15, 2026.",
     "Pro brings weekly curated, domain-tuned watchlists for Splunk, Docker, Kubernetes, Endpoint Detection, and CI runners — delivered to your local TraceGlass CLI. We'll send exactly one message on launch day.",
     'Request one email update about availability. Signing up does not start a subscription. Target launch date: November 15, 2026.',
+    'TraceGlass is a local-first log triage tool for support specialists. We are collecting a waitlist to understand demand ahead of the public launch — not early access. We will email you once around mid-November when it is officially available.',
   ],
   formHeading: ['Join the launch list.', 'Request one email update.'],
   formBody: [
     'Your email address — and only your email address. No log content, source code, or filenames. Target launch: November 15, 2026; the product remains unpublished until a real release exists.',
     'Your email address — and only your email address. No log content, source code, or filenames.',
     'A paid TraceGlass plan is planned, but it isn’t available yet. We’ll use your email only to send one update. Signing up does not start a subscription. Target launch date: November 15, 2026.',
+    'We only use your email for one launch note and will not share it. Signing up does not start a subscription. Target launch: around mid-November 2026.',
   ],
 } as const;
 

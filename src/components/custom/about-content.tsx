@@ -9,18 +9,18 @@ import { WAITLIST_PRIMARY_BUTTON_CLASS } from '@/lib/waitlist/ui';
 const principles = [
   {
     title: 'Local-first',
-    body: 'A Rust engine processes logs on your machine. Source lines stay on disk — nothing is uploaded for triage.',
+    body: 'Open a failed GitHub Actions log on your machine. Source lines stay on disk — nothing is uploaded for triage.',
   },
   {
     title: 'Privacy-first',
-    // Product/CLI only (TRUST.md + home privacy/FAQ). Site may load optional PolsiaAnalytics when
+    // Product/CLI intent. Site may load optional PolsiaAnalytics when
     // POLSIA_ANALYTICS_SLUG is set — do not claim this marketing site has no analytics.
-    body: 'No accounts, no telemetry, nothing phoning home.',
+    body: 'No upload and no account required to triage a log. Offline use is the product goal.',
   },
   {
     title: 'Verified installs',
     // Aligned with install-catalog: Ed25519 signing planned; artifacts unpublished until launch.
-    body: "Installers will be signed and verified before they run. They'll be published at public launch.",
+    body: "Installers will be signed and verified before they run. They'll be published with early access.",
   },
   {
     title: 'MIT licensed',
@@ -37,11 +37,11 @@ export function AboutContent() {
             ABOUT · TRACEGLASS
           </p>
           <h1 className="mt-3 font-display text-display text-balance break-words text-zinc-50">
-            Local-first log triage.
+            Local-first CI log triage.
           </h1>
           <p className="mt-4 max-w-2xl text-body-lg text-zinc-400">
-            TraceGlass ranks signals in diagnostic logs so support specialists can find what matters
-            without sending files off-machine.
+            TraceGlass helps developers and on-call engineers start at the first error candidate in
+            a failed GitHub Actions log — without sending files off-machine.
           </p>
         </div>
       </header>
@@ -50,9 +50,9 @@ export function AboutContent() {
         <div className="container-page max-w-3xl flex flex-col gap-5">
           <h2 className="font-display text-h2 text-balance text-zinc-50">What it is</h2>
           <p className="text-body-lg leading-relaxed text-zinc-400">
-            TraceGlass is a local-first log triage tool. Open a diagnostic collection or pipe a
-            stream through a Rust engine that keeps source lines visible while it ranks signals —
-            built for support specialists.
+            TraceGlass is local-first CI log triage. Open a failed Actions log or zip offline, jump
+            to the first error candidate with evidence, fold setup noise, and compare with a last
+            green run you provide.
           </p>
           <p className="text-body-lg leading-relaxed text-zinc-400">
             Your logs are processed on your machine and never uploaded.
@@ -65,8 +65,9 @@ export function AboutContent() {
           <div className="flex flex-col gap-3">
             <h2 className="font-display text-h2 text-balance text-zinc-50">Why it exists</h2>
             <p className="text-body-lg leading-relaxed text-zinc-400">
-              Support work already lives in large, messy diagnostics. TraceGlass exists to make that
-              review faster without asking anyone to trust a cloud inbox with customer logs.
+              Red builds already dump thousands of setup lines before the real failure. TraceGlass
+              exists to make that review faster without asking anyone to trust a cloud inbox with CI
+              logs.
             </p>
           </div>
           <ul className="grid gap-4 sm:grid-cols-2 sm:gap-5">
@@ -89,12 +90,12 @@ export function AboutContent() {
         <div className="container-page max-w-3xl flex flex-col gap-6">
           <div className="flex flex-col gap-3">
             <p className="text-eyebrow font-mono" style={{ color: signalTheme.accent }}>
-              PUBLIC LAUNCH · MID-NOVEMBER 2026
+              WAITLIST
             </p>
-            <h2 className="font-display text-h2 text-balance text-zinc-50">When it launches</h2>
+            <h2 className="font-display text-h2 text-balance text-zinc-50">Get early access</h2>
             <p className="text-body-lg leading-relaxed text-zinc-400">
-              TraceGlass is preparing for a public launch around mid-November 2026. Join the
-              waitlist for one email when it ships — no newsletter, and your email is never shared.
+              Join the waitlist for early access when TraceGlass is ready for developers and on-call
+              engineers — no newsletter, and your email is never shared.
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3">

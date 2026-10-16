@@ -1,9 +1,10 @@
 # TraceGlass Site
 
-Marketing site and in-browser WASM demo for
-[TraceGlass](https://github.com/dorman/traceglass) — a local-first terminal tool
-for opening diagnostic logs, ranking signals, and reviewing source evidence
-without uploading log content.
+Marketing site and in-browser WASM demo for TraceGlass — local-first CI log
+triage for developers and on-call engineers. Open a failed GitHub Actions log
+offline, jump to the first error candidate, fold setup noise, and compare with
+a last green run. The product engine repo is private and is not linked from the
+public site.
 
 ## What's in this repo
 
@@ -69,12 +70,12 @@ pinned public commit** (not a git submodule).
 
 Why:
 
-1. **Submodule of `dorman/traceglass`** would pull the whole monorepo (including
-   the old in-repo site) and, until PR
-   [#54](https://github.com/dorman/traceglass/pull/54) merges, would have to
-   track a draft branch tip.
-2. **Build-from-main in CI alone** cannot work until `#54` lands — `main` does
-   not yet expose the `wasm-scan` surface.
+1. **Submodule of the private engine repo** would pull the whole monorepo
+   (including the old in-repo site) and force this marketing repo to track a
+   draft tip before the wasm surface is stable.
+2. **Build-from-main in CI alone** cannot work until the engine exposes a stable
+   `wasm-scan` surface on its default branch.
+
 3. **Vendored `web-demo/pkg/`** lets Vercel and casual clones serve `/demo/`
    with **no Rust toolchain**. `scripts/fetch-engine.sh` +
    `web-demo/scripts/build-wasm.sh` rebuild from

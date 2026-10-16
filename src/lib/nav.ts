@@ -33,10 +33,8 @@ export interface NavItem {
 //   { label: 'Sign in', href: '/login',   group: 'secondary' },
 export const navItems: NavItem[] = [
   { label: 'Features', href: '/#features', group: 'primary', order: 1 },
-  { label: 'How it works', href: '/#workflow', group: 'primary', order: 2 },
-  { label: 'Sources', href: '/#sources', group: 'primary', order: 3 },
-  { label: 'Try in browser', href: '/demo', group: 'primary', order: 4 },
-  { label: 'FAQ', href: '/#faq', group: 'primary', order: 5 },
+  { label: 'How it works', href: '/#features', group: 'primary', order: 2 },
+  { label: 'FAQ', href: '/#faq', group: 'primary', order: 3 },
   // Secondary waitlist CTA opens the shared dialog (see SiteNav); href kept for
   // sitemap/llms consumers and as a progressive-enhancement fallback.
   { label: 'Notify me', href: '/waitlist', group: 'secondary', order: 2 },
@@ -59,6 +57,5 @@ export const navItems: NavItem[] = [
   { label: 'Contact', href: '/contact', group: 'footer', order: 2 },
   { label: 'Waitlist', href: '/waitlist', group: 'footer', order: 3 },
   { label: 'Release notes', href: '/release', group: 'footer', order: 4 },
-  { label: 'Signatures', href: '/signatures', group: 'footer', order: 5 },
-  { label: 'Install', href: '/install', group: 'footer', order: 6 },
+  { label: 'Install', href: '/install', group: 'footer', order: 5 },
 ];

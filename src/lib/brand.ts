@@ -5,7 +5,7 @@ import { signalTheme } from '@/lib/signal-theme';
 
 export const siteName = 'TraceGlass';
 export const siteDescription =
-  'Rust-native local log triage for support specialists — add keyword or regex highlights to a local watchlist, while curated built-in signatures scan Splunk, Docker, and Windows event logs. No AI or network access required.';
+  'Local-first CI log triage for developers and on-call engineers. Open failed GitHub Actions logs offline — first error candidate, last-green compare.';
 
 // PWA + social-share colors. HEX only (the oklch() tokens in globals.css aren't
 // readable here) — set to match your brand seed.
@@ -20,6 +20,6 @@ export const brandVisual = {
     /** Wordmark text on the OG card — Signal teal (same as waitlist primary CTA). */
     foreground: signalTheme.accent,
     /** Second line under the site name; '' hides it. */
-    tagline: 'Local-first log triage for support specialists',
+    tagline: 'Local-first CI log triage',
   },
 } as const;
