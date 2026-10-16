@@ -61,10 +61,10 @@ export function GET() {
     });
 
     const payload = SignatureCatalogResponse.parse({
-      eyebrow: 'Open-source detection sets',
-      heading: 'A shared vocabulary for noisy logs.',
+      eyebrow: 'Legacy preview',
+      heading: 'Product focus is CI log triage.',
       intro:
-        'The v0.2.0 signature library adds Splunk, Windows Event, and antivirus/EDR detection sets to the carried-forward operational signals that deserve a closer look.',
+        'TraceGlass is pivoting to local-first GitHub Actions log triage. This endpoint remains for compatibility while the marketing site points visitors to the waitlist.',
       version: 'v0.2.0',
       sets,
     });

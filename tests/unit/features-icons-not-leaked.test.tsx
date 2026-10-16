@@ -12,13 +12,12 @@ vi.mock('@/components/custom/marketing/sample-log-demo', () => ({
   SampleLogDemo: () => createElement('div', { 'data-testid': 'sample-log' }),
 }));
 
-const LEAKED_ICON_IDS = [
-  'terminal',
+const FEATURE_ICON_IDS = [
+  'folder-open',
   'list-checks',
-  'palette',
-  'shield-alert',
-  'package',
-  'lock',
+  'fold-vertical',
+  'git-compare',
+  'file-down',
 ] as const;
 
 describe('Features cards do not leak icon ids as visitor copy', () => {
@@ -29,7 +28,7 @@ describe('Features cards do not leak icon ids as visitor copy', () => {
     const iconIds = (features?.data.items as { icon?: string }[] | undefined)?.map(
       (item) => item.icon,
     );
-    expect(iconIds).toEqual([...LEAKED_ICON_IDS]);
+    expect(iconIds).toEqual([...FEATURE_ICON_IDS]);
 
     const html = renderToStaticMarkup(
       createElement(MarketingPageRenderer, {
@@ -42,14 +41,14 @@ describe('Features cards do not leak icon ids as visitor copy', () => {
       }),
     );
 
-    for (const id of LEAKED_ICON_IDS) {
-      // Must not appear as a text node inside a badge/chip (">terminal<" etc.).
+    for (const id of FEATURE_ICON_IDS) {
+      // Must not appear as a text node inside a badge/chip (">folder-open<" etc.).
       expect(html).not.toMatch(new RegExp(`>[\\s]*${id}[\\s]*<`, 'i'));
     }
     // Icons are SVG, not the id string.
-    expect(html).toMatch(/lucide-terminal/);
+    expect(html).toMatch(/lucide-folder-open/);
     expect(html).toMatch(/lucide-list-checks/);
-    expect(html).toMatch(/lucide-palette/);
+    expect(html).toMatch(/lucide-fold-vertical/);
     // Nav anchors (#features) require the section id on the CMS-rendered section.
     expect(html).toMatch(/id="features"/);
   });

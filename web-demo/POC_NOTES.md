@@ -18,7 +18,7 @@
 - In-memory ZIP support-bundle scan (`zip_mem`)
 - Planted-incident sample replay (real WASM findings)
 - Try-your-own via File API (log or zip, no upload)
-- Strict CSP, no analytics / third-party / CDN scripts or webfonts
+- Strict CSP; no third-party / CDN scripts or webfonts
 
 ## Excluded (honest)
 

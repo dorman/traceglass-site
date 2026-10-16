@@ -85,7 +85,7 @@ describe('POST /api/waitlist', () => {
     const res = await POST(request({ email: 'ok@example.com', consent: false }));
     expect(res.status).toBe(400);
     expect(await res.json()).toEqual({
-      errors: { consent: 'Please confirm you want launch updates.' },
+      errors: { consent: 'Please tick the box to join the waitlist.' },
     });
   });
 

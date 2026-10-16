@@ -67,10 +67,12 @@ describe('waitlist dialog helpers', () => {
 
     const dialog = document.querySelector('[role="dialog"]');
     expect(dialog).not.toBeNull();
-    expect(document.body.textContent).toContain('local-first log triage');
-    expect(document.body.textContent).toContain('No early access, no newsletter');
+    expect(document.body.textContent).toContain('local-first CI log triage');
+    expect(document.body.textContent).toContain('when it publicly launches');
     expect(document.body.textContent).toContain('Your logs are never uploaded.');
-    expect(document.body.textContent).toContain('PUBLIC LAUNCH · MID-NOVEMBER 2026');
+    expect(document.body.textContent).toContain('WAITLIST');
+    expect(document.body.textContent?.toLowerCase()).not.toContain('early access');
+    expect(document.body.textContent?.toLowerCase()).not.toContain('mid-november');
     expect(document.body.textContent?.toLowerCase()).not.toContain('grammarly');
     expect(document.body.textContent).toContain('Join the waitlist');
 

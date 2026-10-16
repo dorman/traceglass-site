@@ -31,7 +31,7 @@ What differs is **I/O / UI**, not detection: no TUI, no filesystem walks, zip is
 
 Fonts use `@font-face { src: local(...) }` only — no Google Fonts / CDN. If IBM Plex is not installed locally, the stack falls back to system fonts without networking.
 
-**CSP:** `connect-src 'self'` (needed for the local `.wasm` fetch at startup). No analytics scripts.
+**CSP:** `connect-src 'self'` (needed for the local `.wasm` fetch at startup). No third-party CDN scripts.
 
 **Offline proof prompt:** valid *after* the page (and `.wasm`) have loaded. Turn off Wi-Fi then scan — works. Do not claim the *first* visit works fully offline (must fetch self assets once).
 

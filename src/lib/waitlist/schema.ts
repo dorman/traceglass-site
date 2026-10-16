@@ -17,7 +17,7 @@ export const waitlistSchema = z.object({
     .max(254, 'Enter a valid email address.')
     .refine((value) => EMAIL_RE.test(value), 'Please enter a valid email address.'),
   consent: z.literal(true, {
-    errorMap: () => ({ message: 'Please confirm you want launch updates.' }),
+    errorMap: () => ({ message: 'Please tick the box to join the waitlist.' }),
   }),
 });
 

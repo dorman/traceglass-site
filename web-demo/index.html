@@ -12,6 +12,7 @@
       name="description"
       content="TraceGlass runs entirely in your browser via WebAssembly. Your log never leaves your device."
     />
+    <meta name="robots" content="noindex, nofollow" />
     <title>TraceGlass — browser demo</title>
     <link rel="stylesheet" href="/src/styles.css" />
   </head>
@@ -146,7 +147,7 @@
             machine output flags
           </li>
           <li>
-            Privacy: strict CSP; no analytics; no CDN; fonts are <code>local()</code> only;
+            Privacy: strict CSP; no CDN; fonts are <code>local()</code> only;
             <code>connect-src 'self'</code> only to fetch the local <code>.wasm</code> at startup
           </li>
         </ul>

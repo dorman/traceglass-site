@@ -18,16 +18,15 @@ export function InstallGuide() {
             variant="outline"
             className="w-fit border-[color:var(--signal-accent)]/50 px-3 py-1 text-eyebrow text-[color:var(--signal-accent)]"
           >
-            Coming soon · mid-November 2026
+            Coming soon
           </Badge>
           <CardTitle className="font-display text-h2 text-balance">
             Installers are not available yet.
           </CardTitle>
           <CardDescription className="max-w-2xl text-body-lg text-muted-foreground">
-            TraceGlass is a local-first log triage tool getting ready for its public launch. We are
-            collecting a waitlist to understand demand — not early access. We will email you once
-            when signed installers are officially available. Your email is only used for that note
-            and is never shared.
+            TraceGlass is local-first CI log triage getting ready to publicly launch. Join the
+            waitlist to hear when signed installers are available. Your email is only used for that
+            note and is never shared.
           </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-wrap gap-3">
@@ -36,11 +35,8 @@ export function InstallGuide() {
           >
             Join the waitlist
           </JoinWaitlistButton>
-          <Button asChild variant="outline" size="lg" className="h-11 px-5 text-sm font-semibold">
-            <Link href="/demo">Try the browser demo</Link>
-          </Button>
           <Button asChild variant="ghost" size="lg" className="h-11 px-5 text-sm font-semibold">
-            <Link href="/release">Read release notes</Link>
+            <Link href="/about">About TraceGlass</Link>
           </Button>
         </CardContent>
       </Card>

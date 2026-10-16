@@ -2,7 +2,18 @@
 'use client';
 
 import type { LucideIcon } from 'lucide-react';
-import { ListChecks, Lock, Package, Palette, ShieldAlert, Terminal } from 'lucide-react';
+import {
+  FileDown,
+  FolderOpen,
+  FoldVertical,
+  GitCompare,
+  ListChecks,
+  Lock,
+  Package,
+  Palette,
+  ShieldAlert,
+  Terminal,
+} from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
@@ -35,6 +46,10 @@ const FEATURE_ICONS: Record<string, LucideIcon> = {
   'shield-alert': ShieldAlert,
   package: Package,
   lock: Lock,
+  'folder-open': FolderOpen,
+  'fold-vertical': FoldVertical,
+  'git-compare': GitCompare,
+  'file-down': FileDown,
 };
 
 const layoutClassNames: Record<SectionLayoutPreset, string> = {
@@ -201,10 +216,13 @@ function HeroSection({ section, content }: { section: PageContentSection; conten
   const data = section.data;
   const links = records(data, 'links');
   const stats = records(data, 'stats');
+  const inlineWaitlist = data.inlineWaitlist === true;
   const terminal =
     typeof data.terminal === 'object' && data.terminal !== null
       ? (data.terminal as Record<string, unknown>)
       : null;
+  const statsCols =
+    stats.length <= 1 ? 'grid-cols-1' : stats.length === 2 ? 'grid-cols-2' : 'grid-cols-3';
   return (
     <section className="relative overflow-hidden border-b border-border/60 bg-gradient-to-b from-[color:var(--signal-accent)]/15 via-background to-background py-12 sm:py-20 lg:py-28">
       <div className="container-page grid items-start gap-8 sm:gap-10 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:gap-12">
@@ -239,26 +257,36 @@ function HeroSection({ section, content }: { section: PageContentSection; conten
               fallback={text(data, 'body')}
             />
           </p>
+          {inlineWaitlist ? (
+            <div className="max-w-md rounded-md border border-[color:var(--signal-accent)]/30 bg-card/80 p-4 shadow-lg shadow-black/20 sm:p-5">
+              <WaitlistForm idPrefix="hero" submitLabel="Join the waitlist" />
+            </div>
+          ) : null}
           {links.length > 0 ? (
             <div className="flex flex-wrap gap-3">
-              {links.map((link, index) => (
-                <LinkButton
-                  key={`${text(link, 'label')}-${index}`}
-                  href={text(link, 'href', '/')}
-                  variant={index === 0 ? 'default' : index === 1 ? 'ghost' : 'outline'}
-                  className={
-                    index === 0
-                      ? `h-11 px-6 text-sm font-semibold ${WAITLIST_PRIMARY_BUTTON_CLASS}`
-                      : 'h-11 px-5 text-sm font-semibold'
-                  }
-                >
-                  {text(link, 'label')}
-                </LinkButton>
-              ))}
+              {links.map((link, index) => {
+                const isPrimary = !inlineWaitlist && index === 0;
+                return (
+                  <LinkButton
+                    key={`${text(link, 'label')}-${index}`}
+                    href={text(link, 'href', '/')}
+                    variant={
+                      isPrimary ? 'default' : index === 0 || inlineWaitlist ? 'ghost' : 'outline'
+                    }
+                    className={
+                      isPrimary
+                        ? `h-11 px-6 text-sm font-semibold ${WAITLIST_PRIMARY_BUTTON_CLASS}`
+                        : 'h-11 px-5 text-sm font-semibold'
+                    }
+                  >
+                    {text(link, 'label')}
+                  </LinkButton>
+                );
+              })}
             </div>
           ) : null}
           {stats.length > 0 ? (
-            <div className="grid max-w-md grid-cols-3 gap-4 border-t border-border/60 pt-5">
+            <div className={`grid max-w-md gap-4 border-t border-border/60 pt-5 ${statsCols}`}>
               {stats.map((stat) => (
                 <div key={text(stat, 'label')}>
                   <div className="text-h4 font-semibold text-foreground">{text(stat, 'value')}</div>
@@ -291,7 +319,9 @@ function FeaturesSection({
     <section id={section.id} className="section">
       <div className="container-page flex flex-col gap-10">
         <SectionHeading section={section} content={content} />
-        <div className={`grid gap-4 ${sectionColumns(section, 'sm:grid-cols-2 lg:grid-cols-3')}`}>
+        <div
+          className={`grid gap-4 ${sectionColumns(section, 'sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5')}`}
+        >
           {items.map((item) => (
             <Card
               key={text(item, 'title')}
@@ -410,9 +440,6 @@ function PrivacySection({
       <div className="container-page">
         <Card className="site-design-card mx-auto max-w-3xl border-[color:var(--signal-accent)]/40 bg-gradient-to-br from-[color:var(--signal-accent)]/20 via-background to-background">
           <CardHeader className="gap-4 p-8">
-            <Badge variant="outline" className="w-fit">
-              Local-only
-            </Badge>
             <CardTitle className="text-h2 font-display">
               <Copy
                 content={content}
@@ -448,6 +475,7 @@ function PrivacySection({
 }
 
 function FaqSection({ section, content }: { section: PageContentSection; content: PageContent }) {
+  const disclaimer = text(section.data, 'disclaimer');
   return (
     <section id={section.id} className="section">
       <div className="container-page grid gap-10 lg:grid-cols-[0.4fr_0.6fr] lg:gap-16">
@@ -473,6 +501,16 @@ function FaqSection({ section, content }: { section: PageContentSection; content
               </p>
             </details>
           ))}
+          {disclaimer ? (
+            <p className="mt-6 text-xs leading-relaxed text-muted-foreground/80">
+              <Copy
+                content={content}
+                section={section}
+                path={['disclaimer']}
+                fallback={disclaimer}
+              />
+            </p>
+          ) : null}
         </div>
       </div>
     </section>

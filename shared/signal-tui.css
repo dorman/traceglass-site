@@ -185,6 +185,44 @@
   box-shadow: inset 3px 0 0 var(--signal-accent);
 }
 
+/* CI pivot hero: folded setup groups + teal first-error-candidate marker */
+.signal-tui__row--fold,
+.signal-tui__row--dim,
+.signal-tui__row--candidate {
+  grid-template-columns: 2.1ch 1.2ch minmax(0, 1fr);
+}
+
+.signal-tui__row--fold {
+  color: var(--signal-muted, #737a8c);
+}
+
+.signal-tui__fold {
+  color: var(--signal-muted, #737a8c);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.signal-tui__fold-count {
+  opacity: 0.75;
+}
+
+.signal-tui__row--dim .signal-tui__msg {
+  color: var(--signal-muted, #737a8c);
+}
+
+.signal-tui__dot--candidate,
+.signal-tui__msg--candidate {
+  color: var(--signal-accent);
+  font-weight: 600;
+}
+
+.signal-tui__row--candidate-pulse {
+  box-shadow:
+    inset 3px 0 0 var(--signal-accent),
+    0 0 0 1px color-mix(in srgb, var(--signal-accent) 35%, transparent);
+}
+
 .signal-tui__ln {
   color: var(--signal-gutter);
   text-align: right;

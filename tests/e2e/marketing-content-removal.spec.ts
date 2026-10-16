@@ -39,7 +39,9 @@ test('public pages no longer publish the retired paid offer', async ({ page }) =
       'privacy',
       'faq',
     ]);
-    await expect(page.getByRole('heading', { name: 'Local-first log triage.' })).toBeVisible();
+    await expect(
+      page.getByRole('heading', { name: 'Start at the first error candidate.' }),
+    ).toBeVisible();
     await expect(page.locator('body')).not.toContainText('Read the signal. Ignore the noise.');
     await expect(page.locator('body')).not.toContainText('$12');
     await expect(page.locator('body')).not.toContainText('Subscribe via Stripe');
@@ -114,16 +116,12 @@ test('public pages no longer publish the retired paid offer', async ({ page }) =
     expect(waitlistResponse.status()).toBe(200);
     const waitlist = PublicPage.parse(await waitlistResponse.json());
 
-    expect(JSON.stringify(waitlist)).toContain('Get one email when TraceGlass launches.');
-    expect(JSON.stringify(waitlist)).toContain('mid-November');
+    expect(JSON.stringify(waitlist)).toContain("Join the waitlist to hear when it's ready.");
+    expect(JSON.stringify(waitlist).toLowerCase()).not.toContain('early access');
     expect(JSON.stringify(waitlist)).not.toMatch(/\$\s*\d/);
     expect(JSON.stringify(waitlist)).not.toMatch(/github\.com\/dorman/i);
-    await expect(page.locator('body')).toContainText('Get one email when TraceGlass launches.');
-    await expect(page.locator('body')).toContainText('not early access');
-    await expect(page.locator('meta[name="description"]')).toHaveAttribute(
-      'content',
-      /launch waitlist/i,
-    );
+    await expect(page.locator('body')).toContainText("Join the waitlist to hear when it's ready.");
+    await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /waitlist/i);
     await expect(page.getByLabel('Email address')).toBeVisible();
     await expect(page.getByRole('button', { name: 'Notify me when available' })).toBeVisible();
     await expect(page.locator('a[href*="github.com/dorman"]')).toHaveCount(0);
@@ -222,13 +220,14 @@ test('Notify Me validates and surfaces waitlist API field errors without Postgre
   const guestEmail = `notify-${randomUUID()}@example.test`;
   await page.getByLabel('Email address').fill(guestEmail);
   await page.getByRole('checkbox').uncheck();
-  // Unchecked consent keeps the submit control aria-disabled and validates inline (no API call).
-  await expect(page.getByRole('button', { name: 'Notify me when available' })).toHaveAttribute(
+  // Submit stays enabled (full teal); unticked consent shows an inline message and does not call the API.
+  await expect(page.getByRole('button', { name: 'Notify me when available' })).toBeEnabled();
+  await expect(page.getByRole('button', { name: 'Notify me when available' })).not.toHaveAttribute(
     'aria-disabled',
     'true',
   );
-  await page.locator('form').evaluate((form) => (form as HTMLFormElement).requestSubmit());
-  await expect(page.getByText('Please confirm you want launch updates.')).toBeVisible();
+  await page.getByRole('button', { name: 'Notify me when available' }).click();
+  await expect(page.getByText('Please tick the box to join the waitlist.')).toBeVisible();
 
   await page.getByRole('checkbox').check();
   responsePromise = page.waitForResponse(
@@ -243,7 +242,7 @@ test('Notify Me validates and surfaces waitlist API field errors without Postgre
     const success = page.locator('output');
     await expect(success.getByText("You're on the list.", { exact: true })).toBeVisible();
     await expect(success).toContainText(
-      "We'll send one email around mid-November when TraceGlass is publicly available. We only keep your email for that note.",
+      "We'll send one email when TraceGlass is publicly available. We only keep your email for that note.",
     );
     await expect(page.getByText("You're on the list.", { exact: true })).toHaveCount(1);
   } else {

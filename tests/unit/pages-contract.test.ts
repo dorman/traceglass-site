@@ -246,16 +246,16 @@ describe('marketing page contracts', () => {
     expect(normalized.sections[0]?.data).toMatchObject({ body: 'Legacy copy' });
   });
 
-  it('keeps watchlist, built-in, and local-only marketing language distinct', () => {
+  it('keeps CI triage language distinct from retired support/signature claims', () => {
     const homeCopy = JSON.stringify(getDefaultMarketingPageContent('home')).toLowerCase();
 
-    expect(homeCopy).toContain('local watchlist');
-    expect(homeCopy).toContain('user-controlled');
-    expect(homeCopy).toContain('curated built-in signatures');
-    expect(homeCopy).toContain('versioned built-in signature catalog');
-    expect(homeCopy).toContain('no ai');
-    expect(homeCopy).toContain('no network');
-    expect(homeCopy).toContain('candidate suggestions');
-    expect(homeCopy).not.toMatch(/add highlight/);
+    expect(homeCopy).toContain('first error candidate');
+    expect(homeCopy).toContain('github actions');
+    expect(homeCopy).toContain('no upload');
+    expect(homeCopy).toContain('last green');
+    expect(homeCopy).not.toContain('support specialists');
+    expect(homeCopy).not.toContain('signature catalog');
+    expect(homeCopy).not.toContain('try in browser');
+    expect(homeCopy).not.toMatch(/\bai\b/);
   });
 });

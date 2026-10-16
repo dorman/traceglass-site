@@ -5,7 +5,7 @@ import { signalTheme } from '@/lib/signal-theme';
 
 const title = 'Contact TraceGlass';
 const description =
-  "Contact TraceGlass for general questions, support, security reports, press, or partnerships. Please don't paste logs or sensitive data into the form.";
+  "Contact TraceGlass about local-first CI log triage — product questions, security reports, press, or partnerships. Please don't paste CI logs into the form.";
 
 export const metadata: Metadata = {
   title,
@@ -15,6 +15,10 @@ export const metadata: Metadata = {
     title,
     description,
     url: '/contact',
+  },
+  twitter: {
+    title,
+    description,
   },
 };
 

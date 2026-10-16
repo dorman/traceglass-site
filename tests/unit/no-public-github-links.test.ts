@@ -47,7 +47,7 @@ describe('public site has no dorman/traceglass GitHub links', () => {
     }
   });
 
-  it('scrubs legacy developer-audience headings to support specialists', () => {
+  it('scrubs legacy audience headings to developers and on-call engineers', () => {
     const scrubbed = scrubDeveloperAudienceCopy({
       version: 1,
       sections: [
@@ -63,7 +63,7 @@ describe('public site has no dorman/traceglass GitHub links', () => {
           id: 'faq',
           kind: 'faq',
           data: {
-            heading: 'Questions a developer asks before installing a CLI.',
+            heading: 'Questions support specialists ask before installing a CLI.',
           },
           assets: [],
         },
@@ -74,9 +74,9 @@ describe('public site has no dorman/traceglass GitHub links', () => {
     expect(scrubbed.changed).toBe(true);
     // FAQ audience copy is scrubbed here; Features headline is rewritten later.
     expect(JSON.stringify(scrubbed.content)).toContain(
-      'Questions support specialists ask before installing a CLI.',
+      'Questions developers and on-call engineers ask first.',
     );
-    expect(JSON.stringify(scrubbed.content)).not.toContain('Questions a developer');
+    expect(JSON.stringify(scrubbed.content)).not.toContain('support specialists ask');
 
     const normalized = normalizeMarketingPageContent({
       title: 'TraceGlass',
@@ -107,10 +107,10 @@ describe('public site has no dorman/traceglass GitHub links', () => {
     });
     expect(JSON.stringify(normalized)).toContain(FEATURES_HEADING);
     expect(JSON.stringify(normalized)).toContain(
-      'Questions support specialists ask before installing a CLI.',
+      'Questions developers and on-call engineers ask first.',
     );
     expect(JSON.stringify(normalized)).not.toContain('the developer who');
-    expect(JSON.stringify(normalized)).not.toContain('Questions a developer');
+    expect(JSON.stringify(normalized)).not.toContain('Questions a developer asks');
   });
 
   it('scrubs legacy GitHub CTAs into the shared waitlist action', () => {

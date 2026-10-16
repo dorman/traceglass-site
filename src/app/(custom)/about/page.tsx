@@ -4,7 +4,7 @@ import { AboutContent } from '@/components/custom/about-content';
 
 const title = 'About TraceGlass';
 const description =
-  'TraceGlass is a local-first log triage tool for support specialists. A Rust engine ranks signals on your machine — your logs are never uploaded. Public launch around mid-November 2026.';
+  'TraceGlass is local-first CI log triage for developers and on-call engineers. Open failed GitHub Actions logs offline.';
 
 export const metadata: Metadata = {
   title,
@@ -14,6 +14,10 @@ export const metadata: Metadata = {
     title,
     description,
     url: '/about',
+  },
+  twitter: {
+    title,
+    description,
   },
 };
 

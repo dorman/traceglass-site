@@ -177,16 +177,14 @@ function WaitlistDialog({
         }}
       >
         <DialogHeader className="gap-3 text-left">
-          <p className="text-eyebrow font-mono text-[color:var(--signal-accent)]">
-            PUBLIC LAUNCH · MID-NOVEMBER 2026
-          </p>
+          <p className="text-eyebrow font-mono text-[color:var(--signal-accent)]">WAITLIST</p>
           <DialogTitle className="font-display text-h3 text-balance text-zinc-50">
             Get one email when TraceGlass launches
           </DialogTitle>
           <DialogDescription className="text-sm leading-relaxed text-zinc-400 sm:text-[0.95rem]">
-            TraceGlass is a local-first log triage tool. We&apos;re gauging interest ahead of a
-            public launch around mid-November, and we&apos;ll email you once when it ships. No early
-            access, no newsletter, and your email is never shared.
+            TraceGlass is local-first CI log triage for developers and on-call engineers. Join the
+            waitlist and we&apos;ll email you once when it publicly launches. No newsletter, and
+            your email is never shared.
           </DialogDescription>
         </DialogHeader>
         <div className="mt-2 rounded-md border border-zinc-800 bg-zinc-950/80 p-4 sm:p-5">

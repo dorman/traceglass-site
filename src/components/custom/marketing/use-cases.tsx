@@ -1,176 +1,82 @@
-// @polsia:user-owned — "Built for" use cases section.
-// Server Component. Five cards, each with a sample terminal block.
+// @polsia:user-owned — static fallback "Built for" cards (home CMS no longer mounts this).
+// Kept CI-focused so unused fallback copy cannot reintroduce retired audience wording.
 
 import { Terminal } from '@/components/custom/terminal';
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 const useCases = [
   {
-    id: 'splunk',
-    label: 'Splunk exports',
+    id: 'actions-failed',
+    label: 'Failed Actions log',
     description:
-      'Pipe a CSV export and let TraceGlass flag every INFO that says "ready", against the FATALs you actually worried about.',
-    title: 'splunk-export.log',
-    prompt: '$ traceglass --watchlist traceglass.toml < splunk-export.log',
+      'Open a failed GitHub Actions log offline and jump straight to the first error candidate.',
+    title: 'ci-failed.log',
+    prompt: '$ traceglass ci-failed.log',
     lines: [
-      { tone: 'muted', text: 'host=web-01  level=' },
-      { tone: 'info', text: 'INFO' },
-      { tone: 'plain', text: '  Service ' },
-      { tone: 'plain-soft', text: '"payments-api"' },
-      { tone: 'plain', text: ' ready' },
+      { tone: 'muted', text: '▸ Set up job (14 lines)' },
+      { tone: 'muted', text: '▸ Run actions/checkout@v4 (8 lines)' },
+      { tone: 'error', text: 'Error: Process completed with exit code 1' },
     ],
-    tailNote: 'counts: critical=2 errors=7',
+    tailNote: '1 candidate · press E to jump',
   },
   {
-    id: 'docker',
-    label: 'Docker Compose',
-    description:
-      'L2 reading noisy compose logs at midnight — the FATAL line in red is the only thing that matters, and now it has a count.',
-    title: 'docker-compose.log',
-    prompt: '$ docker compose logs -t | traceglass',
+    id: 'actions-zip',
+    label: 'Actions zip download',
+    description: 'Open the zip GitHub gives you for a failed run without uploading anything.',
+    title: 'logs_123.zip',
+    prompt: '$ traceglass logs_123.zip',
     lines: [
-      { tone: 'muted', text: 'api-gateway-1   | ' },
-      { tone: 'info', text: 'INFO' },
-      { tone: 'plain', text: '  Server ready on :8080' },
+      { tone: 'muted', text: 'opened 4 file(s)' },
+      { tone: 'plain', text: 'jump → first error candidate' },
     ],
-    extra: [
-      { tone: 'muted', text: 'payments-api-x  | ' },
-      { tone: 'fatal', text: 'FATAL' },
-      { tone: 'plain', text: '  NullPointerException at CheckoutService.charge:142' },
-    ],
-    tailNote: 'counts: critical=1 info=1',
+    tailNote: 'offline · no upload',
   },
   {
-    id: 'av',
-    label: 'Antivirus diagnostic logs',
-    description:
-      "A flag the founder's pain point: AV diagnostic.txt files are enormous, and the lines you scan for are three specific strings. Add them as keyword highlights to the local watchlist.",
-    title: 'diagnostic.txt',
-    prompt: '$ traceglass --watchlist av.toml < diagnostic.txt',
+    id: 'last-green',
+    label: 'Last green compare',
+    description: 'Load a passing log you provide and see what changed between green and red.',
+    title: 'ci-green.log',
+    prompt: '$ traceglass --compare ci-green.log ci-failed.log',
     lines: [
-      { tone: 'plain', text: '[2026-07-22 10:14] scan pass 3/5 ' },
-      { tone: 'fatal', text: 'FATAL' },
-      { tone: 'plain', text: ' engine module unrecoverable' },
+      { tone: 'plain', text: 'compare · last green you provided' },
+      { tone: 'info', text: 'setup steps folded on both sides' },
     ],
-    tailNote: 'exit 1 → dashboard alert fired',
+    tailNote: 'diff stays local',
   },
-  {
-    id: 'kube',
-    label: 'kubectl pod logs',
-    description:
-      'Tail a crashing pod, pipe through TraceGlass — the OOMKilled stands out without grep gymnastics, and the exit code surfaces the loop.',
-    title: 'pod-logs.txt',
-    prompt: '$ kubectl logs api-x-7f9c | traceglass',
-    lines: [
-      { tone: 'muted', text: 'I0712 14:01:02  kubelet: ' },
-      { tone: 'info', text: 'INFO' },
-      { tone: 'plain', text: '  container started' },
-    ],
-    extra: [
-      { tone: 'muted', text: 'E0712 14:01:09  kubelet: ' },
-      { tone: 'warn', text: 'OOMKilled' },
-      { tone: 'plain', text: '  memory limit 512Mi exceeded' },
-    ],
-    tailNote: 'counts: critical=1 warnings=2',
-  },
-  {
-    id: 'ci',
-    label: 'CI runner logs',
-    description:
-      'Wire TraceGlass into a step that fails the build when panic/segfault appears in the runner output — no fragile regex, no pasted logs.',
-    title: 'ci-run.log',
-    prompt: '$ traceglass --watchlist ci.toml < runner.log',
-    lines: [
-      { tone: 'muted', text: 'step:test ' },
-      { tone: 'info', text: 'INFO' },
-      { tone: 'plain', text: '  142 assertions passed' },
-    ],
-    extra: [
-      { tone: 'muted', text: 'step:cleanup ' },
-      { tone: 'fatal', text: 'panic' },
-      { tone: 'plain', text: ': runtime error: index out of range' },
-    ],
-    tailNote: 'exit 1 → CI failed',
-  },
-];
-
-function renderTone(tone: string, text: string) {
-  // Signal rule: only the level token is colored; message text stays neutral.
-  switch (tone) {
-    case 'muted':
-      return <span style={{ color: '#737A8C' }}>{text}</span>;
-    case 'info':
-      return (
-        <span className="font-semibold" style={{ color: '#7FA7CF' }}>
-          {text}
-        </span>
-      );
-    case 'warn':
-      return (
-        <span className="font-semibold" style={{ color: '#E5C07B' }}>
-          {text}
-        </span>
-      );
-    case 'fatal':
-      return (
-        <span className="font-semibold" style={{ color: '#E06C75' }}>
-          {text}
-        </span>
-      );
-    case 'plain-soft':
-      return <span style={{ color: '#D7DAE0' }}>{text}</span>;
-    default:
-      return <span style={{ color: '#D7DAE0' }}>{text}</span>;
-  }
-}
+] as const;
 
 export function UseCases() {
   return (
-    <section id="sources" className="section-lg bg-muted/30 dark:bg-muted/10">
-      <div className="container-page flex flex-col gap-12">
+    <section id="starting-with" className="section border-y border-border/50 bg-muted/20">
+      <div className="container-page flex flex-col gap-10">
         <div className="flex max-w-3xl flex-col gap-3">
-          <span className="text-eyebrow">Built for</span>
+          <span className="text-eyebrow text-[color:var(--signal-accent-strong)] dark:text-[color:var(--signal-accent)]">
+            Starting with
+          </span>
           <h2 className="text-h2 font-display text-balance text-foreground">
-            Wherever the log already lives.
+            GitHub Actions logs.
           </h2>
           <p className="text-body-lg text-muted-foreground">
-            Splunk exports, Docker Compose output, antivirus diagnostic dumps, Kubernetes pod
-            streams, CI runner logs. TraceGlass sits at the end of the pipe.
+            Failed logs and zips in v1. Other formats are not promised.
           </p>
         </div>
-
-        <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
-          {useCases.map((uc) => (
-            <Card
-              key={uc.id}
-              id={uc.id}
-              className="flex flex-col gap-0 overflow-hidden border-border/60 bg-card/80 p-0"
-            >
-              <CardHeader className="gap-2 border-b border-border/60 p-5">
-                <CardTitle className="text-h4 font-display">{uc.label}</CardTitle>
-                <CardDescription className="text-sm leading-relaxed">
-                  {uc.description}
-                </CardDescription>
+        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {useCases.map((item) => (
+            <Card key={item.id} className="site-design-card overflow-hidden border-border/60">
+              <CardHeader>
+                <CardTitle className="text-h4 font-display">{item.label}</CardTitle>
+                <CardDescription>{item.description}</CardDescription>
               </CardHeader>
-              <div className="p-3">
-                <Terminal prompt={uc.prompt} title={uc.title} compact className="text-[11.5px]">
+              <div className="px-6 pb-6">
+                <Terminal title={item.title} prompt={item.prompt}>
                   <code>
-                    <span className="block whitespace-pre">
-                      {uc.lines.map((part, i) => (
-                        <span key={`${uc.id}-line-${i}`}>{renderTone(part.tone, part.text)}</span>
-                      ))}
-                    </span>
-                    {uc.extra ? (
-                      <span className="block whitespace-pre">
-                        {uc.extra.map((part, i) => (
-                          <span key={`${uc.id}-extra-${i}`}>
-                            {renderTone(part.tone, part.text)}
-                          </span>
-                        ))}
+                    {item.lines.map((line, index) => (
+                      <span key={`${item.id}-${index}`} className="block whitespace-pre">
+                        {line.text}
                       </span>
-                    ) : null}
-                    <span className="block whitespace-pre pt-2" style={{ color: '#737A8C' }}>
-                      {uc.tailNote}
+                    ))}
+                    <span className="mt-2 block whitespace-pre text-muted-foreground">
+                      {item.tailNote}
                     </span>
                   </code>
                 </Terminal>

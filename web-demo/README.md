@@ -9,7 +9,7 @@ browser via WebAssembly. Lives in `dorman/traceglass-site`.
 - Nothing is uploaded. Closing or refreshing the page discards everything.
 - CSP allows `connect-src 'self'` only so the page can fetch the local `.wasm`
   asset at startup. Scanning itself issues **no** network requests (asserted in
-  Playwright). There are no analytics or third-party scripts.
+  Playwright). No third-party CDN scripts.
 
 ## What's included / excluded
 

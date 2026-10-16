@@ -12,22 +12,26 @@ test('about and contact pages render, validate, and stay accessible', async ({ p
   for (const width of [1280, 390] as const) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto(route('/about'));
-    await expect(page.getByRole('heading', { name: 'Local-first log triage.' })).toBeVisible();
-    await expect(page.getByText('support specialists').first()).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Local-first CI log triage.' })).toBeVisible();
+    await expect(page.getByText('developers and on-call engineers').first()).toBeVisible();
     await expect(
       page.getByText('Your logs are processed on your machine and never uploaded.').first(),
     ).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Privacy-first' })).toBeVisible();
-    await expect(page.getByText('No accounts, no telemetry, nothing phoning home.')).toBeVisible();
+    await expect(
+      page.getByText('No upload and no account required to triage a log.'),
+    ).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Verified installs' })).toBeVisible();
     await expect(
       page.getByText('Installers will be signed and verified before they run.'),
     ).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'When it launches' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Join the waitlist' })).toBeVisible();
     await expect(page.getByText('Copyright (c) 2026 TraceGlass')).toBeVisible();
     await expect(page.locator('footer')).toContainText('© 2026 TraceGlass');
     await expect(page.locator('a[href*="github.com/dorman"]')).toHaveCount(0);
-    await expect(page.locator('body')).not.toContainText(/grammarly|early access|trust line/i);
+    await expect(page.locator('body')).not.toContainText(
+      /grammarly|trust line|support specialists/i,
+    );
     expect(
       await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1),
     ).toBe(true);
@@ -64,14 +68,8 @@ test('about and contact pages render, validate, and stay accessible', async ({ p
   const footer = page.locator('footer');
   await expect(footer.getByRole('link', { name: 'About' })).toHaveAttribute('href', '/about');
   await expect(footer.getByRole('link', { name: 'Contact' })).toHaveAttribute('href', '/contact');
-  await expect(footer.getByRole('link', { name: 'Release notes' })).toHaveAttribute(
-    'href',
-    '/release',
-  );
-  await expect(footer.getByRole('link', { name: 'Signatures' })).toHaveAttribute(
-    'href',
-    '/signatures',
-  );
+  await expect(footer.getByRole('link', { name: 'Waitlist' })).toHaveAttribute('href', '/waitlist');
+  await expect(footer.getByRole('link', { name: 'Privacy' })).toHaveAttribute('href', '/#privacy');
 
   // Contact form client validation (no network).
   await page.goto(route('/contact'));
@@ -137,7 +135,7 @@ test('header and footer links resolve to real pages', async ({ page }) => {
   }
 
   // Footer link navigation smoke.
-  for (const label of ['Release notes', 'Signatures', 'About', 'Contact', 'Install'] as const) {
+  for (const label of ['Waitlist', 'About', 'Contact', 'Privacy'] as const) {
     await page.goto(route('/about'));
     await page.locator('footer').getByRole('link', { name: label }).click();
     await expect(page).not.toHaveURL(/404/);

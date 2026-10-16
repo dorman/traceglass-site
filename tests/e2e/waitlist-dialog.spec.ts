@@ -25,28 +25,40 @@ test('public pages hide GitHub engine links and share one waitlist dialog', asyn
   await page.setViewportSize({ width: 1280, height: 850 });
   await page.goto(route('/'));
   await expect(page.getByText('log bytes uploaded', { exact: true })).toBeVisible();
+  // Hero primary CTA is an inline waitlist form (not a dialog trigger).
   await expect(page.getByRole('button', { name: 'Join the waitlist' }).first()).toBeVisible();
   await expect(page.locator('a[href*="github.com/dorman"]')).toHaveCount(0);
+  await expect(page.getByRole('link', { name: 'Try in browser' })).toHaveCount(0);
 
-  const join = page.getByRole('button', { name: 'Join the waitlist' }).first();
-  await join.click();
+  // On home, Notify me scrolls to and focuses the hero email field.
+  const notify = page.getByRole('button', { name: 'Notify me', exact: true });
+  await notify.click();
+  await expect
+    .poll(async () => page.evaluate(() => document.activeElement?.id === 'waitlist-email-hero'))
+    .toBe(true);
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+
+  // Dialog journey uses a page without the hero email field.
+  await page.goto(route('/about'));
+  await page.getByRole('button', { name: 'Join the waitlist' }).click();
   const dialog = page.getByRole('dialog');
   await expect(dialog).toBeVisible();
   await expect(
     dialog.getByRole('heading', { name: 'Get one email when TraceGlass launches' }),
   ).toBeVisible();
-  await expect(dialog).toContainText('PUBLIC LAUNCH · MID-NOVEMBER 2026');
-  await expect(dialog).toContainText(/gauging interest ahead of a public launch/i);
+  await expect(dialog).toContainText('WAITLIST');
+  await expect(dialog).toContainText(/when it publicly launches/i);
   await expect(dialog).toContainText('Your logs are never uploaded.');
-  await expect(dialog).toContainText(/No early access, no newsletter/i);
+  await expect(dialog).not.toContainText(/early access/i);
+  await expect(dialog).not.toContainText(/mid-november/i);
   await expect(dialog).not.toContainText(/grammarly/i);
 
   // Consent must be unchecked on every open (pre-checked is not real consent).
   const consent = dialog.getByRole('checkbox');
   await expect(consent).not.toBeChecked();
-  await expect(dialog.getByRole('button', { name: 'Join the waitlist' })).toHaveAttribute(
-    'aria-disabled',
-    'true',
+  // Submit stays visually enabled (full teal) even before consent is ticked.
+  await expect(dialog.getByRole('button', { name: 'Join the waitlist' })).toHaveClass(
+    /bg-\[color:var\(--signal-accent\)\]/,
   );
 
   // Focus should land inside the dialog.
@@ -56,7 +68,7 @@ test('public pages hide GitHub engine links and share one waitlist dialog', asyn
     )
     .toBe(true);
 
-  // Unchecked consent: submit looks disabled and shows an inline error without POSTing.
+  // Unchecked consent: clicking submit shows an inline error without POSTing.
   let posted = false;
   page.on('request', (request) => {
     if (request.method() === 'POST' && new URL(request.url()).pathname === '/api/waitlist') {
@@ -64,9 +76,8 @@ test('public pages hide GitHub engine links and share one waitlist dialog', asyn
     }
   });
   await dialog.getByLabel('Email address').fill('consent-check@example.test');
-  // Submit the form directly — button is aria-disabled while unchecked, so assert inline validation.
-  await dialog.locator('form').evaluate((form) => (form as HTMLFormElement).requestSubmit());
-  await expect(dialog.getByText('Please confirm you want launch updates.')).toBeVisible();
+  await dialog.getByRole('button', { name: 'Join the waitlist' }).click();
+  await expect(dialog.getByText('Please tick the box to join the waitlist.')).toBeVisible();
   expect(posted).toBe(false);
 
   // Checking consent, then closing and reopening, must reset consent to unchecked.
@@ -83,21 +94,15 @@ test('public pages hide GitHub engine links and share one waitlist dialog', asyn
     )
     .toBe(true);
 
-  const notify = page.getByRole('button', { name: 'Notify me' });
-  await notify.click();
+  await page.getByRole('button', { name: 'Join the waitlist' }).click();
   await expect(page.getByRole('dialog')).toBeVisible();
   await expect(page.getByRole('dialog').getByRole('checkbox')).not.toBeChecked();
 
   // Backdrop / outside click closes the dialog.
   await page.mouse.click(12, 12);
   await expect(page.getByRole('dialog')).toHaveCount(0);
-  await expect
-    .poll(async () =>
-      page.evaluate(() => document.activeElement?.textContent?.includes('Notify me') ?? false),
-    )
-    .toBe(true);
 
-  await page.getByRole('button', { name: 'Notify me' }).click();
+  await page.getByRole('button', { name: 'Join the waitlist' }).click();
   await expect(page.getByRole('dialog')).toBeVisible();
   await expect(page.getByRole('dialog').getByRole('checkbox')).not.toBeChecked();
 
@@ -132,7 +137,7 @@ test('public pages hide GitHub engine links and share one waitlist dialog', asyn
     const success = page.getByRole('dialog').locator('output');
     await expect(success.getByText("You're on the list.", { exact: true })).toBeVisible();
     await expect(success).toContainText(
-      "We'll send one email around mid-November when TraceGlass is publicly available. We only keep your email for that note.",
+      "We'll send one email when TraceGlass is publicly available. We only keep your email for that note.",
     );
     await expect(success).not.toContainText(/You're on the launch list/i);
     // No success toast — inline state is enough.
