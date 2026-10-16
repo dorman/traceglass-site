@@ -131,7 +131,7 @@ const homeSections: SnapshotSection[] = [
   }),
   section('waitlist-cta', 'waitlist-form', {
     heading: 'Join the waitlist.',
-    body: "Join the waitlist to hear when TraceGlass is ready for developers and on-call engineers. We only use your email for that note and will not share it.",
+    body: 'Join the waitlist to hear when TraceGlass is ready for developers and on-call engineers. We only use your email for that note and will not share it.',
   }),
 ];
 
@@ -156,7 +156,7 @@ const snapshots: Record<string, PageContentValue> = {
       section('install-coming-soon', 'cta', {
         eyebrow: 'Coming soon',
         heading: 'No downloads yet — join the waitlist.',
-        body: "Signed installers for Linux, macOS, and Windows stay unpublished until TraceGlass publicly launches. We only use your email for that note and will not share it.",
+        body: 'Signed installers for Linux, macOS, and Windows stay unpublished until TraceGlass publicly launches. We only use your email for that note and will not share it.',
         links: [{ label: 'Join the waitlist', href: '#join-waitlist' }],
       }),
     ],
@@ -222,7 +222,7 @@ const snapshots: Record<string, PageContentValue> = {
       }),
       section('signature-waitlist', 'waitlist-form', {
         heading: 'Join the waitlist.',
-        body: "Join the waitlist to hear when TraceGlass is ready. We only use your email for that note and will not share it.",
+        body: 'Join the waitlist to hear when TraceGlass is ready. We only use your email for that note and will not share it.',
       }),
     ],
     assets: [asset('signature-library', 'library', 'CI log triage')],
@@ -237,7 +237,7 @@ const snapshots: Record<string, PageContentValue> = {
       }),
       section('waitlist-form', 'waitlist-form', {
         heading: 'Join the waitlist.',
-        body: "We only use your email to tell you when TraceGlass publicly launches and will not share it. Signing up does not start a subscription.",
+        body: 'We only use your email to tell you when TraceGlass publicly launches and will not share it. Signing up does not start a subscription.',
       }),
     ],
     assets: [asset('waitlist-shield', 'shield-check', 'Email-only waitlist')],
@@ -432,7 +432,7 @@ export function cleanupRetiredPricingContent(input: {
 
 const generatedWaitlistCopy = {
   title: 'TraceGlass launch waitlist',
-  body: "Join the TraceGlass waitlist to hear when local-first CI log triage is ready.",
+  body: 'Join the TraceGlass waitlist to hear when local-first CI log triage is ready.',
   seoDescription:
     "Join the TraceGlass waitlist to hear when it's ready. Local-first CI log triage for developers and on-call engineers.",
   heroEyebrow: 'Waitlist',

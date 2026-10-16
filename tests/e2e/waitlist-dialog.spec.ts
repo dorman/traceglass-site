@@ -34,9 +34,7 @@ test('public pages hide GitHub engine links and share one waitlist dialog', asyn
   const notify = page.getByRole('button', { name: 'Notify me', exact: true });
   await notify.click();
   await expect
-    .poll(async () =>
-      page.evaluate(() => document.activeElement?.id === 'waitlist-email-hero'),
-    )
+    .poll(async () => page.evaluate(() => document.activeElement?.id === 'waitlist-email-hero'))
     .toBe(true);
   await expect(page.getByRole('dialog')).toHaveCount(0);
 
@@ -90,7 +88,9 @@ test('public pages hide GitHub engine links and share one waitlist dialog', asyn
   // Focus returns to the trigger that opened the dialog.
   await expect
     .poll(async () =>
-      page.evaluate(() => document.activeElement?.textContent?.includes('Join the waitlist') ?? false),
+      page.evaluate(
+        () => document.activeElement?.textContent?.includes('Join the waitlist') ?? false,
+      ),
     )
     .toBe(true);
 

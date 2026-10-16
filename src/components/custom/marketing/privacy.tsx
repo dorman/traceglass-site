@@ -9,7 +9,9 @@ export function Privacy() {
       <div className="container-page">
         <Card className="site-design-card mx-auto max-w-3xl border-[color:var(--signal-accent)]/40 bg-gradient-to-br from-[color:var(--signal-accent)]/20 via-background to-background">
           <CardHeader className="gap-4 p-8">
-            <CardTitle className="text-h2 font-display">Your logs never leave your machine.</CardTitle>
+            <CardTitle className="text-h2 font-display">
+              Your logs never leave your machine.
+            </CardTitle>
             <CardDescription className="text-body-lg">
               Reading a log happens on your machine: no upload and no account.
             </CardDescription>

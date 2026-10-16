@@ -14,8 +14,7 @@ import { WAITLIST_PRIMARY_BUTTON_CLASS } from '@/lib/waitlist/ui';
 
 const HEADLINE_VARIANT_KEY = 'tg_headline_variant';
 export const CONSENT_REQUIRED = 'Please tick the box to join the waitlist.';
-export const WAITLIST_FORM_ERROR =
-  'Something went wrong. Please try again in a moment.';
+export const WAITLIST_FORM_ERROR = 'Something went wrong. Please try again in a moment.';
 
 /** Default inline success body (heading is always "You're on the list."). */
 export const WAITLIST_SUCCESS_BODY =

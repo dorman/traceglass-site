@@ -6,7 +6,7 @@ import { ExistingPageSurface } from '@/components/custom/marketing/existing-page
 export const metadata: Metadata = {
   title: 'Install TraceGlass — coming soon',
   description:
-    "TraceGlass installers are not published yet. Join the waitlist to hear when local-first CI log triage is ready.",
+    'TraceGlass installers are not published yet. Join the waitlist to hear when local-first CI log triage is ready.',
   alternates: { canonical: '/install' },
 };
 

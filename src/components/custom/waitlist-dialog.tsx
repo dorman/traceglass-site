@@ -183,8 +183,8 @@ function WaitlistDialog({
           </DialogTitle>
           <DialogDescription className="text-sm leading-relaxed text-zinc-400 sm:text-[0.95rem]">
             TraceGlass is local-first CI log triage for developers and on-call engineers. Join the
-            waitlist and we&apos;ll email you once when it publicly launches. No newsletter, and your
-            email is never shared.
+            waitlist and we&apos;ll email you once when it publicly launches. No newsletter, and
+            your email is never shared.
           </DialogDescription>
         </DialogHeader>
         <div className="mt-2 rounded-md border border-zinc-800 bg-zinc-950/80 p-4 sm:p-5">

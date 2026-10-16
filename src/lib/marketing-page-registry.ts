@@ -39,7 +39,7 @@ export const existingMarketingPages: readonly ExistingMarketingPage[] = [
     title: 'Install TraceGlass',
     body: "TraceGlass installers are not published yet. Join the waitlist to hear when it's ready.",
     seoDescription:
-      "TraceGlass installers are coming soon. Join the waitlist to hear when local-first CI log triage is ready.",
+      'TraceGlass installers are coming soon. Join the waitlist to hear when local-first CI log triage is ready.',
     content: getDefaultMarketingPageContent('install'),
   },
   {
@@ -52,7 +52,7 @@ export const existingMarketingPages: readonly ExistingMarketingPage[] = [
     title: 'TraceGlass release status',
     body: "TraceGlass is preparing local-first GitHub Actions log triage. Join the waitlist to hear when it's ready.",
     seoDescription:
-      "TraceGlass release status: join the waitlist to hear when local-first CI log triage is ready.",
+      'TraceGlass release status: join the waitlist to hear when local-first CI log triage is ready.',
     content: getDefaultMarketingPageContent('release'),
   },
   {
@@ -76,7 +76,7 @@ export const existingMarketingPages: readonly ExistingMarketingPage[] = [
     slug: 'waitlist',
     legacySlugs: [],
     title: 'TraceGlass launch waitlist',
-    body: "Join the TraceGlass waitlist to hear when local-first CI log triage is ready.",
+    body: 'Join the TraceGlass waitlist to hear when local-first CI log triage is ready.',
     seoDescription:
       "Join the TraceGlass waitlist to hear when it's ready. Local-first CI log triage for developers and on-call engineers.",
     content: getDefaultMarketingPageContent('waitlist'),

@@ -39,8 +39,8 @@ export function AboutContent() {
             Local-first CI log triage.
           </h1>
           <p className="mt-4 max-w-2xl text-body-lg text-zinc-400">
-            TraceGlass helps developers and on-call engineers start at the first error candidate in a
-            failed GitHub Actions log — without sending files off-machine.
+            TraceGlass helps developers and on-call engineers start at the first error candidate in
+            a failed GitHub Actions log — without sending files off-machine.
           </p>
         </div>
       </header>
@@ -93,8 +93,8 @@ export function AboutContent() {
             </p>
             <h2 className="font-display text-h2 text-balance text-zinc-50">Join the waitlist</h2>
             <p className="text-body-lg leading-relaxed text-zinc-400">
-              Join the waitlist to hear when TraceGlass is ready for developers and on-call engineers
-              — no newsletter, and your email is never shared.
+              Join the waitlist to hear when TraceGlass is ready for developers and on-call
+              engineers — no newsletter, and your email is never shared.
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3">
